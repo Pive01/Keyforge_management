@@ -3,4 +3,5 @@
     <string name="toolbare_appname">KEYFORGE MANAGEMENT</string>
     <string name="addBtn">Add a deck</string>
     <string name="viewBtn">My decks</string>
+    <string name="infoBtn">Info</string>
 </resources>
