@@ -4,4 +4,5 @@
     <string name="addBtn">Add a deck</string>
     <string name="viewBtn">My decks</string>
     <string name="infoBtn">Info</string>
+    <string name="hintTxt">Type a deck name</string>
 </resources>
