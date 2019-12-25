@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    style="@style/mainButtonStyle"
+    android:layout_height="124dp"
+    app:cardElevation="8dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="8sp">
+
+        <LinearLayout
+            android:layout_width="200sp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textFontHigh"
+                android:id="@+id/deck_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Indigo , araldo della cremisi lunare"
+                android:textSize="20sp"
+                android:gravity="left" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_house1"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    app:srcCompat="@drawable/dis" />
+
+                <ImageView
+                    android:id="@+id/img_house2"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="6sp"
+                    app:srcCompat="@drawable/logos" />
+
+                <ImageView
+                    android:id="@+id/img_house3"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:layout_marginLeft="6sp"
+                    app:srcCompat="@drawable/mars" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/expansion_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textFontLow"
+                android:text="Age of Ascension"
+                android:gravity="end"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom|end">
+
+                    <TextView
+                        android:id="@+id/sas_rating"
+                        style="@style/textFontHigh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="91"></TextView>
+
+                    <TextView
+                        style="@style/textFontLow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SAS"></TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom|end"
+                    android:paddingLeft="24sp">
+
+                    <TextView
+                        android:id="@+id/raw_amber"
+                        style="@style/textFontHigh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="15"
+                        android:gravity="center"></TextView>
+
+                    <TextView
+                        style="@style/textFontLow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Æmber"></TextView>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

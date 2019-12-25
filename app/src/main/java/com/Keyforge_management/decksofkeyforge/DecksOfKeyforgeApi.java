@@ -6,8 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface ApiResponse {
+public interface DecksOfKeyforgeApi {
 
-    @GET("{name}")
-    Call<List<Deck>> getData(@Path("name") String deckName);
+    @GET("decks/by-name/{name}")
+    Call<List<Deck>> getDecks(@Path("name") String deckName);
 }
