@@ -64,6 +64,7 @@ public class SearchActivity extends AppCompatActivity {
                     return;
                 }
 
+                resultsList.clear();
                 List<Deck> actualDecks = response.body();
                 for (Deck deck : actualDecks) {
                     fillRV(deck, resultsList);
@@ -80,12 +81,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void fillRV(Deck deck, ArrayList<DeckUI> resultsList) {
 
-        int[] imgHouses = new int[deck.getHouses().length];
-        for (int i = 0; i < imgHouses.length; i++) {
-            imgHouses[i] = deck.getHouses()[i].getImageId();
-        }
-
         resultsList.add(new DeckUI(deck.getName(), deck.getExpansion().toString(),
-                deck.getSasRating(), deck.getRawAmber(), imgHouses));
+                deck.getSasRating(), deck.getRawAmber(), deck.getHouses()));
     }
 }

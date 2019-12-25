@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.Keyforge_management.R;
+import com.Keyforge_management.data.model.House;
 
 import java.util.ArrayList;
 
@@ -52,9 +53,10 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
     public void onBindViewHolder(@NonNull DeckViewHolder holder, int position) {
         DeckUI currentItem = mDeckList.get(position);
 
-        holder.houseArr[0].setImageResource(currentItem.getHouses()[0]);
-        holder.houseArr[1].setImageResource(currentItem.getHouses()[1]);
-        holder.houseArr[2].setImageResource(currentItem.getHouses()[2]);
+        House[] houses = currentItem.getHouses();
+        holder.houseArr[0].setImageResource(houses[0].getImageId());
+        holder.houseArr[1].setImageResource(houses[1].getImageId());
+        holder.houseArr[2].setImageResource(houses[2].getImageId());
         holder.deckName.setText(currentItem.getName());
         holder.expansion.setText(currentItem.getSet());
         holder.sasScore.setText(Integer.toString(currentItem.getSas()));

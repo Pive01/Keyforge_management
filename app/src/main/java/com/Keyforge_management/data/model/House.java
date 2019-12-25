@@ -4,7 +4,7 @@ import com.Keyforge_management.R;
 import com.Keyforge_management.common.Utils;
 import com.google.gson.annotations.SerializedName;
 
-import androidx.annotation.IdRes;
+import androidx.annotation.DrawableRes;
 
 public enum House {
     @SerializedName("Brobnar")
@@ -34,14 +34,14 @@ public enum House {
     @SerializedName("StarAlliance")
     STAR_ALLIANCE(R.drawable.star_alliance);
 
-    @IdRes
+    @DrawableRes
     private final int imageId;
 
     House(int imageId) {
         this.imageId = imageId;
     }
 
-    @IdRes
+    @DrawableRes
     public int getImageId() {
         return this.imageId;
     }

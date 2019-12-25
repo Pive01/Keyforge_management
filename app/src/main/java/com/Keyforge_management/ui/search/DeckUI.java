@@ -1,13 +1,15 @@
 package com.Keyforge_management.ui.search;
 
+import com.Keyforge_management.data.model.House;
+
 public class DeckUI {
     private String name;
     private String set;
     private int sas;
     private int amber;
-    private int[] houses;
+    private House[] houses;
 
-    public DeckUI(String name, String set, int sas, int amber, int[] houses) {
+    public DeckUI(String name, String set, int sas, int amber, House[] houses) {
         this.name = name;
         this.set = set;
         this.sas = sas;
@@ -15,7 +17,7 @@ public class DeckUI {
         this.houses = houses;
     }
 
-    public int[] getHouses() {
+    public House[] getHouses() {
         return houses;
     }
 
