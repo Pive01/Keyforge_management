@@ -1,4 +1,4 @@
-package com.Keyforge_management;
+package com.Keyforge_management.ui.search;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.Keyforge_management.decksofkeyforge.Api;
-import com.Keyforge_management.decksofkeyforge.Deck;
-import com.Keyforge_management.decksofkeyforge.DeckAdapter;
-import com.Keyforge_management.decksofkeyforge.DeckUI;
+import com.Keyforge_management.R;
+import com.Keyforge_management.data.api.Api;
+import com.Keyforge_management.data.model.Deck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<DeckUI> resultsList;
+    private ArrayList<DeckUI> resultsList;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -83,10 +82,10 @@ public class SearchActivity extends AppCompatActivity {
 
         int[] imgHouses = new int[deck.getHouses().length];
         for (int i = 0; i < imgHouses.length; i++) {
-            imgHouses[i] = deck.getHouses()[i].imageId;
+            imgHouses[i] = deck.getHouses()[i].getImageId();
         }
 
-        resultsList.add(new DeckUI(deck.getName(), deck.getExpansion(),
+        resultsList.add(new DeckUI(deck.getName(), deck.getExpansion().toString(),
                 deck.getSasRating(), deck.getRawAmber(), imgHouses));
     }
 }

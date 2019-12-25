@@ -1,4 +1,6 @@
-package com.Keyforge_management.decksofkeyforge;
+package com.Keyforge_management.data.api;
+
+import com.Keyforge_management.data.model.Deck;
 
 import java.util.List;
 

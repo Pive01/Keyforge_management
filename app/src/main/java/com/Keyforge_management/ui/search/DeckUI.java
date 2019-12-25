@@ -1,4 +1,4 @@
-package com.Keyforge_management.decksofkeyforge;
+package com.Keyforge_management.ui.search;
 
 public class DeckUI {
     private String name;

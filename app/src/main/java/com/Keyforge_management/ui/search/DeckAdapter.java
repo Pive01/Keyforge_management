@@ -1,4 +1,4 @@
-package com.Keyforge_management.decksofkeyforge;
+package com.Keyforge_management.ui.search;
 
 import android.view.LayoutInflater;
 import android.view.View;

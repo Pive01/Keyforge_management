@@ -1,7 +1,7 @@
-package com.Keyforge_management;
+package com.Keyforge_management.data.model;
 
-import android.text.TextUtils;
-
+import com.Keyforge_management.R;
+import com.Keyforge_management.common.Utils;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.IdRes;
@@ -35,20 +35,19 @@ public enum House {
     STAR_ALLIANCE(R.drawable.star_alliance);
 
     @IdRes
-    final int imageId;
+    private final int imageId;
 
     House(int imageId) {
         this.imageId = imageId;
     }
 
+    @IdRes
+    public int getImageId() {
+        return this.imageId;
+    }
+
     @Override
     public String toString() {
-        String[] tokens = this.name().split("_");
-        String[] nameTokens = new String[tokens.length];
-
-        for (int i = 0; i < tokens.length; i++) {
-            nameTokens[i] = tokens[i].charAt(0) + tokens[i].substring(1).toLowerCase();
-        }
-        return TextUtils.join(" ", nameTokens);
+        return Utils.enumValueToString(this.name());
     }
 }

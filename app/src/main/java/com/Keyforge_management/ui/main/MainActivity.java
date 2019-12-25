@@ -1,9 +1,10 @@
-package com.Keyforge_management;
+package com.Keyforge_management.ui.main;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.Keyforge_management.R;
+import com.Keyforge_management.ui.search.SearchActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,11 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button addDeckBtn = findViewById(R.id.addBtn);
 
-        addDeckBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SearchActivity.start(MainActivity.this);
-            }
-        });
+        addDeckBtn.setOnClickListener(v -> SearchActivity.start(MainActivity.this));
     }
 }
