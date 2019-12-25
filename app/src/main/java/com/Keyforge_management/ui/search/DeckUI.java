@@ -2,6 +2,8 @@ package com.Keyforge_management.ui.search;
 
 import com.Keyforge_management.data.model.House;
 
+import java.util.Arrays;
+
 public class DeckUI {
     private String name;
     private String set;
@@ -35,5 +37,16 @@ public class DeckUI {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "DeckUI{" +
+                "name='" + name + '\'' +
+                ", set='" + set + '\'' +
+                ", sas=" + sas +
+                ", amber=" + amber +
+                ", houses=" + Arrays.toString(houses) +
+                '}';
     }
 }
