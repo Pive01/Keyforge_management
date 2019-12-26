@@ -1,6 +1,8 @@
 package com.Keyforge_management.ui.search;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -9,6 +11,7 @@ import android.widget.ImageButton;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.storage.DeckRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements InteractionListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -49,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new DeckAdapter(resultsList);
+        mAdapter = new DeckAdapter(resultsList, this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -79,4 +82,18 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onDeckClicked(Deck deck) {
+        new AlertDialog.Builder(this)
+                .setTitle("Add a deck")
+                .setMessage("Are you sure you want to add this deck?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DeckRepository deckRepository = new DeckRepository(SearchActivity.this);
+                        deckRepository.insert(deck);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
 }

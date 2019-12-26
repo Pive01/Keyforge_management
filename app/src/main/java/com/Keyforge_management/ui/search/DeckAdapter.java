@@ -1,7 +1,6 @@
 package com.Keyforge_management.ui.search;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder> {
 
     private List<Deck> mDeckList;
+    private InteractionListener listener;
 
-    public DeckAdapter(List<Deck> deckList) {
+    public DeckAdapter(List<Deck> deckList, InteractionListener listener) {
         mDeckList = deckList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public DeckViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.deck_displayer, parent, false);
-        return new DeckViewHolder(v);
+        return new DeckViewHolder(v, listener);
     }
 
     @Override
@@ -51,9 +52,11 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         private TextView expansion;
         private TextView sasScore;
         private TextView rawAember;
+        private InteractionListener listener;
 
-        DeckViewHolder(@NonNull View itemView) {
+        DeckViewHolder(@NonNull View itemView, InteractionListener listener) {
             super(itemView);
+            this.listener = listener;
             houseArr = new ImageView[]{
                     itemView.findViewById(R.id.img_house1),
                     itemView.findViewById(R.id.img_house2),
@@ -76,7 +79,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
             sasScore.setText(Integer.toString(currentItem.getSasRating()));
             rawAember.setText(Integer.toString(currentItem.getRawAmber()));
 
-            itemView.setOnClickListener(v -> Log.d(LOG_TAG, currentItem.toString()));
+            itemView.setOnClickListener(v -> listener.onDeckClicked(currentItem));
         }
     }
 }
