@@ -31,7 +31,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<Deck> resultsList;
+    private List<Deck> resultsList;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
