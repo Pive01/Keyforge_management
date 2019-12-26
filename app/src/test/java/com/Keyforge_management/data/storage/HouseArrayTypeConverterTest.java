@@ -4,6 +4,7 @@ import com.Keyforge_management.data.model.House;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class HouseArrayTypeConverterTest {
@@ -19,6 +20,6 @@ public class HouseArrayTypeConverterTest {
     public void fromString() {
         String actual = "BROBNAR,LOGOS,SANCTUM";
         House[] houses = {House.BROBNAR, House.LOGOS, House.SANCTUM};
-        assertEquals(houses, HouseArrayTypeConverter.fromString(actual));
+        assertArrayEquals(houses, HouseArrayTypeConverter.fromString(actual));
     }
 }
