@@ -12,6 +12,8 @@ import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.storage.DeckRepository;
+import com.Keyforge_management.ui.decklist.DeckListAdapter;
+import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SearchActivity extends AppCompatActivity implements InteractionListener {
+public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -52,12 +54,11 @@ public class SearchActivity extends AppCompatActivity implements InteractionList
         mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new DeckAdapter(resultsList, this);
+        mAdapter = new DeckListAdapter(resultsList, this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
-
 
     private void displayDecks(String name) {
         Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
@@ -68,10 +69,7 @@ public class SearchActivity extends AppCompatActivity implements InteractionList
                 }
 
                 resultsList.clear();
-                List<Deck> actualDecks = response.body();
-                for (Deck deck : actualDecks) {
-                    resultsList.add(deck);
-                }
+                resultsList.addAll(response.body());
                 mAdapter.notifyDataSetChanged();
             }
 

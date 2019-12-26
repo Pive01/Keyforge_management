@@ -1,4 +1,4 @@
-package com.Keyforge_management.ui.search;
+package com.Keyforge_management.ui.decklist;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -16,12 +16,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder> {
+public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckViewHolder> {
 
     private List<Deck> mDeckList;
-    private InteractionListener listener;
+    private DeckListInteractionListener listener;
 
-    public DeckAdapter(List<Deck> deckList, InteractionListener listener) {
+    public DeckListAdapter(List<Deck> deckList, DeckListInteractionListener listener) {
         mDeckList = deckList;
         this.listener = listener;
     }
@@ -45,16 +45,14 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
 
     static class DeckViewHolder extends RecyclerView.ViewHolder {
 
-        private static final String LOG_TAG = DeckViewHolder.class.getName();
-
         private ImageView[] houseArr;
         private TextView deckName;
         private TextView expansion;
         private TextView sasScore;
         private TextView rawAember;
-        private InteractionListener listener;
+        private DeckListInteractionListener listener;
 
-        DeckViewHolder(@NonNull View itemView, InteractionListener listener) {
+        DeckViewHolder(@NonNull View itemView, DeckListInteractionListener listener) {
             super(itemView);
             this.listener = listener;
             houseArr = new ImageView[]{
