@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.Keyforge_management.R;
+import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.House;
 
 import java.util.List;
@@ -18,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder> {
 
-    private List<DeckUI> mDeckList;
+    private List<Deck> mDeckList;
 
-    public DeckAdapter(List<DeckUI> deckList) {
+    public DeckAdapter(List<Deck> deckList) {
         mDeckList = deckList;
     }
 
@@ -65,15 +66,15 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         }
 
         @SuppressLint("SetTextI18n")
-        void display(DeckUI currentItem) {
+        void display(Deck currentItem) {
             House[] houses = currentItem.getHouses();
             houseArr[0].setImageResource(houses[0].getImageId());
             houseArr[1].setImageResource(houses[1].getImageId());
             houseArr[2].setImageResource(houses[2].getImageId());
             deckName.setText(currentItem.getName());
-            expansion.setText(currentItem.getSet());
-            sasScore.setText(Integer.toString(currentItem.getSas()));
-            rawAember.setText(Integer.toString(currentItem.getAmber()));
+            expansion.setText(currentItem.getExpansion().toString());
+            sasScore.setText(Integer.toString(currentItem.getSasRating()));
+            rawAember.setText(Integer.toString(currentItem.getRawAmber()));
 
             itemView.setOnClickListener(v -> Log.d(LOG_TAG, currentItem.toString()));
         }

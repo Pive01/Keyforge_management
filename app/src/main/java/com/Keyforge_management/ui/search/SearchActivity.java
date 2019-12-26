@@ -26,7 +26,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<DeckUI> resultsList;
+    private ArrayList<Deck> resultsList;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -67,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
                 resultsList.clear();
                 List<Deck> actualDecks = response.body();
                 for (Deck deck : actualDecks) {
-                    fillRV(deck, resultsList);
+                    resultsList.add(deck);
                 }
                 mAdapter.notifyDataSetChanged();
             }
@@ -79,9 +79,4 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    private void fillRV(Deck deck, ArrayList<DeckUI> resultsList) {
-
-        resultsList.add(new DeckUI(deck.getName(), deck.getExpansion().toString(),
-                deck.getSasRating(), deck.getRawAmber(), deck.getHouses()));
-    }
 }
