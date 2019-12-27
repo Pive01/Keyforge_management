@@ -11,11 +11,11 @@ public final class ExpansionTypeConverter {
 
     @TypeConverter
     public static String fromExpansion(Expansion expansion) {
-        return expansion.toString();
+        return expansion.name();
     }
 
     @TypeConverter
     public static Expansion fromString(String expansionName) {
-        return Expansion.valueOf(expansionName.toUpperCase().replace(" ", "_"));
+        return Expansion.valueOf(expansionName);
     }
 }

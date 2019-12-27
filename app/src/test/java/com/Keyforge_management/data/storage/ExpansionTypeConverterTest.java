@@ -10,11 +10,11 @@ public class ExpansionTypeConverterTest {
 
     @Test
     public void fromExpansion() {
-        assertEquals("Call Of The Archons", ExpansionTypeConverter.fromExpansion(Expansion.CALL_OF_THE_ARCHONS));
+        assertEquals("CALL_OF_THE_ARCHONS", ExpansionTypeConverter.fromExpansion(Expansion.CALL_OF_THE_ARCHONS));
     }
 
     @Test
     public void fromString() {
-        assertEquals(Expansion.CALL_OF_THE_ARCHONS, ExpansionTypeConverter.fromString("Call Of The Archons"));
+        assertEquals(Expansion.CALL_OF_THE_ARCHONS, ExpansionTypeConverter.fromString("CALL_OF_THE_ARCHONS"));
     }
 }
