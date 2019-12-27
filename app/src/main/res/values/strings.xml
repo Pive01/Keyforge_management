@@ -7,4 +7,8 @@
     <string name="hintTxt">Type a deck name</string>
     <string name="aember">Æmber</string>
     <string name="sas_score">SAS</string>
+    <string name="about_us">About us</string>
+    <string name="scan_deck">Scan Deck</string>
+    <string name="search">search</string>
+    <string name="main_title">My Decks</string>
 </resources>

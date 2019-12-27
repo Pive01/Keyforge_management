@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search_deck"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/scan_decks"
+        android:icon="@drawable/ic_add_a_photo_black_24dp"
+        android:title="@string/scan_deck"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about_us"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="@string/about_us"
+        app:showAsAction="never" />
+
+</menu>
+
