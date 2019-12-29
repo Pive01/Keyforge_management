@@ -1,6 +1,7 @@
 package com.Keyforge_management.ui.main;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     @Override
     public void onDeckClicked(Deck deck) {
-        DetailActivity.start(this);
+        Intent i = new Intent(this, DetailActivity.class);
+        i.putExtra("deckInfo", deck);
+        DetailActivity.start(this, i);
+        System.out.println(deck.toString());
     }
 
     @Override

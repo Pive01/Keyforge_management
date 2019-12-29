@@ -21,6 +21,10 @@ public final class Utils {
         return sb.append(strings[strings.length - 1]).toString();
     }
 
+    public static int absolute(int num) {
+        return num < 0 ? 0 : num;
+    }
+
     private Utils() {
     }
 }

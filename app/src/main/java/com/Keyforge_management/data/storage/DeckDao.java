@@ -21,6 +21,12 @@ public interface DeckDao {
     @Query("select * from decks")
     LiveData<List<Deck>> getDecks();
 
+    @Query("UPDATE decks SET localWins=:wins WHERE id=:id")
+    void updateWins(int wins, long id);
+
+    @Query("UPDATE decks SET localLosses=:loss WHERE id=:id")
+    void updateLosses(int loss, long id);
+
     @Delete
     void deleteDeck(Deck deck);
 }

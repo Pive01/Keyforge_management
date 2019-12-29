@@ -33,4 +33,16 @@ public class DeckRepository {
             mDeckDao.deleteDeck(deck);
         });
     }
+
+    public void updateWins(int wins, long id) {
+        DecksDatabase.databaseWriteExecutor.execute(() -> {
+            mDeckDao.updateWins(wins, id);
+        });
+    }
+
+    public void updateLosses(int losses, long id) {
+        DecksDatabase.databaseWriteExecutor.execute(() -> {
+            mDeckDao.updateLosses(losses, id);
+        });
+    }
 }

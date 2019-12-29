@@ -33,7 +33,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/addWins"
+                    android:id="@+id/removeWins"
                     style="@style/mainButtonStyle"
                     android:layout_width="55sp"
                     android:layout_height="match_parent"
@@ -43,6 +43,7 @@
 
                 <TextView
                     style="@style/textFontHigh"
+                    android:id="@+id/winsCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -52,7 +53,7 @@
                     android:textSize="40sp" />
 
                 <Button
-                    android:id="@+id/removeWins"
+                    android:id="@+id/addWins"
                     style="@style/mainButtonStyle"
                     android:layout_width="55sp"
                     android:layout_height="match_parent"
@@ -83,7 +84,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/addLoss"
+                    android:id="@+id/removeLoss"
                     style="@style/mainButtonStyle"
                     android:layout_width="55sp"
                     android:layout_height="match_parent"
@@ -93,6 +94,7 @@
 
                 <TextView
                     style="@style/textFontHigh"
+                    android:id="@+id/lossCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -102,7 +104,7 @@
                     android:textSize="40sp" />
 
                 <Button
-                    android:id="@+id/removeLoss"
+                    android:id="@+id/addLoss"
                     style="@style/mainButtonStyle"
                     android:layout_width="55sp"
                     android:layout_height="match_parent"
