@@ -2,7 +2,6 @@ package com.Keyforge_management.ui.search;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,7 +14,6 @@ import com.Keyforge_management.data.storage.DeckRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +26,8 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<Deck> resultsList;
+    private DeckListAdapter mAdapter;
+    private DeckRepository repository;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -44,19 +40,18 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         ImageButton backBtn = findViewById(R.id.backBtnSrc);
         backBtn.setOnClickListener(v -> finish());
 
+        repository = new DeckRepository(this);
+
         EditText searchBar = findViewById(R.id.SearchEditText);
         ImageButton search = findViewById(R.id.srcBtn);
 
         search.setOnClickListener(v -> displayDecks(searchBar.getText().toString()));
 
-        resultsList = new ArrayList<>();
-
-        mRecyclerView = findViewById(R.id.recyclerViewSrc);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new DeckListAdapter(resultsList, this);
+        mAdapter = new DeckListAdapter(this);
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -68,9 +63,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     return;
                 }
 
-                resultsList.clear();
-                resultsList.addAll(response.body());
-                mAdapter.notifyDataSetChanged();
+                mAdapter.onNewDecks(response.body());
             }
 
             @Override
@@ -85,13 +78,13 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         new AlertDialog.Builder(this)
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        DeckRepository deckRepository = new DeckRepository(SearchActivity.this);
-                        deckRepository.insert(deck);
-                    }
-                })
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> repository.insert(deck))
                 .setNegativeButton(android.R.string.no, null)
                 .show();
+    }
+
+    @Override
+    public void onLongDeckClicked(Deck deck) {
+
     }
 }

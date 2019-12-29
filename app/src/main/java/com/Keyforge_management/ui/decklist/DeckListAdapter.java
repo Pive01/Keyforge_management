@@ -11,6 +11,7 @@ import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.House;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,12 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckViewHolder> {
 
-    private List<Deck> mDeckList;
-    private DeckListInteractionListener listener;
+    private final List<Deck> decks;
+    private final DeckListInteractionListener listener;
 
-    public DeckListAdapter(List<Deck> deckList, DeckListInteractionListener listener) {
-        mDeckList = deckList;
+    public DeckListAdapter(DeckListInteractionListener listener) {
         this.listener = listener;
+        this.decks = new ArrayList<>();
     }
 
     @NonNull
@@ -35,12 +36,18 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     @Override
     public void onBindViewHolder(@NonNull DeckViewHolder holder, int position) {
-        holder.display(mDeckList.get(position));
+        holder.display(decks.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mDeckList.size();
+        return decks.size();
+    }
+
+    public void onNewDecks(List<Deck> decks) {
+        this.decks.clear();
+        this.decks.addAll(decks);
+        notifyDataSetChanged();
     }
 
     static class DeckViewHolder extends RecyclerView.ViewHolder {
@@ -78,6 +85,10 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
             rawAember.setText(Integer.toString(currentItem.getRawAmber()));
 
             itemView.setOnClickListener(v -> listener.onDeckClicked(currentItem));
+            itemView.setOnLongClickListener(v -> {
+                listener.onLongDeckClicked(currentItem);
+                return true;
+            });
         }
     }
 }

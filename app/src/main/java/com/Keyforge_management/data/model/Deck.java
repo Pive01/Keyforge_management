@@ -23,6 +23,25 @@ public class Deck implements Serializable {
     private int artifactCount;
     private int upgradeCount;
     private int sasRating;
+
+    private int localWins;
+    private int localLosses;
+
+    public int getLocalWins() {
+        return localWins;
+    }
+
+    public void setLocalWins(int localWins) {
+        this.localWins = localWins;
+    }
+
+    public int getLocalLosses() {
+        return localLosses;
+    }
+
+    public void setLocalLosses(int localLosses) {
+        this.localLosses = localLosses;
+    }
     private int rawAmber;
     @TypeConverters({HouseArrayTypeConverter.class})
     private House[] houses;

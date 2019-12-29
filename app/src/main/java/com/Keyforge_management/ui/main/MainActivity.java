@@ -12,10 +12,8 @@ import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.storage.DeckRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
+import com.Keyforge_management.ui.detail.DetailActivity;
 import com.Keyforge_management.ui.search.SearchActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,8 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
 
-    private RecyclerView.Adapter mAdapter;
-    private List<Deck> myDecksList;
     private DeckRepository repository;
 
     @Override
@@ -35,30 +31,26 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         setSupportActionBar(findViewById(R.id.toolbar));
 
         View fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> SearchActivity.start(MainActivity.this));
+        fab.setOnClickListener(v -> SearchActivity.start(this));
+
+        RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setHasFixedSize(true);
+
+        DeckListAdapter mAdapter = new DeckListAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
 
         repository = new DeckRepository(this);
-        displayDecks();
-
-        myDecksList = new ArrayList<>();
-        RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mAdapter = new DeckListAdapter(myDecksList, this);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void displayDecks() {
-        repository.getAllDecks().observe(this, (decks) -> {
-            myDecksList.clear();
-            myDecksList.addAll(decks);
-            mAdapter.notifyDataSetChanged();
-        });
+        repository.getAllDecks().observe(this, mAdapter::onNewDecks);
     }
 
     @Override
     public void onDeckClicked(Deck deck) {
+        DetailActivity.start(this);
+    }
+
+    @Override
+    public void onLongDeckClicked(Deck deck) {
         new AlertDialog.Builder(this)
                 .setTitle("Remove a deck")
                 .setMessage("Are you sure you want to remove this deck?")
@@ -75,19 +67,18 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.scan_decks:
-                System.out.println("item 1 pressed");
-                Toast.makeText(MainActivity.this, "Scan deck not yet implemented", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ScanActivity deck not yet implemented", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_about_us:
-                Toast.makeText(MainActivity.this, "About us not yet implemented", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "About us not yet implemented", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.search_deck:
-                SearchActivity.start(MainActivity.this);
+                SearchActivity.start(this);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
