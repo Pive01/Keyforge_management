@@ -12,6 +12,7 @@ import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.House;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,40 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
     public void onNewDecks(List<Deck> decks) {
         this.decks.clear();
         this.decks.addAll(decks);
+        notifyDataSetChanged();
+    }
+
+    public void sort(int parameter) {
+        switch (parameter) {
+            case 0:
+                this.decks.sort(Comparator.comparing(Deck::getSasRating)
+                        .thenComparing(Deck::getRawAmber)
+                        .reversed());
+                break;
+            case 1:
+                this.decks.sort(Comparator.comparing(Deck::getRawAmber)
+                        .thenComparing(Deck::getSasRating)
+                        .reversed());
+                break;
+            case 2:
+                this.decks.sort(Comparator.comparing(Deck::getCreatureCount)
+                        .thenComparing(Deck::getSasRating)
+                        .reversed());
+                break;
+            case 3:
+                this.decks.sort(Comparator.comparing(Deck::getActionCount)
+                        .thenComparing(Deck::getSasRating)
+                        .reversed());
+                break;
+            case 4:
+                this.decks.sort(Comparator.comparing(Deck::getArtifactCount)
+                        .thenComparing(Deck::getSasRating)
+                        .reversed());
+                break;
+            default:
+                break;
+
+        }
         notifyDataSetChanged();
     }
 

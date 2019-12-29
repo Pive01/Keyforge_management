@@ -13,4 +13,8 @@
     <string name="main_title">My Decks</string>
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
+    <string name="sort_by">Sort by</string>
+    <string name="creature_count">Creature Count</string>
+    <string name="action_count">Action Count</string>
+    <string name="artifact_count">Artifact count</string>
 </resources>

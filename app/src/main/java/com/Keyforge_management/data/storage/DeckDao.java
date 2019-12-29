@@ -18,7 +18,7 @@ public interface DeckDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addDeck(Deck deck);
 
-    @Query("select * from decks")
+    @Query("select * from decks ORDER BY sasRating DESC,rawAmber DESC")
     LiveData<List<Deck>> getDecks();
 
     @Query("UPDATE decks SET localWins=:wins WHERE id=:id")

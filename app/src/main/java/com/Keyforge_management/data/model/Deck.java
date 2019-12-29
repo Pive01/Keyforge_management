@@ -150,4 +150,5 @@ public class Deck implements Serializable {
                 ", houses=" + Arrays.toString(houses) +
                 '}';
     }
+
 }
