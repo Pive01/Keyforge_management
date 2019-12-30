@@ -14,7 +14,7 @@ import androidx.room.TypeConverters;
 public class Deck implements Serializable {
     @PrimaryKey
     private long id;
-    private String keyforgeid;
+    private String keyforgeId;
     private String name;
     @TypeConverters({ExpansionTypeConverter.class})
     private Expansion expansion;
@@ -50,8 +50,8 @@ public class Deck implements Serializable {
         this.id = id;
     }
 
-    public void setKeyforgeid(String keyforgeid) {
-        this.keyforgeid = keyforgeid;
+    public String getKeyforgeId() {
+        return keyforgeId;
     }
 
     public void setName(String name) {
@@ -94,8 +94,8 @@ public class Deck implements Serializable {
         return id;
     }
 
-    public String getKeyforgeid() {
-        return keyforgeid;
+    public void setKeyforgeId(String keyforgeId) {
+        this.keyforgeId = keyforgeId;
     }
 
     public String getName() {
@@ -138,7 +138,7 @@ public class Deck implements Serializable {
     public String toString() {
         return "Deck{" +
                 "id=" + id +
-                ", keyforgeid='" + keyforgeid + '\'' +
+                ", keyforgeid='" + keyforgeId + '\'' +
                 ", name='" + name + '\'' +
                 ", expansion=" + expansion +
                 ", creatureCount=" + creatureCount +
