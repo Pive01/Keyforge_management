@@ -1,67 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <com.google.android.material.appbar.AppBarLayout
+
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backBtnSrc"
+                android:layout_width="50dp"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:focusable="true"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_search"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:title="@string/search" />
 
 
-        <ImageButton
-            android:id="@+id/backBtnSrc"
-            android:layout_width="50dp"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:contentDescription="@null"
-            android:focusable="true"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/back" />
-
-        <EditText
-            android:id="@+id/SearchEditText"
-            android:autofillHints="true"
-            android:layout_width="4dp"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_gravity="center"
-            android:layout_weight="0.75"
-            android:background="@drawable/cooledittext"
-            android:ems="10"
-            android:hint="@string/hintTxt"
-            android:inputType="textPersonName"
-            android:padding="10dp" />
-
-        <ImageButton
-            android:id="@+id/srcBtn"
-            android:layout_width="50dp"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:contentDescription="@null"
-            android:focusable="true"
-            android:padding="7dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/search" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSrc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"
-        android:scrollbarSize="0dp"
         android:layout_weight="1"
         android:padding="4sp"
+        android:scrollbarSize="0dp"
         android:scrollbars="vertical">
 
     </androidx.recyclerview.widget.RecyclerView>

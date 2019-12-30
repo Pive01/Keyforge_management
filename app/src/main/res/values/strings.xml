@@ -9,7 +9,7 @@
     <string name="sas_score">SAS</string>
     <string name="about_us">About us</string>
     <string name="scan_deck">Scan Deck</string>
-    <string name="search">search</string>
+    <string name="search">Search</string>
     <string name="main_title">My Decks</string>
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
@@ -17,4 +17,5 @@
     <string name="creature_count">Creature Count</string>
     <string name="action_count">Action Count</string>
     <string name="artifact_count">Artifact count</string>
+    <string name="add_decks">Add decks</string>
 </resources>

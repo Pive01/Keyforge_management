@@ -1,10 +1,12 @@
 package com.Keyforge_management.ui.search;
 
-import android.app.AlertDialog;
+
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import com.Keyforge_management.R;
@@ -16,12 +18,17 @@ import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
+
 
 
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
@@ -37,15 +44,12 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        setSupportActionBar(findViewById(R.id.toolbar_search));
+
         ImageButton backBtn = findViewById(R.id.backBtnSrc);
         backBtn.setOnClickListener(v -> finish());
 
         repository = new DeckRepository(this);
-
-        EditText searchBar = findViewById(R.id.SearchEditText);
-        ImageButton search = findViewById(R.id.srcBtn);
-
-        search.setOnClickListener(v -> displayDecks(searchBar.getText().toString()));
 
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
@@ -86,5 +90,37 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     @Override
     public void onLongDeckClicked(Deck deck) {
 
+    }
+
+    @Override
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.search_button);
+        searchItem.expandActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                displayDecks(searchView.getQuery().toString());
+                searchItem.collapseActionView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println(searchView.getQuery().toString() + " oo");
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }
