@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
@@ -60,13 +62,15 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     }
 
     private void displayDecks(String name) {
+        ProgressBar loadingDecks = findViewById(R.id.progress_bar);
+        loadingDecks.setVisibility(View.VISIBLE);
         Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
             @Override
             public void onResponse(Call<List<Deck>> call, Response<List<Deck>> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-
+                loadingDecks.setVisibility(View.GONE);
                 mAdapter.onNewDecks(response.body());
                 printCardsStuff(response.body().get(0));
             }
