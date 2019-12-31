@@ -72,7 +72,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 }
                 loadingDecks.setVisibility(View.GONE);
                 mAdapter.onNewDecks(response.body());
-                printCardsStuff(response.body().get(0));
+                if (!response.body().isEmpty())
+                    printCardsStuff(response.body().get(0));
             }
 
             @Override
