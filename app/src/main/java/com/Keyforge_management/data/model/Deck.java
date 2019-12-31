@@ -42,6 +42,7 @@ public class Deck implements Serializable {
     public void setLocalLosses(int localLosses) {
         this.localLosses = localLosses;
     }
+
     private int rawAmber;
     @TypeConverters({HouseArrayTypeConverter.class})
     private House[] houses;

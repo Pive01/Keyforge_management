@@ -1,6 +1,8 @@
 package com.Keyforge_management.ui.main;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import com.Keyforge_management.ui.detail.DetailActivity;
 import com.Keyforge_management.ui.search.SearchActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,6 +75,29 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.search_deck_mylist);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                searchItem.collapseActionView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.filter(newText);
+                return false;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -82,9 +108,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 return true;
             case R.id.action_about_us:
                 Toast.makeText(this, "About us not yet implemented", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.search_deck:
-                SearchActivity.start(this);
                 return true;
             case R.id.sort_by_sas:
                 mAdapter.sort(SAS);
@@ -105,4 +128,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

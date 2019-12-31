@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.model.wrapper.Kmvresults;
 import com.Keyforge_management.data.storage.DeckRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
@@ -28,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
-
 
 
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
@@ -68,6 +68,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 }
 
                 mAdapter.onNewDecks(response.body());
+                printCardsStuff(response.body().get(0));
             }
 
             @Override
@@ -91,6 +92,21 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     @Override
     public void onLongDeckClicked(Deck deck) {
 
+    }
+
+    private void printCardsStuff(Deck deck) {
+        Api.getCards(deck.getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
+
+            @Override
+            public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
+                System.out.println(response.body().get_linked().getCards().get(0).toString());
+            }
+
+            @Override
+            public void onFailure(Call<Kmvresults> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

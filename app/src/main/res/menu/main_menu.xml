@@ -3,10 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search_deck"
+        android:id="@+id/search_deck_mylist"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/search"
-        app:showAsAction="ifRoom" />
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView"
+
+        />
 
     <item
         android:id="@+id/sort_decks"

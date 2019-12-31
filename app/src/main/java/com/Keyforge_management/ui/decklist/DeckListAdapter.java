@@ -22,10 +22,13 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     private final List<Deck> decks;
     private final DeckListInteractionListener listener;
+    private List<Deck> bufferList;
+
 
     public DeckListAdapter(DeckListInteractionListener listener) {
         this.listener = listener;
         this.decks = new ArrayList<>();
+        this.bufferList = new ArrayList<>();
     }
 
     @NonNull
@@ -48,6 +51,8 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
     public void onNewDecks(List<Deck> decks) {
         this.decks.clear();
         this.decks.addAll(decks);
+        this.bufferList.clear();
+        this.bufferList.addAll(decks);
         notifyDataSetChanged();
     }
 
@@ -82,6 +87,17 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
                 break;
 
         }
+        notifyDataSetChanged();
+    }
+
+    public void filter(String tofilter) {
+        List<Deck> newList = new ArrayList<>();
+        this.bufferList.forEach(item -> {
+            if (item.getName().toLowerCase().contains(tofilter.toLowerCase()))
+                newList.add(item);
+        });
+        this.decks.clear();
+        this.decks.addAll(newList);
         notifyDataSetChanged();
     }
 
