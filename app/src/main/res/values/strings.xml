@@ -18,4 +18,8 @@
     <string name="action_count">Action Count</string>
     <string name="artifact_count">Artifact count</string>
     <string name="add_decks">Add decks</string>
+    <string name="upgrade_count">Upgrade Count</string>
+    <string name="total_power">Total Power</string>
+    <string name="total_armor">Total Armor</string>
+    <string name="sas">SAS</string>
 </resources>

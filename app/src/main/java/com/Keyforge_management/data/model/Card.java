@@ -1,12 +1,40 @@
 package com.Keyforge_management.data.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "cards")
 public class Card {
+    @PrimaryKey
+    @NonNull
+    private String id;
     private String card_title;
     private String card_type;
     private String house;
     private String card_text;
     private int amber;
     private String front_image;
+
+    public Card(String card_title) {
+        this.card_title = card_title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFront_image() {
+        return front_image;
+    }
+
+    public void setFront_image(String front_image) {
+        this.front_image = front_image;
+    }
 
     public String getCard_title() {
         return card_title;
@@ -51,7 +79,8 @@ public class Card {
     @Override
     public String toString() {
         return "Card{" +
-                "card_title='" + card_title + '\'' +
+                "id='" + id + '\'' +
+                ", card_title='" + card_title + '\'' +
                 ", card_type='" + card_type + '\'' +
                 ", house='" + house + '\'' +
                 ", card_text='" + card_text + '\'' +

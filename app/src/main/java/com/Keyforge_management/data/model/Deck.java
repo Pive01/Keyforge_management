@@ -23,9 +23,64 @@ public class Deck implements Serializable {
     private int artifactCount;
     private int upgradeCount;
     private int sasRating;
-
+    private int powerLevel;
+    private int chains;
+    private int wins;
+    private int losses;
+    private int totalPower;
+    private int totalArmor;
     private int localWins;
     private int localLosses;
+
+    public int getPowerLevel() {
+        return powerLevel;
+    }
+
+    public void setPowerLevel(int powerLevel) {
+        this.powerLevel = powerLevel;
+    }
+
+    public int getChains() {
+        return chains;
+    }
+
+    public void setChains(int chains) {
+        this.chains = chains;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public int getTotalPower() {
+        return totalPower;
+    }
+
+    public void setTotalPower(int totalPower) {
+        this.totalPower = totalPower;
+    }
+
+    public int getTotalArmor() {
+        return totalArmor;
+    }
+
+    public void setTotalArmor(int totalArmor) {
+        this.totalArmor = totalArmor;
+    }
+
+
 
     public int getLocalWins() {
         return localWins;
@@ -135,11 +190,12 @@ public class Deck implements Serializable {
         return expansion;
     }
 
+
     @Override
     public String toString() {
         return "Deck{" +
                 "id=" + id +
-                ", keyforgeid='" + keyforgeId + '\'' +
+                ", keyforgeId='" + keyforgeId + '\'' +
                 ", name='" + name + '\'' +
                 ", expansion=" + expansion +
                 ", creatureCount=" + creatureCount +
@@ -147,9 +203,16 @@ public class Deck implements Serializable {
                 ", artifactCount=" + artifactCount +
                 ", upgradeCount=" + upgradeCount +
                 ", sasRating=" + sasRating +
+                ", powerLevel=" + powerLevel +
+                ", chains=" + chains +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", totalPower=" + totalPower +
+                ", totalArmor=" + totalArmor +
+                ", localWins=" + localWins +
+                ", localLosses=" + localLosses +
                 ", rawAmber=" + rawAmber +
                 ", houses=" + Arrays.toString(houses) +
                 '}';
     }
-
 }

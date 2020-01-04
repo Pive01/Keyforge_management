@@ -1,8 +1,9 @@
-package com.Keyforge_management.data.storage;
+package com.Keyforge_management.data.storage.Deck;
 
 import android.content.Context;
 
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.storage.DecksDatabase;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class DeckRepository {
 
     public DeckRepository(Context context) {
         DecksDatabase db = DecksDatabase.getDatabase(context);
-        mDeckDao = db.getDao();
+        mDeckDao = db.getDeckDao();
         mAllDecks = mDeckDao.getDecks();
     }
 

@@ -4,22 +4,53 @@
     android:id="@+id/mainDetailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:scrollbars="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/deck_info_toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:title="" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backBtnDetail"
+                android:layout_width="50dp"
+                android:layout_height="@android:dimen/app_icon_size"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:contentDescription="@null"
+                android:focusable="true"
+                android:padding="7dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/deck_info_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:title="">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/score_buttons" />
+
+    <include layout="@layout/deck_info" />
+
+    <TextView
+        android:id="@+id/showCards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

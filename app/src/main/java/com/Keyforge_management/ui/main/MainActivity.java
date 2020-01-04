@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Deck;
-import com.Keyforge_management.data.storage.DeckRepository;
+import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 import com.Keyforge_management.ui.detail.DetailActivity;
@@ -27,11 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
 
     private DeckRepository repository;
-    private final int SAS = 0;
-    private final int AEMBER = 1;
-    private final int CREATURE = 2;
-    private final int ACTION = 3;
-    private final int ARTIFACT = 4;
     private DeckListAdapter mAdapter;
 
     @Override
@@ -103,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int ARTIFACT = 4;
+        int ACTION = 3;
+        int CREATURE = 2;
+        int AEMBER = 1;
+        int SAS = 0;
         switch (item.getItemId()) {
             case R.id.sort_decks:
                 return true;

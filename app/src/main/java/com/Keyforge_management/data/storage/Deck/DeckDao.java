@@ -1,4 +1,4 @@
-package com.Keyforge_management.data.storage;
+package com.Keyforge_management.data.storage.Deck;
 
 
 import com.Keyforge_management.data.model.Deck;
