@@ -1,17 +1,23 @@
 package com.Keyforge_management.data.model;
 
+import com.Keyforge_management.data.storage.HouseArrayTypeConverter;
+
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = "cards")
-public class Card {
+public class Card implements Serializable {
     @PrimaryKey
     @NonNull
     private String id;
     private String card_title;
     private String card_type;
-    private String house;
+    @TypeConverters({HouseArrayTypeConverter.class})
+    private House house;
     private String card_text;
     private int amber;
     private String front_image;
@@ -19,6 +25,7 @@ public class Card {
     public Card(String card_title) {
         this.card_title = card_title;
     }
+
 
     public String getId() {
         return id;
@@ -52,11 +59,11 @@ public class Card {
         this.card_type = card_type;
     }
 
-    public String getHouse() {
+    public House getHouse() {
         return house;
     }
 
-    public void setHouse(String house) {
+    public void setHouse(House house) {
         this.house = house;
     }
 
@@ -88,4 +95,5 @@ public class Card {
                 ", front_image='" + front_image + '\'' +
                 '}';
     }
+
 }

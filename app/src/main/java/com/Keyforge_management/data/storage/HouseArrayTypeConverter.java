@@ -32,4 +32,14 @@ public final class HouseArrayTypeConverter {
         }
         return houses;
     }
+
+    @TypeConverter
+    public static String fromHouse(House house) {
+        return house.name();
+    }
+
+    @TypeConverter
+    public static House fromSingleString(String houseName) {
+        return House.valueOf(houseName);
+    }
 }

@@ -1,5 +1,6 @@
 package com.Keyforge_management.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +11,19 @@ import android.widget.TextView;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Card;
 import com.Keyforge_management.data.model.Deck;
-import com.Keyforge_management.data.storage.Card.CardRepository;
+import com.Keyforge_management.data.model.House;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import static com.Keyforge_management.common.Utils.absolute;
 
@@ -25,13 +31,12 @@ import static com.Keyforge_management.common.Utils.absolute;
 public class DetailActivity extends AppCompatActivity {
 
     private static Deck deck;
-    private List<Card> cardsList;
     private DeckRepository repository;
     private DeckCardRepository deckCardRepository;
-    private CardRepository cardRepository;
     private TextView winsView;
     private TextView lossesView;
-    private TextView cards;
+    private ViewPager viewPager;
+    private HashMap<House, List<Card>> map = new HashMap<>();
 
 
     public static void start(Context context, Intent i) {
@@ -43,28 +48,28 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        cards = findViewById(R.id.showCards);
 
-        deckCardRepository = new DeckCardRepository(this);
-        deckCardRepository.getCards(deck).observe(this, this::showCards);
+
         ImageButton backBtn = findViewById(R.id.backBtnDetail);
         backBtn.setOnClickListener(v -> finish());
 
         Toolbar infoToolbar = findViewById(R.id.deck_info_toolbar);
         infoToolbar.setTitle(deck.getName());
+
         winsView = findViewById(R.id.winsCounter);
         lossesView = findViewById(R.id.lossCounter);
-        inizializeTextViews();
-        updateView();
         Button addWin = findViewById(R.id.addWins);
         Button addLoss = findViewById(R.id.addLoss);
         Button removeWin = findViewById(R.id.removeWins);
         Button removeLoss = findViewById(R.id.removeLoss);
+        inizializeTextViews();
+        updateView();
+        inizializeButtons(addWin, addLoss, removeLoss, removeWin);
 
         repository = new DeckRepository(this);
 
-        inizializeButtons(addWin, addLoss, removeLoss, removeWin);
-
+        deckCardRepository = new DeckCardRepository(getApplicationContext());
+        deckCardRepository.getCards(deck).observe(this, this::getCards);
     }
 
     private void inizializeTextViews() {
@@ -103,7 +108,8 @@ public class DetailActivity extends AppCompatActivity {
         lossesView.setText(String.valueOf(deck.getLocalLosses()));
     }
 
-    private void inizializeButtons(Button addWin, Button addLoss, Button removeLoss, Button removeWin) {
+    private void inizializeButtons(Button addWin, Button addLoss,
+                                   Button removeLoss, Button removeWin) {
         addLoss.setOnClickListener(v -> {
             deck.setLocalLosses((deck.getLocalLosses() + 1));
             updateLosses();
@@ -124,14 +130,40 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void showCards(List<Card> cardToShoww) {
+    @SuppressLint("ClickableViewAccessibility")
+    private void getCards(List<Card> cardToShow) {
+        House[] houseArr = new House[3];
+        int start = 0;
+        int j = 1;
+        cardToShow.sort(Comparator.comparing(Card::getHouse));
+        List<Card> temp;
 
-        cardToShoww.forEach(item -> {
-            cards.append(item.getCard_title() + "\n");
-            System.out.println(item.getCard_title() + "\n");
+
+        for (int i = 0; i < 3; i++) {
+            while ((cardToShow.size() != j + 1) && cardToShow.get(j).getHouse().equals(cardToShow.get(j + 1).getHouse())) {
+                j++;
+            }
+            houseArr[i] = cardToShow.get(j).getHouse();
+            temp = new ArrayList<>(cardToShow.subList(start, j + 1));
+            map.put(houseArr[i], temp);
+            start = j + 1;
+            j++;
+        }
+
+        viewPager = findViewById(R.id.viewpager);
+        viewPager.setOnTouchListener((v, event) -> {
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
+
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                viewPager.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+        });
+        viewPager.setAdapter(new CardFragmentAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, map, houseArr));
     }
 
-
 }
-//ViewPager

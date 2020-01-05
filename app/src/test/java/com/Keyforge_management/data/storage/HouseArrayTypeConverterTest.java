@@ -22,4 +22,18 @@ public class HouseArrayTypeConverterTest {
         House[] houses = {House.BROBNAR, House.LOGOS, House.SANCTUM};
         assertArrayEquals(houses, HouseArrayTypeConverter.fromString(actual));
     }
+
+    @Test
+    public void fromHouse() {
+        String expected = "BROBNAR";
+        House house = House.BROBNAR;
+        assertEquals(expected, HouseArrayTypeConverter.fromHouse(house));
+    }
+
+    @Test
+    public void fromSingleString() {
+        House expected = House.BROBNAR;
+        String actual = "BROBNAR";
+        assertEquals(expected, HouseArrayTypeConverter.fromSingleString(actual));
+    }
 }

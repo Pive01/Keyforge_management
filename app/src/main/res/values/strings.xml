@@ -22,4 +22,6 @@
     <string name="total_power">Total Power</string>
     <string name="total_armor">Total Armor</string>
     <string name="sas">SAS</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
