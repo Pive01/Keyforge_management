@@ -1,18 +1,19 @@
 package com.Keyforge_management.ui.detail;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Card;
 import com.Keyforge_management.data.model.House;
 import com.Keyforge_management.ui.cardlist.CardListAdapter;
-import com.Keyforge_management.ui.cardlist.CardListInteracionListener;
+import com.Keyforge_management.ui.cardlist.CardListInteractionListener;
+import com.Keyforge_management.ui.detail.cardDetail.CardDetailActivity;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CardListFragment extends Fragment implements CardListInteracionListener {
+public class CardListFragment extends Fragment implements CardListInteractionListener {
 
     private CardListAdapter mAdapter;
 
@@ -39,7 +40,7 @@ public class CardListFragment extends Fragment implements CardListInteracionList
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         });
         mRecyclerView.setHasFixedSize(true);
@@ -60,10 +61,10 @@ public class CardListFragment extends Fragment implements CardListInteracionList
 
     @Override
     public void onCardClicked(Card card) {
-        Toast.makeText(getContext(), "test", Toast.LENGTH_LONG);
+        Intent i = new Intent(getContext(), CardDetailActivity.class);
+        i.putExtra("card", card);
+        CardDetailActivity.start(getContext(), i);
+
     }
 
-   /* private Drawable getImage(String housename){
-
-    }*/
 }

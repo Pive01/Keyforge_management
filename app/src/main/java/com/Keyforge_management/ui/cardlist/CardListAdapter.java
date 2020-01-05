@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> {
     private final List<Card> cards;
-    private final CardListInteracionListener listener;
+    private final CardListInteractionListener listener;
 
-    public CardListAdapter(CardListInteracionListener listener) {
+    public CardListAdapter(CardListInteractionListener listener) {
         this.cards = new ArrayList<>();
         this.listener = listener;
     }
@@ -49,16 +49,18 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
         private TextView cardName;
-        private CardListInteracionListener listener;
+        private CardListInteractionListener listener;
 
-        public CardViewHolder(@NonNull View itemView, CardListInteracionListener listener) {
+        public CardViewHolder(@NonNull View itemView, CardListInteractionListener listener) {
             super(itemView);
             this.listener = listener;
             cardName = itemView.findViewById(R.id.cardnameview);
         }
 
         public void display(Card card) {
+
             cardName.setText(card.getCard_title());
+            itemView.setOnClickListener(v -> listener.onCardClicked(card));
         }
     }
 }
