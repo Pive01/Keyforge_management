@@ -13,31 +13,12 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/backBtnCard"
-                android:layout_width="50dp"
-                android:layout_height="@android:dimen/app_icon_size"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:clickable="true"
-                android:contentDescription="@null"
-                android:focusable="true"
-                android:padding="7dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/card_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways" />
-        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

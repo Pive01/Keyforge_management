@@ -32,4 +32,9 @@ public class DeckCardRepository {
         return mDeckWithCardsDao.getCardsForDeck(deck.getId());
     }
 
+    public void delete(Deck deck) {
+        DecksDatabase.databaseWriteExecutor.execute(() -> mDeckWithCardsDao.delete(deck.getId()));
+
+    }
+
 }

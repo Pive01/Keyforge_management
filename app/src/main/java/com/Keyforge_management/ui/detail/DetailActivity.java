@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.Keyforge_management.R;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -49,12 +49,13 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
-        ImageButton backBtn = findViewById(R.id.backBtnDetail);
-        backBtn.setOnClickListener(v -> finish());
-
         Toolbar infoToolbar = findViewById(R.id.deck_info_toolbar);
         infoToolbar.setTitle(deck.getName());
+
+        setSupportActionBar(infoToolbar);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         winsView = findViewById(R.id.winsCounter);
         lossesView = findViewById(R.id.lossCounter);
@@ -164,6 +165,12 @@ public class DetailActivity extends AppCompatActivity {
         });
         viewPager.setAdapter(new CardFragmentAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, map, houseArr));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }

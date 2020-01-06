@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.Keyforge_management.R;
@@ -23,6 +22,7 @@ import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,8 +57,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         setContentView(R.layout.activity_search);
         setSupportActionBar(findViewById(R.id.toolbar_search));
 
-        ImageButton backBtn = findViewById(R.id.backBtnSrc);
-        backBtn.setOnClickListener(v -> finish());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         deckRepository = new DeckRepository(this);
         cardRepository = new CardRepository(this);
@@ -179,4 +179,11 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 }

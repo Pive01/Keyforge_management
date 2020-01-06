@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 
 @Entity(tableName = "cards_deck_join",
         primaryKeys = {"cardId", "deckId"},
         foreignKeys = {
-                @ForeignKey(entity = Card.class,
+                @ForeignKey(
+                        entity = Card.class,
                         parentColumns = "id",
                         childColumns = "cardId"),
-                @ForeignKey(entity = Deck.class,
+                @ForeignKey(onDelete = CASCADE,
+                        entity = Deck.class,
                         parentColumns = "id",
                         childColumns = "deckId"),
         })

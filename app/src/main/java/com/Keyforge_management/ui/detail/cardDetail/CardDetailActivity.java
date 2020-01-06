@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,11 +33,12 @@ public class CardDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card_detail);
 
 
-        ImageButton backBtn = findViewById(R.id.backBtnCard);
-        backBtn.setOnClickListener(v -> finish());
-
         Toolbar infoToolbar = findViewById(R.id.card_toolbar);
+        setSupportActionBar(infoToolbar);
         infoToolbar.setTitle(card.getCard_title());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ImageView imageView = findViewById(R.id.cardicon);
 
@@ -59,5 +59,9 @@ public class CardDetailActivity extends AppCompatActivity {
         amber.setText(String.valueOf(card.getAmber()));
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }
