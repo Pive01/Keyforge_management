@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
-import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 import com.Keyforge_management.ui.detail.DetailActivity;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     private DeckRepository repository;
     private DeckListAdapter mAdapter;
-    private DeckCardRepository deckCardRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, mAdapter::onNewDecks);
 
-        deckCardRepository = new DeckCardRepository(this);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 .setTitle("Remove a deck")
                 .setMessage("Are you sure you want to remove this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    deckCardRepository.delete(deck);
+                    repository.delete(deck);
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
