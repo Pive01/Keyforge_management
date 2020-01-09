@@ -21,9 +21,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CardListFragment extends Fragment implements CardListInteractionListener {
 
     private CardListAdapter mAdapter;
@@ -40,10 +37,10 @@ public class CardListFragment extends Fragment implements CardListInteractionLis
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
             public boolean canScrollVertically() {
-                return true;
+                return false;
             }
         });
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
 
         mAdapter = new CardListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);

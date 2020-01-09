@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Card;
+import com.bumptech.glide.Glide;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,22 +35,14 @@ public class CardDetailActivity extends AppCompatActivity {
 
 
         Toolbar infoToolbar = findViewById(R.id.card_toolbar);
-        setSupportActionBar(infoToolbar);
-        infoToolbar.setTitle(card.getCard_title());
 
+        infoToolbar.setTitle(card.getCard_title());
+        setSupportActionBar(infoToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ImageView imageView = findViewById(R.id.cardicon);
-
-        Thread t = new Thread(new ShowImageThread(card.getFront_image(), this));
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        imageView.setImageBitmap(image);
+        Glide.with(this).load(card.getFront_image()).into(imageView);
 
         TextView type = findViewById(R.id.card_type);
         type.setText(card.getCard_type());
