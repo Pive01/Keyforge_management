@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
-import com.Keyforge_management.data.model.Card;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.wrapper.Kmvresults;
 import com.Keyforge_management.data.storage.Card.CardRepository;
@@ -38,10 +37,6 @@ import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
 
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
 
-    private int count = 1;
-    private int iteraction = 0;
-    private Boolean isFirst = true;
-    private Card buff = new Card("hope_this_name_will_never_exist");
     private DeckListAdapter mAdapter;
     private DeckRepository deckRepository;
     private CardRepository cardRepository;
@@ -95,12 +90,12 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
     @Override
     public void onDeckClicked(Deck deck) {
-        System.out.println(deck.toString());
         new AlertDialog.Builder(this)
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     deckRepository.insert(deck);
+                    System.out.println("triggered saveCards on deck " + deck.getName());
                     saveCards(deck);
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -119,23 +114,12 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
                 if (!(response.body() == null)) {
                     response.body().get_linked().getCards().forEach(card -> {
+
                         cardRepository.insert(card);
                     });
 
                     response.body().get_linked().getCards().forEach(card -> {
-                        iteraction++;
-                        if (card.getCard_title().equals(buff.getCard_title()))
-                            count++;
-                        else {
-                            if (!isFirst) {
-                                deckCardRepository.insert(buff, deck, count);
-                            }
-                            buff = card;
-                            count = 1;
-                            isFirst = false;
-                        }
-                        if (iteraction == 36)
-                            deckCardRepository.insert(buff, deck, count);
+                        deckCardRepository.insert(card, deck, 1);
                     });
 
                 }

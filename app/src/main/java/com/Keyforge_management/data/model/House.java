@@ -31,7 +31,7 @@ public enum House {
     @SerializedName("Saurian")
     SAURIAN(R.drawable.saurian),
 
-    @SerializedName("StarAlliance")
+    @SerializedName(value = "StarAlliance", alternate = "Star Alliance")
     STAR_ALLIANCE(R.drawable.star_alliance);
 
     @DrawableRes

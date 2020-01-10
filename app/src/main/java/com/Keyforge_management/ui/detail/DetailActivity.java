@@ -139,9 +139,9 @@ public class DetailActivity extends AppCompatActivity {
         cardToShow.sort(Comparator.comparing(Card::getHouse));
         List<Card> temp;
 
-
         for (int i = 0; i < 3; i++) {
-            while ((cardToShow.size() != j + 1) && cardToShow.get(j).getHouse().equals(cardToShow.get(j + 1).getHouse())) {
+            while ((cardToShow.size() != j + 1)
+                    && cardToShow.get(j).getHouse().equals(cardToShow.get(j + 1).getHouse())) {
                 j++;
             }
             houseArr[i] = cardToShow.get(j).getHouse();
