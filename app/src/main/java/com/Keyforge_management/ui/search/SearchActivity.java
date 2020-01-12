@@ -44,6 +44,10 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private CardRepository cardRepository;
     private DeckCardRepository deckCardRepository;
     private List<String> cardList;
+    List<Boolean> tempMaverick = new ArrayList<>();
+    List<Boolean> tempAnomaly = new ArrayList<>();
+    private int index = 0;
+
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -121,6 +125,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
 
                     response.body().get_linked().getCards().forEach(card -> {
+                        tempMaverick.add(card.getIs_maverick());
+                        tempAnomaly.add(card.getIs_anomaly());
                         card.setIs_anomaly(false);
                         card.setIs_legacy(false);
                         card.setIs_maverick(false);
@@ -132,8 +138,10 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     response.body().get_linked().getCards().forEach(card -> {
                         deckCardRepository.insert(card, deck,
                                 Collections.frequency(cardList, card.getId()),
-                                card.getIs_maverick(), legacy.contains(card.getId()), card.getIs_anomaly());
+                                tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));
+                        index++;
                     });
+                    index = 0;
 
                 }
             }

@@ -190,7 +190,6 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
         });
-
         getCards(temp);
     }
 

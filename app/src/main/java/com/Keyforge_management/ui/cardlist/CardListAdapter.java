@@ -67,12 +67,12 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
             cardRarity.setImageResource(card.getRarity().getImageCardId());
             cardName.setText(card.getCard_title());
 
-            /*if (card.getIs_legacy())
+            if (card.getIs_legacy())
                 specialRarity.setImageResource(R.drawable.ic_legacy);
             else if (card.getIs_anomaly())
                 specialRarity.setImageResource(R.drawable.ic_anomalies);
             else if (card.getIs_maverick())
-                specialRarity.setImageResource(R.drawable.ic_maverick);*/
+                specialRarity.setImageResource(R.drawable.ic_maverick);
             itemView.setOnClickListener(v -> listener.onCardClicked(card));
         }
     }
