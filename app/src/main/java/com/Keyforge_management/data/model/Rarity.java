@@ -7,7 +7,7 @@ import androidx.annotation.DrawableRes;
 
 public enum Rarity {
 
-    @SerializedName("Variant")
+    @SerializedName(value = "Variant", alternate = "FIXED")
     SPECIAL(R.drawable.ic_special),
     @SerializedName("Common")
     COMMON(R.drawable.ic_common),
@@ -26,5 +26,12 @@ public enum Rarity {
     @DrawableRes
     public int getImageCardId() {
         return imageCardId;
+    }
+
+    @Override
+    public String toString() {
+        return "Rarity{" +
+                "imageCardId=" + imageCardId +
+                '}';
     }
 }

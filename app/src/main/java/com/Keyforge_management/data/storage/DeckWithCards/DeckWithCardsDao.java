@@ -22,8 +22,13 @@ public interface DeckWithCardsDao {
             " ON cards.id=cards_deck_join.cardId WHERE cards_deck_join.deckId =:deckId")
     LiveData<List<Card>> getCardsForDeck(final long deckId);
 
+    @Query("SELECT * FROM cards_deck_join " +
+            "WHERE cards_deck_join.deckId =:deckId")
+    LiveData<List<CardsDeckRef>> getInfoForCards(final long deckId);
+
     @Query("DELETE FROM cards_deck_join WHERE cards_deck_join.deckId=:deckId ")
     void delete(final long deckId);
+
 
 }
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Card;
+import com.Keyforge_management.data.model.CardsDeckRef;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.House;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
@@ -37,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView lossesView;
     private ViewPager viewPager;
     private HashMap<House, List<Card>> map = new HashMap<>();
+    private List<CardsDeckRef> refList;
 
 
     public static void start(Context context, Intent i) {
@@ -57,6 +59,8 @@ public class DetailActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        refList = new ArrayList<>();
+
         winsView = findViewById(R.id.winsCounter);
         lossesView = findViewById(R.id.lossCounter);
         Button addWin = findViewById(R.id.addWins);
@@ -70,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
         repository = new DeckRepository(this);
 
         deckCardRepository = new DeckCardRepository(getApplicationContext());
-        deckCardRepository.getCards(deck).observe(this, this::getCards);
+        deckCardRepository.getInfoForCards(deck).observe(this, this::support);
     }
 
     private void inizializeTextViews() {
@@ -171,6 +175,28 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void assembleData(List<Card> cardList) {
+        List<Card> temp = new ArrayList<>();
+        cardList.forEach(reference -> {
+            refList.forEach(value -> {
+                if (reference.getId().equals(value.getCardId())) {
+                    reference.setIs_maverick(value.getIs_maverick());
+                    reference.setIs_legacy(value.getIs_legacy());
+                    reference.setIs_anomaly(value.getIs_anomaly());
+                    for (int i = 0; i < value.getCount(); i++)
+                        temp.add(reference);
+                }
+            });
+        });
+
+        getCards(temp);
+    }
+
+    private void support(List<CardsDeckRef> cardList) {
+        refList.addAll(cardList);
+        deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
 
 }

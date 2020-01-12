@@ -1,7 +1,7 @@
 package com.Keyforge_management.data.model;
 
-import com.Keyforge_management.data.storage.ExpansionTypeConverter;
-import com.Keyforge_management.data.storage.HouseArrayTypeConverter;
+import com.Keyforge_management.data.storage.typeConverters.ExpansionTypeConverter;
+import com.Keyforge_management.data.storage.typeConverters.HouseArrayTypeConverter;
 
 import java.io.Serializable;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package com.Keyforge_management.data.model;
 
-import com.Keyforge_management.data.storage.HouseArrayTypeConverter;
-import com.Keyforge_management.data.storage.RarityTypeConverter;
+import com.Keyforge_management.data.storage.typeConverters.HouseArrayTypeConverter;
+import com.Keyforge_management.data.storage.typeConverters.RarityTypeConverter;
 
 import java.io.Serializable;
 
@@ -19,13 +19,13 @@ public class Card implements Serializable {
     private String card_type;
     @TypeConverters({HouseArrayTypeConverter.class})
     private House house;
+    @TypeConverters({RarityTypeConverter.class})
+    private Rarity rarity;
     private String card_text;
     private int amber;
     private String front_image;
     private Boolean is_maverick;
     private Boolean is_legacy;
-    @TypeConverters({RarityTypeConverter.class})
-    private Rarity rarity;
     private Boolean is_anomaly;
 
     public Boolean getIs_legacy() {

@@ -24,12 +24,56 @@ public class CardsDeckRef {
     private String cardId;
     private long deckId;
     private int count;
+    private Boolean is_maverick;
+    private Boolean is_legacy;
+    private Boolean is_anomaly;
 
-    public CardsDeckRef(String cardId, long deckId, int count) {
+    public CardsDeckRef(@NonNull String cardId, long deckId, int count, Boolean is_maverick,
+                        Boolean is_legacy, Boolean is_anomaly) {
         this.cardId = cardId;
         this.deckId = deckId;
         this.count = count;
+        this.is_maverick = is_maverick;
+        this.is_legacy = is_legacy;
+        this.is_anomaly = is_anomaly;
     }
+
+    @Override
+    public String toString() {
+        return "CardsDeckRef{" +
+                "cardId='" + cardId + '\'' +
+                ", deckId=" + deckId +
+                ", count=" + count +
+                ", is_maverick=" + is_maverick +
+                ", is_legacy=" + is_legacy +
+                ", is_anomaly=" + is_anomaly +
+                '}';
+    }
+
+    public Boolean getIs_maverick() {
+        return is_maverick;
+    }
+
+    public void setIs_maverick(Boolean is_maverick) {
+        this.is_maverick = is_maverick;
+    }
+
+    public Boolean getIs_legacy() {
+        return is_legacy;
+    }
+
+    public void setIs_legacy(Boolean is_legacy) {
+        this.is_legacy = is_legacy;
+    }
+
+    public Boolean getIs_anomaly() {
+        return is_anomaly;
+    }
+
+    public void setIs_anomaly(Boolean is_anomaly) {
+        this.is_anomaly = is_anomaly;
+    }
+
 
     public String getCardId() {
         return cardId;

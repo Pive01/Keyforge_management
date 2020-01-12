@@ -1,4 +1,4 @@
-package com.Keyforge_management.data.storage;
+package com.Keyforge_management.data.storage.typeConverters;
 
 import com.Keyforge_management.common.Utils;
 import com.Keyforge_management.data.model.House;

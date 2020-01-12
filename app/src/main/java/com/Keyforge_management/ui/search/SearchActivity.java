@@ -119,19 +119,20 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
                 if (!(response.body() == null)) {
                     List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
-                    response.body().get_linked().getCards().forEach(card -> {
-                        if (legacy.contains(card.getId()))
-                            card.setIs_legacy(true);
-                        else
-                            card.setIs_legacy(false);
 
+                    response.body().get_linked().getCards().forEach(card -> {
+                        card.setIs_anomaly(false);
+                        card.setIs_legacy(false);
+                        card.setIs_maverick(false);
                         cardRepository.insert(card);
                     });
+
                     cardList.addAll(response.body().getData().get_links().getCards());
 
                     response.body().get_linked().getCards().forEach(card -> {
                         deckCardRepository.insert(card, deck,
-                                Collections.frequency(cardList, card.getId()));
+                                Collections.frequency(cardList, card.getId()),
+                                card.getIs_maverick(), legacy.contains(card.getId()), card.getIs_anomaly());
                     });
 
                 }
