@@ -13,13 +13,15 @@ import android.widget.ProgressBar;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
-import com.Keyforge_management.data.model.wrapper.Kmvresults;
+import com.Keyforge_management.data.model.wrapperMasterVault.Kmvresults;
 import com.Keyforge_management.data.storage.Card.CardRepository;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,6 +43,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private DeckRepository deckRepository;
     private CardRepository cardRepository;
     private DeckCardRepository deckCardRepository;
+    private List<String> cardList;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -65,6 +68,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+
+        cardList = new ArrayList<>();
     }
 
     private void displayDecks(String name) {
@@ -113,18 +118,24 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             @Override
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
                 if (!(response.body() == null)) {
+                    List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
                     response.body().get_linked().getCards().forEach(card -> {
+                        if (legacy.contains(card.getId()))
+                            card.setIs_legacy(true);
+                        else
+                            card.setIs_legacy(false);
 
                         cardRepository.insert(card);
                     });
+                    cardList.addAll(response.body().getData().get_links().getCards());
 
                     response.body().get_linked().getCards().forEach(card -> {
-                        deckCardRepository.insert(card, deck, 1);
+                        deckCardRepository.insert(card, deck,
+                                Collections.frequency(cardList, card.getId()));
                     });
 
                 }
             }
-
 
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {

@@ -1,6 +1,7 @@
 package com.Keyforge_management.data.api;
 
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ public interface DecksOfKeyforgeApi {
 
     @GET("decks/by-name/{name}")
     Call<List<Deck>> getDecks(@Path("name") String deckName);
+
+    @GET("stats")
+    Call<List<GlobalStatistics>> getStatistics();
 }

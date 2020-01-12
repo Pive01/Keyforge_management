@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardnameview"
-    style="@style/detailString"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="4sp"
-    android:text="Poltergeis" />
+    android:gravity="center">
 
+    <ImageView
+        android:id="@+id/cardrarity"
+        android:layout_width="35sp"
+        android:layout_height="35sp" />
+
+    <TextView
+        android:id="@+id/cardnameview"
+        style="@style/detailString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4sp" />
+
+    <ImageView
+        android:id="@+id/cardspecial"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:paddingStart="4sp" />
+
+</LinearLayout>

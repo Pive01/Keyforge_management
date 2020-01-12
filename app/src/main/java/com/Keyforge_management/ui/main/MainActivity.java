@@ -1,6 +1,7 @@
 package com.Keyforge_management.ui.main;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +12,24 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.Keyforge_management.R;
+import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 import com.Keyforge_management.ui.detail.DetailActivity;
 import com.Keyforge_management.ui.search.SearchActivity;
 
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
@@ -48,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, mAdapter::onNewDecks);
+
+        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        dialog.setMessage("Loading Global data ...");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+
+        loadData(dialog);
 
     }
 
@@ -133,5 +149,20 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         }
     }
 
+    private void loadData(ProgressDialog dialog) {
+        Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
+            @Override
+            public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
+                System.out.println(response.body().get(0).getStats().getAverageActions());
+            }
+
+            @Override
+            public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+        dialog.hide();
+    }
 
 }

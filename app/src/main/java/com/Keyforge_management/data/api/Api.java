@@ -1,7 +1,8 @@
 package com.Keyforge_management.data.api;
 
 import com.Keyforge_management.data.model.Deck;
-import com.Keyforge_management.data.model.wrapper.Kmvresults;
+import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
+import com.Keyforge_management.data.model.wrapperMasterVault.Kmvresults;
 
 import java.util.List;
 
@@ -32,6 +33,10 @@ public final class Api {
 
     public static Call<Kmvresults> getCards(String deckId) {
         return APIKMV.getCards(deckId);
+    }
+
+    public static Call<List<GlobalStatistics>> getStats() {
+        return APIDOK.getStatistics();
     }
 
     private Api() {

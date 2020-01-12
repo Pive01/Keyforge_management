@@ -1,6 +1,7 @@
 package com.Keyforge_management.data.model;
 
 import com.Keyforge_management.data.storage.HouseArrayTypeConverter;
+import com.Keyforge_management.data.storage.RarityTypeConverter;
 
 import java.io.Serializable;
 
@@ -21,6 +22,46 @@ public class Card implements Serializable {
     private String card_text;
     private int amber;
     private String front_image;
+    private Boolean is_maverick;
+    private Boolean is_legacy;
+    @TypeConverters({RarityTypeConverter.class})
+    private Rarity rarity;
+    private Boolean is_anomaly;
+
+    public Boolean getIs_legacy() {
+        return is_legacy;
+    }
+
+    public void setIs_legacy(Boolean is_legacy) {
+        this.is_legacy = is_legacy;
+    }
+
+    public Boolean getIs_maverick() {
+        return is_maverick;
+    }
+
+    public void setIs_maverick(Boolean is_maverick) {
+        this.is_maverick = is_maverick;
+    }
+
+    public Boolean getIs_anomaly() {
+        return is_anomaly;
+    }
+
+    public void setIs_anomaly(Boolean is_anomaly) {
+        this.is_anomaly = is_anomaly;
+    }
+
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
+
+
 
     public Card(String card_title) {
         this.card_title = card_title;
@@ -89,11 +130,14 @@ public class Card implements Serializable {
                 "id='" + id + '\'' +
                 ", card_title='" + card_title + '\'' +
                 ", card_type='" + card_type + '\'' +
-                ", house='" + house + '\'' +
+                ", house=" + house +
                 ", card_text='" + card_text + '\'' +
                 ", amber=" + amber +
                 ", front_image='" + front_image + '\'' +
+                ", is_maverick=" + is_maverick +
+                ", is_legacy=" + is_legacy +
+                ", rarity=" + rarity +
+                ", is_anomaly=" + is_anomaly +
                 '}';
     }
-
 }

@@ -1,4 +1,4 @@
-package com.Keyforge_management.data.model.wrapper;
+package com.Keyforge_management.data.model.wrapperMasterVault;
 
 import com.Keyforge_management.data.model.Card;
 

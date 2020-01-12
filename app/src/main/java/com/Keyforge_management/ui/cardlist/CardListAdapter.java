@@ -3,6 +3,7 @@ package com.Keyforge_management.ui.cardlist;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.Keyforge_management.R;
@@ -48,6 +49,8 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
 
     public class CardViewHolder extends RecyclerView.ViewHolder {
+        private ImageView cardRarity;
+        private ImageView specialRarity;
         private TextView cardName;
         private CardListInteractionListener listener;
 
@@ -55,11 +58,21 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
             super(itemView);
             this.listener = listener;
             cardName = itemView.findViewById(R.id.cardnameview);
+            cardRarity = itemView.findViewById(R.id.cardrarity);
+            specialRarity = itemView.findViewById(R.id.cardspecial);
+
         }
 
         public void display(Card card) {
-
+            cardRarity.setImageResource(card.getRarity().getImageCardId());
             cardName.setText(card.getCard_title());
+
+            if (card.getIs_legacy())
+                specialRarity.setImageResource(R.drawable.ic_legacy);
+            else if (card.getIs_anomaly())
+                specialRarity.setImageResource(R.drawable.ic_anomalies);
+            else if (card.getIs_maverick())
+                specialRarity.setImageResource(R.drawable.ic_maverick);
             itemView.setOnClickListener(v -> listener.onCardClicked(card));
         }
     }
