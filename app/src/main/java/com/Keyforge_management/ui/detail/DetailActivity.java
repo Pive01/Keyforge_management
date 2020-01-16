@@ -12,8 +12,11 @@ import com.Keyforge_management.data.model.Card;
 import com.Keyforge_management.data.model.CardsDeckRef;
 import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.House;
+import com.Keyforge_management.data.model.Stats;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
+import com.Keyforge_management.ui.detail.Fragments.CardFragmentAdapter;
+import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,6 +35,7 @@ import static com.Keyforge_management.common.Utils.absolute;
 public class DetailActivity extends AppCompatActivity {
 
     private static Deck deck;
+    private static Stats statistic;
     private DeckRepository repository;
     private DeckCardRepository deckCardRepository;
     private TextView winsView;
@@ -44,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, DetailActivity.class));
         deck = (Deck) i.getSerializableExtra("deckInfo");
+        statistic = (Stats) i.getSerializableExtra("stats");
     }
 
     @Override
@@ -75,6 +80,11 @@ public class DetailActivity extends AppCompatActivity {
 
         deckCardRepository = new DeckCardRepository(getApplicationContext());
         deckCardRepository.getInfoForCards(deck).observe(this, this::support);
+
+        BarChart chart = findViewById(R.id.barchart);
+        BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
+                "Sas Ratings");
+        chartImplementer.createSasBarChart(deck.getSasRating());
     }
 
     private void inizializeTextViews() {
@@ -197,5 +207,11 @@ public class DetailActivity extends AppCompatActivity {
         refList.addAll(cardList);
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
+
+    private void createChart() {
+
+
+    }
+
 
 }

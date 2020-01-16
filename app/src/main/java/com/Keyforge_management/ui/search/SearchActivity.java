@@ -92,7 +92,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
             @Override
             public void onFailure(Call<List<Deck>> call, Throwable t) {
-
+                loadingDecks.setVisibility(View.GONE);
+                t.printStackTrace();
             }
         });
     }

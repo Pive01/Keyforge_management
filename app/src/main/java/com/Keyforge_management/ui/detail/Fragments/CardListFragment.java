@@ -1,4 +1,4 @@
-package com.Keyforge_management.ui.detail;
+package com.Keyforge_management.ui.detail.Fragments;
 
 
 import android.content.Intent;

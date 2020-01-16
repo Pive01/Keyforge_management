@@ -1,10 +1,14 @@
 package com.Keyforge_management.data.model;
 
+import android.os.Parcel;
+
+import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.HouseWinRate;
 import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.Percentages;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Stats {
+public class Stats implements Serializable {
     private int averageActions;
     private int averageArtifacts;
     private int averageCreatures;
@@ -19,6 +23,76 @@ public class Stats {
     private int averageAmberProtection;
     private int averageEffectivePower;
     private List<Percentages> sas;
+    private List<Percentages> synergy;
+    private List<Percentages> antisynergy;
+    private List<Percentages> aerc;
+    private List<Percentages> sasWinRate;
+    private List<Percentages> aercWinRate;
+    private List<HouseWinRate> houseWinRate;
+
+    protected Stats(Parcel in) {
+        averageActions = in.readInt();
+        averageArtifacts = in.readInt();
+        averageCreatures = in.readInt();
+        averageUpgrades = in.readInt();
+        averageExpectedAmber = in.readInt();
+        averageAmberControl = in.readInt();
+        averageCreatureControl = in.readInt();
+        averageArtifactControl = in.readInt();
+        averageEfficiency = in.readInt();
+        averageDisruption = in.readInt();
+        averageHouseCheating = in.readInt();
+        averageAmberProtection = in.readInt();
+        averageEffectivePower = in.readInt();
+    }
+
+    public List<Percentages> getSynergy() {
+        return synergy;
+    }
+
+    public void setSynergy(List<Percentages> synergy) {
+        this.synergy = synergy;
+    }
+
+    public List<Percentages> getAntisynergy() {
+        return antisynergy;
+    }
+
+    public void setAntisynergy(List<Percentages> antisynergy) {
+        this.antisynergy = antisynergy;
+    }
+
+    public List<Percentages> getAerc() {
+        return aerc;
+    }
+
+    public void setAerc(List<Percentages> aerc) {
+        this.aerc = aerc;
+    }
+
+    public List<Percentages> getSasWinRate() {
+        return sasWinRate;
+    }
+
+    public void setSasWinRate(List<Percentages> sasWinRate) {
+        this.sasWinRate = sasWinRate;
+    }
+
+    public List<Percentages> getAercWinRate() {
+        return aercWinRate;
+    }
+
+    public void setAercWinRate(List<Percentages> aercWinRate) {
+        this.aercWinRate = aercWinRate;
+    }
+
+    public List<HouseWinRate> getHouseWinRate() {
+        return houseWinRate;
+    }
+
+    public void setHouseWinRate(List<HouseWinRate> houseWinRate) {
+        this.houseWinRate = houseWinRate;
+    }
 
     public int getAverageActions() {
         return averageActions;
@@ -124,6 +198,32 @@ public class Stats {
         this.averageEffectivePower = averageEffectivePower;
     }
 
+    @Override
+    public String toString() {
+        return "Stats{" +
+                "averageActions=" + averageActions +
+                ", averageArtifacts=" + averageArtifacts +
+                ", averageCreatures=" + averageCreatures +
+                ", averageUpgrades=" + averageUpgrades +
+                ", averageExpectedAmber=" + averageExpectedAmber +
+                ", averageAmberControl=" + averageAmberControl +
+                ", averageCreatureControl=" + averageCreatureControl +
+                ", averageArtifactControl=" + averageArtifactControl +
+                ", averageEfficiency=" + averageEfficiency +
+                ", averageDisruption=" + averageDisruption +
+                ", averageHouseCheating=" + averageHouseCheating +
+                ", averageAmberProtection=" + averageAmberProtection +
+                ", averageEffectivePower=" + averageEffectivePower +
+                ", sas=" + sas +
+                ", synergy=" + synergy +
+                ", antisynergy=" + antisynergy +
+                ", aerc=" + aerc +
+                ", sasWinRate=" + sasWinRate +
+                ", aercWinRate=" + aercWinRate +
+                ", houseWinRate=" + houseWinRate +
+                '}';
+    }
+
     public List<Percentages> getSas() {
         return sas;
     }
@@ -131,6 +231,5 @@ public class Stats {
     public void setSas(List<Percentages> sas) {
         this.sas = sas;
     }
-
 
 }

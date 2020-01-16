@@ -14,8 +14,10 @@ import android.widget.Toast;
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
 import com.Keyforge_management.data.model.Deck;
+import com.Keyforge_management.data.model.Stats;
 import com.Keyforge_management.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
+import com.Keyforge_management.ui.charts.ChartActivity;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 import com.Keyforge_management.ui.detail.DetailActivity;
@@ -24,6 +26,7 @@ import com.Keyforge_management.ui.search.SearchActivity;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     private DeckRepository repository;
     private DeckListAdapter mAdapter;
+    private Stats statistics;
 
 
     @Override
@@ -71,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     public void onDeckClicked(Deck deck) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("deckInfo", deck);
+        i.putExtra("stats", statistics);
+
         DetailActivity.start(this, i);
-        System.out.println(deck.toString());
+
     }
 
     @Override
@@ -90,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        if (menu instanceof MenuBuilder) {
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.search_deck_mylist);
         SearchView searchView = (SearchView) searchItem.getActionView();
@@ -129,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             case R.id.action_about_us:
                 Toast.makeText(this, "About us not yet implemented", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.graph_charts:
+                Intent i = new Intent(this, ChartActivity.class);
+                i.putExtra("stats", statistics);
+                ChartActivity.start(this, i);
+                return true;
             case R.id.sort_by_sas:
                 mAdapter.sort(SAS);
                 return true;
@@ -153,16 +169,17 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
             @Override
             public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
-                System.out.println(response.body().get(0).getStats().getAverageActions());
+                statistics = response.body().get(0).getStats();
+                dialog.hide();
             }
 
             @Override
             public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
                 t.printStackTrace();
+                dialog.hide();
             }
         });
 
-        dialog.hide();
     }
 
 }

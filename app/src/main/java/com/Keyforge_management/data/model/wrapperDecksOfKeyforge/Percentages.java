@@ -8,6 +8,14 @@ public class Percentages {
         return x;
     }
 
+    @Override
+    public String toString() {
+        return "Percentages{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
+
     public void setX(int x) {
         this.x = x;
     }

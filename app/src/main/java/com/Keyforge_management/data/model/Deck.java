@@ -31,6 +31,78 @@ public class Deck implements Serializable {
     private int totalArmor;
     private int localWins;
     private int localLosses;
+    private double artifactControl;
+    private double creatureControl;
+    private double efficency;
+    private double amberControl;
+    private double expectedAmber;
+    private double disruption;
+    private double amberProtection;
+    private int effectivePower;
+
+    public double getArtifactControl() {
+        return artifactControl;
+    }
+
+    public void setArtifactControl(double artifactControl) {
+        this.artifactControl = artifactControl;
+    }
+
+    public double getCreatureControl() {
+        return creatureControl;
+    }
+
+    public void setCreatureControl(double creatureControl) {
+        this.creatureControl = creatureControl;
+    }
+
+    public double getEfficency() {
+        return efficency;
+    }
+
+    public void setEfficency(double efficency) {
+        this.efficency = efficency;
+    }
+
+    public double getAmberControl() {
+        return amberControl;
+    }
+
+    public void setAmberControl(double amberControl) {
+        this.amberControl = amberControl;
+    }
+
+    public double getExpectedAmber() {
+        return expectedAmber;
+    }
+
+    public void setExpectedAmber(double expectedAmber) {
+        this.expectedAmber = expectedAmber;
+    }
+
+    public double getDisruption() {
+        return disruption;
+    }
+
+    public void setDisruption(double disruption) {
+        this.disruption = disruption;
+    }
+
+    public double getAmberProtection() {
+        return amberProtection;
+    }
+
+    public void setAmberProtection(double amberProtection) {
+        this.amberProtection = amberProtection;
+    }
+
+    public int getEffectivePower() {
+        return effectivePower;
+    }
+
+    public void setEffectivePower(int effectivePower) {
+        this.effectivePower = effectivePower;
+    }
 
     public int getPowerLevel() {
         return powerLevel;
@@ -190,7 +262,6 @@ public class Deck implements Serializable {
         return expansion;
     }
 
-
     @Override
     public String toString() {
         return "Deck{" +
@@ -211,6 +282,14 @@ public class Deck implements Serializable {
                 ", totalArmor=" + totalArmor +
                 ", localWins=" + localWins +
                 ", localLosses=" + localLosses +
+                ", artifactControl=" + artifactControl +
+                ", creatureControl=" + creatureControl +
+                ", efficency=" + efficency +
+                ", amberControl=" + amberControl +
+                ", expectedAmber=" + expectedAmber +
+                ", disruption=" + disruption +
+                ", amberProtection=" + amberProtection +
+                ", effectivePower=" + effectivePower +
                 ", rawAmber=" + rawAmber +
                 ", houses=" + Arrays.toString(houses) +
                 '}';
