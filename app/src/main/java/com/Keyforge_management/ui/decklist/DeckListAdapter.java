@@ -69,7 +69,7 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
                         .reversed());
                 break;
             case 2:
-                this.decks.sort(Comparator.comparing(Deck::getCreatureCount)
+                this.decks.sort(Comparator.comparing(Deck::getLocalWins)
                         .thenComparing(Deck::getSasRating)
                         .reversed());
                 break;

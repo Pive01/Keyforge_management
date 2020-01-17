@@ -105,7 +105,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 .setMessage("Are you sure you want to add this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     deckRepository.insert(deck);
-                    System.out.println("triggered saveCards on deck " + deck.getName());
                     saveCards(deck);
                 })
                 .setNegativeButton(android.R.string.no, null)
@@ -137,6 +136,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     cardList.addAll(response.body().getData().get_links().getCards());
 
                     response.body().get_linked().getCards().forEach(card -> {
+                        System.out.println(card.getCard_title() + ": " + Collections.frequency(cardList, card.getId()));
                         deckCardRepository.insert(card, deck,
                                 Collections.frequency(cardList, card.getId()),
                                 tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));

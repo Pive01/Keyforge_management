@@ -2,13 +2,17 @@ package com.Keyforge_management.ui.charts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.model.Stats;
-import com.Keyforge_management.ui.detail.BarChartImplementer;
+import com.Keyforge_management.data.storage.typeConverters.HouseArrayTypeConverter;
 import com.github.mikephil.charting.charts.BarChart;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +43,14 @@ public class ChartActivity extends AppCompatActivity {
         BarChart chart = findViewById(R.id.houses_chart);
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
                 "Houses Win Rates");
-        chartImplementer.createHousesBarChart();
+
+        List<Bitmap> imageList = new ArrayList<>();
+        statistic.getHouseWinRate().forEach(item -> {
+            if (item.getX().toUpperCase().equals("STARALLIANCE"))
+                item.setX("STAR_ALLIANCE");
+            imageList.add(BitmapFactory.decodeResource(getResources(), HouseArrayTypeConverter.fromSingleString(item.getX().toUpperCase()).getImageId()));
+        });
+        chartImplementer.createHousesBarChart(getApplicationContext(), imageList);
 
     }
 

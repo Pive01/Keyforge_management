@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.Keyforge_management.R;
 import com.Keyforge_management.data.api.Api;
@@ -131,14 +130,14 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     public boolean onOptionsItemSelected(MenuItem item) {
         int ARTIFACT = 4;
         int ACTION = 3;
-        int CREATURE = 2;
+        int WINS = 2;
         int AEMBER = 1;
         int SAS = 0;
         switch (item.getItemId()) {
             case R.id.sort_decks:
                 return true;
             case R.id.action_about_us:
-                Toast.makeText(this, "About us not yet implemented", Toast.LENGTH_SHORT).show();
+                Credits.start(this);
                 return true;
             case R.id.graph_charts:
                 Intent i = new Intent(this, ChartActivity.class);
@@ -151,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             case R.id.sort_by_amber:
                 mAdapter.sort(AEMBER);
                 return true;
-            case R.id.sort_by_creature_count:
-                mAdapter.sort(CREATURE);
+            case R.id.sort_by_wins:
+                mAdapter.sort(WINS);
                 return true;
             case R.id.sort_by_action_count:
                 mAdapter.sort(ACTION);

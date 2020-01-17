@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Keyforge_management</string>
+    <string name="app_name">Keyforge Management</string>
     <string name="toolbar_appname">KEYFORGE MANAGEMENT</string>
     <string name="addBtn">Add a deck</string>
     <string name="viewBtn">My decks</string>
@@ -25,4 +25,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="informations">Info</string>
+    <string name="global_house_rankings">Global houses rankings</string>
+    <string name="Informations">All the Keyforge informations (Deck , Houses ,Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge webite .For more information about it visit www.decksofkeyforge.com; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
+
 </resources>

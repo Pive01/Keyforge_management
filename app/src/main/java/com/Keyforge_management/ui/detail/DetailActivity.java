@@ -15,6 +15,7 @@ import com.Keyforge_management.data.model.House;
 import com.Keyforge_management.data.model.Stats;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
+import com.Keyforge_management.ui.charts.BarChartImplementer;
 import com.Keyforge_management.ui.detail.Fragments.CardFragmentAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 
@@ -164,7 +165,6 @@ public class DetailActivity extends AppCompatActivity {
             start = j + 1;
             j++;
         }
-
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -189,6 +189,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void assembleData(List<Card> cardList) {
         List<Card> temp = new ArrayList<>();
+
         cardList.forEach(reference -> {
             refList.forEach(value -> {
                 if (reference.getId().equals(value.getCardId())) {
@@ -200,6 +201,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
             });
         });
+
         getCards(temp);
     }
 
@@ -207,11 +209,5 @@ public class DetailActivity extends AppCompatActivity {
         refList.addAll(cardList);
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
-
-    private void createChart() {
-
-
-    }
-
 
 }

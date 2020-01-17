@@ -30,8 +30,8 @@
                 android:title="@string/sas_score"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/sort_by_creature_count"
-                android:title="@string/creature_count"
+                android:id="@+id/sort_by_wins"
+                android:title="@string/wins"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/sort_by_action_count"
