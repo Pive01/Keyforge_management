@@ -141,5 +141,7 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
                 return true;
             });
         }
+
+
     }
 }

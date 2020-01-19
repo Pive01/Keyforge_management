@@ -67,7 +67,7 @@ public class BarChartImplementer {
 
     }
 
-    public void createHousesBarChart(Context context, List<Bitmap> imageList) {
+    void createHousesBarChart(Context context, List<Bitmap> imageList) {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -95,25 +95,21 @@ public class BarChartImplementer {
                 Color.parseColor("#21A7D2"), Color.parseColor("#93CA37"),
                 Color.parseColor("#F7F142"), Color.parseColor("#37474F"),
                 Color.parseColor("#14754A"), Color.parseColor("#2B457E"), Color.parseColor("#4BBCD4"), Color.DKGRAY};
-        List<LegendEntry> legendStr = new ArrayList<>();
 
 
         statistic.getHouseWinRate().forEach(item -> {
-            if (item.getX().toUpperCase().equals("STARALLIANCE"))
-                item.setX("STAR_ALLIANCE");
 
             houseValues.add(new BarEntry(count++, (int) ((item.getY() * 100) - 4800)));
             LegendEntry temp = new LegendEntry();
             temp.label = item.getX();
             temp.formColor = Colors[secondCounter++];
-            legendStr.add(temp);
         });
         BarDataSet dataSet = new BarDataSet(houseValues, "");
         dataSet.setColors(Colors);
         dataSet.setDrawValues(false);
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
-        chart.animateY(1000);
+        chart.animateY(2000);
         BarData data = new BarData(dataSets);
         chart.setData(data);
         chart.getDescription().setText(label);

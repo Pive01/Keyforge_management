@@ -27,5 +27,7 @@
     <string name="informations">Info</string>
     <string name="global_house_rankings">Global houses rankings</string>
     <string name="Informations">All the Keyforge informations (Deck , Houses ,Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge webite .For more information about it visit www.decksofkeyforge.com; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
+    <string name="most_win_deck">Most Win Deck</string>
+    <string name="most_win_rate_deck">Most win rate deck</string>
 
 </resources>

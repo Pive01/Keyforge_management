@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, mAdapter::onNewDecks);
 
+
         ProgressDialog dialog = new ProgressDialog(MainActivity.this);
         dialog.setMessage("Loading Global data ...");
         dialog.setCancelable(false);
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
             @Override
             public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
+                assert response.body() != null;
                 statistics = response.body().get(0).getStats();
                 dialog.hide();
             }
@@ -180,5 +182,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         });
 
     }
+
 
 }
