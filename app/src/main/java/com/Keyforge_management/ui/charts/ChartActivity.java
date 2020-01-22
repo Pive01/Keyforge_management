@@ -14,6 +14,7 @@ import com.Keyforge_management.data.model.Deck;
 import com.Keyforge_management.data.model.Stats;
 import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.typeConverters.HouseArrayTypeConverter;
+import com.Keyforge_management.ui.detail.DetailActivity;
 import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ChartActivity extends AppCompatActivity {
     private static Deck mostWinDeck;
     private static Deck betterWinRate;
     private static int totalPlays;
-    private static double bestTotalPlaysWinRate = 0;
+    private static double bestTotalPlaysWinRate;
 
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, ChartActivity.class));
@@ -49,20 +50,21 @@ public class ChartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        BarChart chart = findViewById(R.id.houses_chart);
-        BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
-                "Houses Win Rates");
+        if (statistic != null) {
+            BarChart chart = findViewById(R.id.houses_chart);
+            BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
+                    "Houses Win Rates");
 
-        List<Bitmap> imageList = new ArrayList<>();
-        statistic.getHouseWinRate().forEach(item -> {
-            if (item.getX().toUpperCase().equals("STARALLIANCE"))
-                item.setX("STAR_ALLIANCE");
-            imageList.add(BitmapFactory.decodeResource(getResources(),
-                    HouseArrayTypeConverter.fromSingleString(item.getX().toUpperCase()).getImageId()));
-        });
-        chartImplementer.createHousesBarChart(getApplicationContext(), imageList);
+            List<Bitmap> imageList = new ArrayList<>();
+            statistic.getHouseWinRate().forEach(item -> {
+                if (item.getX().toUpperCase().equals("STARALLIANCE"))
+                    item.setX("STAR_ALLIANCE");
+                imageList.add(BitmapFactory.decodeResource(getResources(),
+                        HouseArrayTypeConverter.fromSingleString(item.getX().toUpperCase()).getImageId()));
+            });
+            chartImplementer.createHousesBarChart(getApplicationContext(), imageList);
 
-
+        }
         DeckRepository repository;
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, this::getSatsDecks);
@@ -77,6 +79,7 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     private void getSatsDecks(List<Deck> deckList) {
+        bestTotalPlaysWinRate = 0;
         mostWinDeck = deckList.get(0);
         betterWinRate = deckList.get(0);
 
@@ -86,19 +89,22 @@ public class ChartActivity extends AppCompatActivity {
                 mostWinDeck = item;
 
             totalPlays = item.getLocalLosses() + item.getLocalWins();
-
-            if ((item.getLocalWins() != 0) && (((double) item.getLocalWins()) / totalPlays) * 100 > bestTotalPlaysWinRate) {
-
+            if ((item.getLocalWins() != 0) && ((((double) item.getLocalWins()) / totalPlays) * Math.atan(totalPlays)) > bestTotalPlaysWinRate) {
+                System.out.println("here");
                 betterWinRate = item;
-                bestTotalPlaysWinRate = (((double) item.getLocalWins()) / totalPlays) * 100;
+                bestTotalPlaysWinRate = ((((double) item.getLocalWins()) / totalPlays) * Math.atan(totalPlays));
             }
 
         });
         fillView(mostWinDeck, findViewById(R.id.most_win_deck));
         fillView(betterWinRate, findViewById(R.id.most_win_rate_deck));
 
+        makeOnClickable(mostWinDeck, findViewById(R.id.most_win_deck));
+        makeOnClickable(betterWinRate, findViewById(R.id.most_win_rate_deck));
+
+
         TextView winRate = findViewById(R.id.txtView_winrate);
-        winRate.setText(winRate.getText() + " " + bestTotalPlaysWinRate + "%");
+        winRate.setText("Strongest deck");
     }
 
     private void fillView(Deck deck, View itemView) {
@@ -119,5 +125,15 @@ public class ChartActivity extends AppCompatActivity {
         expansion.setText(deck.getExpansion().toString());
         sasScore.setText(Integer.toString(deck.getSasRating()));
         rawAember.setText(Integer.toString(deck.getRawAmber()));
+    }
+
+    private void makeOnClickable(Deck deck, View itemView) {
+        itemView.setOnClickListener(v -> {
+            Intent i = new Intent(ChartActivity.this, DetailActivity.class);
+            i.putExtra("deckInfo", deck);
+            i.putExtra("stats", statistic);
+
+            DetailActivity.start(ChartActivity.this, i);
+        });
     }
 }

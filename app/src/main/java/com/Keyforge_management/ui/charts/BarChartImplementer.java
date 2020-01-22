@@ -36,6 +36,8 @@ public class BarChartImplementer {
     }
 
     public void createSasBarChart(int Compare) {
+        if (statistic == null)
+            return;
 
         List<BarEntry> values = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
@@ -68,6 +70,8 @@ public class BarChartImplementer {
     }
 
     void createHousesBarChart(Context context, List<Bitmap> imageList) {
+        if (statistic == null)
+            return;
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -122,6 +126,5 @@ public class BarChartImplementer {
         chart.setExtraOffsets(0, 0, 0, 30);
 
     }
-
 
 }

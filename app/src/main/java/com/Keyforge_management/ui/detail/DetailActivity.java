@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -86,6 +88,7 @@ public class DetailActivity extends AppCompatActivity {
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deck.getSasRating());
+
     }
 
     private void inizializeTextViews() {
@@ -122,6 +125,9 @@ public class DetailActivity extends AppCompatActivity {
     private void updateView() {
         winsView.setText(String.valueOf(deck.getLocalWins()));
         lossesView.setText(String.valueOf(deck.getLocalLosses()));
+        adjustSize(winsView);
+        adjustSize(lossesView);
+
     }
 
     private void inizializeButtons(Button addWin, Button addLoss,
@@ -129,7 +135,6 @@ public class DetailActivity extends AppCompatActivity {
         addLoss.setOnClickListener(v -> {
             deck.setLocalLosses((deck.getLocalLosses() + 1));
             updateLosses();
-
         });
         addWin.setOnClickListener(v -> {
             deck.setLocalWins((deck.getLocalWins() + 1));
@@ -210,4 +215,37 @@ public class DetailActivity extends AppCompatActivity {
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
 
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    private void getShareIntent() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/html");
+        String BASE_PATH = "https://www.keyforgegame.com/deck-details/";
+        String shareBody = "Take a look at this deck!\n" + BASE_PATH + deck.getKeyforgeId();
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "sample");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_share)
+            getShareIntent();
+        else finish();
+        return true;
+    }
+
+    private void adjustSize(TextView item) {
+        if (Integer.parseInt(item.getText().toString()) >= 10)
+            item.setTextSize(20);
+        else
+            item.setTextSize(40);
+    }
 }
+

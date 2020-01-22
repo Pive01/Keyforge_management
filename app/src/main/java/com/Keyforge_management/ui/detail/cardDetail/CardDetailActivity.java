@@ -2,7 +2,6 @@ package com.Keyforge_management.ui.detail.cardDetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,15 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 public class CardDetailActivity extends AppCompatActivity {
 
     private static Card card;
-    private Bitmap image;
 
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, CardDetailActivity.class));
         card = (Card) i.getSerializableExtra("card");
-    }
-
-    public void getMyIamge(Bitmap image) {
-        this.image = image;
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
 import com.Keyforge_management.ui.detail.DetailActivity;
 import com.Keyforge_management.ui.search.SearchActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -141,6 +142,17 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 Credits.start(this);
                 return true;
             case R.id.graph_charts:
+                if (mAdapter.getItemCount() <= 0) {
+                    Snackbar.make(
+                            findViewById(R.id.activity_main_parent_layout),
+                            "Add some decks before", Snackbar.LENGTH_LONG)
+                            .setAction("CLOSE", view -> {
+
+                            })
+                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                            .show();
+                    return true;
+                }
                 Intent i = new Intent(this, ChartActivity.class);
                 i.putExtra("stats", statistics);
                 ChartActivity.start(this, i);
@@ -176,7 +188,13 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
             @Override
             public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
-                t.printStackTrace();
+                Snackbar.make(
+                        findViewById(R.id.activity_main_parent_layout),
+                        "There has been an error while loading data", Snackbar.LENGTH_LONG)
+                        .setAction("CLOSE", view -> {
+                        })
+                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                        .show();
                 dialog.hide();
             }
         });

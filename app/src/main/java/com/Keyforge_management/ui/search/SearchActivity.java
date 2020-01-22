@@ -19,6 +19,7 @@ import com.Keyforge_management.data.storage.Deck.DeckRepository;
 import com.Keyforge_management.data.storage.DeckWithCards.DeckCardRepository;
 import com.Keyforge_management.ui.decklist.DeckListAdapter;
 import com.Keyforge_management.ui.decklist.DeckListInteractionListener;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,8 +83,15 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
             @Override
             public void onResponse(Call<List<Deck>> call, Response<List<Deck>> response) {
-                if (!response.isSuccessful()) {
-                    return;
+
+                if (response.body() == null || response.body().size() == 0) {
+                    Snackbar.make(
+                            findViewById(R.id.activity_search_parent_layout),
+                            "No decks found for your query", Snackbar.LENGTH_LONG)
+                            .setAction("CLOSE", view -> {
+                            })
+                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                            .show();
                 }
                 loadingDecks.setVisibility(View.GONE);
                 mAdapter.onNewDecks(response.body());
@@ -93,7 +101,13 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             @Override
             public void onFailure(Call<List<Deck>> call, Throwable t) {
                 loadingDecks.setVisibility(View.GONE);
-                t.printStackTrace();
+                Snackbar.make(
+                        findViewById(R.id.activity_search_parent_layout),
+                        "There has been an error while loading decks\n Try again later", Snackbar.LENGTH_LONG)
+                        .setAction("CLOSE", view -> {
+                        })
+                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                        .show();
             }
         });
     }
@@ -132,15 +146,15 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                         card.setIs_maverick(false);
                         cardRepository.insert(card);
                     });
-
+                    cardList.clear();
                     cardList.addAll(response.body().getData().get_links().getCards());
 
                     response.body().get_linked().getCards().forEach(card -> {
-                        System.out.println(card.getCard_title() + ": " + Collections.frequency(cardList, card.getId()));
                         deckCardRepository.insert(card, deck,
                                 Collections.frequency(cardList, card.getId()),
                                 tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));
                         index++;
+
                     });
                     index = 0;
 
@@ -149,7 +163,13 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
-
+                Snackbar.make(
+                        findViewById(R.id.activity_search_parent_layout),
+                        "There has been an error while loading cards\n Try again later", Snackbar.LENGTH_LONG)
+                        .setAction("CLOSE", view -> {
+                        })
+                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                        .show();
             }
         });
     }
