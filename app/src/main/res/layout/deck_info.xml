@@ -10,7 +10,7 @@
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="80sp"
+        android:layout_height="80dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -21,9 +21,9 @@
             android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_marginStart="5sp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
             app:srcCompat="@drawable/deck_power" />
 
         <TextView
@@ -31,12 +31,12 @@
             style="@style/textTournamentInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15sp" />
+            android:layout_marginStart="15dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:layout_marginStart="5sp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
             app:srcCompat="@drawable/chain" />
 
         <TextView
@@ -44,7 +44,7 @@
             style="@style/textTournamentInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15sp" />
+            android:layout_marginStart="15dp" />
 
 
     </LinearLayout>
@@ -59,7 +59,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/creature_count" />
 
         <TextView
@@ -72,7 +72,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/action_count" />
 
         <TextView
@@ -93,7 +93,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/artifact_count" />
 
         <TextView
@@ -106,7 +106,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/upgrade_count" />
 
         <TextView
@@ -127,7 +127,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/total_power" />
 
         <TextView
@@ -140,7 +140,7 @@
             style="@style/detailString"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5sp"
+            android:padding="5dp"
             android:text="@string/total_armor" />
 
         <TextView

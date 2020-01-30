@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Keyforge_management">
+    package="com.KeyforgeManagement.application">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,23 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.Credits"></activity>
-        <activity android:name=".ui.charts.ChartActivity" />
+        <activity android:name="com.KeyforgeManagement.application.ui.main.Credits"></activity>
+        <activity android:name="com.KeyforgeManagement.application.ui.charts.ChartActivity" />
         <activity
-            android:name=".ui.detail.cardDetail.CardDetailActivity"
+            android:name="com.KeyforgeManagement.application.ui.detail.cardDetail.CardDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name="com.KeyforgeManagement.application.ui.detail.DetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name="com.KeyforgeManagement.application.ui.search.SearchActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.KeyforgeManagement.application.ui.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
