@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import java.util.Objects;
 
@@ -37,6 +39,11 @@ public class Credits extends AppCompatActivity {
         }
         TextView versionNumber = findViewById(R.id.version_number);
         versionNumber.setText("Version " + version);
+
+        Button showLicense = findViewById(R.id.showLicense);
+        showLicense.setOnClickListener(v -> {
+            startActivity(new Intent(this, OssLicensesMenuActivity.class));
+        });
     }
 
     @Override

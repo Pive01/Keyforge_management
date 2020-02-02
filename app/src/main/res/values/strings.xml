@@ -14,11 +14,11 @@
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
     <string name="sort_by">Sort by</string>
-    <string name="creature_count">Creature Count</string>
-    <string name="action_count">Action Count</string>
-    <string name="artifact_count">Artifact Count</string>
+    <string name="creature_count">Creature</string>
+    <string name="action_count">Action</string>
+    <string name="artifact_count">Artifact</string>
     <string name="add_decks">Add decks</string>
-    <string name="upgrade_count">Upgrade Count</string>
+    <string name="upgrade_count">Upgrade</string>
     <string name="total_power">Total Power</string>
     <string name="total_armor">Total Armor</string>
     <string name="sas">SAS</string>
@@ -26,8 +26,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="informations">Info</string>
     <string name="global_house_rankings">Global houses rankings</string>
-    <string name="Informations">All the Keyforge informations (Deck , Houses ,Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge webite .For more information about it visit www.decksofkeyforge.com; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
+    <string name="Informations">All the Keyforge informations (Deck , Houses ,Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge website .For more information about it visit <a href="www.decksofkeyforge.com">www.decksofkeyforge.com</a>; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
     <string name="most_win_deck">Most Win Deck</string>
     <string name="most_win_rate_deck">Most win rate deck</string>
+    <string name="crasahLytics">We use Crashlytics — a service offered by Fabric — a company owned by Google Inc. 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.\nCrashlytics provides us information about crashes and malfunctions in Applications.\nTo Crashlytics, in case of malfunction or failure, the following information is transmitted:\nIP-address of the device;\ninformation about the device, such as: device ID, model and device type, name and version of the operating system, settings and language of the device;\nversion and functionality of the application;  time of failure.\nData transmitted to Crashlytics neither stored or transferred to other services or resources, nor associated with other data available to Google.\nFor more information on Crashlytics privacy settings, please access:\n<a href="https://docs.fabric.io/apple/fabric/data-privacy.html">https://docs.fabric.io/apple/fabric/data-privacy.html</a>;\n<a href="https://docs.fabric.io/android/fabric/data-privacy.html">https://docs.fabric.io/android/fabric/data-privacy.html</a>.\nGoogle privacy policy is available at:\n<a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a>.\nGoogle is certified under the Privacy Shield and hereby guarantees compliance with European privacy laws:\n<a href="https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI">https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI</a>.\nThe transfer of information about crashes and malfunctions to the Crashlytics service can be disabled in the Application settings.</string>
 
 </resources>
