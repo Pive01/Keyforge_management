@@ -147,27 +147,29 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     return;
 
                 }
-                    List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
+                tempMaverick.clear();
+                tempAnomaly.clear();
+                List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
 
-                    response.body().get_linked().getCards().forEach(card -> {
-                        tempMaverick.add(card.getIs_maverick());
-                        tempAnomaly.add(card.getIs_anomaly());
-                        card.setIs_anomaly(false);
-                        card.setIs_legacy(false);
-                        card.setIs_maverick(false);
-                        cardRepository.insert(card);
-                    });
-                    cardList.clear();
-                    cardList.addAll(response.body().getData().get_links().getCards());
+                response.body().get_linked().getCards().forEach(card -> {
+                    tempMaverick.add(card.getIs_maverick());
+                    tempAnomaly.add(card.getIs_anomaly());
+                    card.setIs_anomaly(false);
+                    card.setIs_legacy(false);
+                    card.setIs_maverick(false);
+                    cardRepository.insert(card);
+                });
+                cardList.clear();
+                cardList.addAll(response.body().getData().get_links().getCards());
 
-                    response.body().get_linked().getCards().forEach(card -> {
-                        deckCardRepository.insert(card, deck,
-                                Collections.frequency(cardList, card.getId()),
-                                tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));
-                        index++;
+                response.body().get_linked().getCards().forEach(card -> {
+                    deckCardRepository.insert(card, deck,
+                            Collections.frequency(cardList, card.getId()),
+                            tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));
+                    index++;
 
-                    });
-                    index = 0;
+                });
+                index = 0;
 
 
             }
