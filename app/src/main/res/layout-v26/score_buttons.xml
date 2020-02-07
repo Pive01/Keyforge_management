@@ -51,9 +51,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:paddingHorizontal="12dp"
                     android:text="0"
-                    android:textSize="40sp" />
+                    android:textSize="38sp" />
 
                 <Button
                     android:id="@+id/addWins"
@@ -106,9 +105,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:paddingHorizontal="12dp"
                     android:text="0"
-                    android:textSize="40sp" />
+                    android:textSize="38sp" />
 
                 <Button
                     android:id="@+id/addLoss"

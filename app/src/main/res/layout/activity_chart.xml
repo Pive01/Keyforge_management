@@ -50,7 +50,7 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/houses_chart"
                 android:layout_width="match_parent"
-                android:layout_height="250sp" />
+                android:layout_height="280sp" />
 
             <TextView
                 style="@style/mainButtonStyle"

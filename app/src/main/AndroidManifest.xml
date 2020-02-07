@@ -11,8 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.Credits" />
-        <activity android:name=".ui.charts.ChartActivity" />
+        <activity
+            android:name=".ui.main.Informations.CreditsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.main.Informations.Information"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.charts.ChartActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.detail.cardDetail.CardDetailActivity"
             android:screenOrientation="portrait" />

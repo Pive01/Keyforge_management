@@ -20,6 +20,7 @@ import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
+import com.KeyforgeManagement.application.ui.main.Informations.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             case R.id.sort_decks:
                 return true;
             case R.id.action_about_us:
-                Credits.start(this);
+                Information.start(this);
                 return true;
             case R.id.graph_charts:
                 if (mAdapter.getItemCount() <= 0) {

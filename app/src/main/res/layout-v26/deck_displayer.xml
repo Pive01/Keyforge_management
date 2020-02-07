@@ -26,7 +26,8 @@
                 style="@style/textFontHigh"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.8"
+                android:layout_weight="1"
+                android:text="Deirdre la Spezzata, Analista del Locale"
                 android:ellipsize="end"
                 android:gravity="left"
                 android:maxLines="2"
@@ -34,28 +35,34 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.9"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/img_house1"
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/dis" />
 
                 <ImageView
                     android:id="@+id/img_house2"
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_marginStart="6sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/about_icon_padding"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/logos" />
 
                 <ImageView
                     android:id="@+id/img_house3"
-                    android:layout_width="50sp"
-                    android:layout_height="50sp"
-                    android:layout_marginStart="6sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/mars" />
             </LinearLayout>
         </LinearLayout>
@@ -70,6 +77,7 @@
                 android:id="@+id/expansion_name"
                 style="@style/textFontLow"
                 android:layout_width="match_parent"
+                android:text="Call of The Archons"
                 android:layout_height="wrap_content"
                 android:gravity="end" />
 
@@ -122,6 +130,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

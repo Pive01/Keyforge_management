@@ -19,6 +19,7 @@ import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
 import com.KeyforgeManagement.application.ui.detail.Fragments.CardFragmentAdapter;
+import com.KeyforgeManagement.application.ui.detail.Fragments.CustomViewPager;
 import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     private DeckCardRepository deckCardRepository;
     private TextView winsView;
     private TextView lossesView;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private HashMap<House, List<Card>> map = new HashMap<>();
     private List<CardsDeckRef> refList;
 
@@ -90,6 +91,7 @@ public class DetailActivity extends AppCompatActivity {
         chartImplementer.createSasBarChart(deck.getSasRating());
 
     }
+
 
     private void inizializeTextViews() {
         TextView power = findViewById(R.id.deck_power_txt);
@@ -245,7 +247,7 @@ public class DetailActivity extends AppCompatActivity {
         if (Integer.parseInt(item.getText().toString()) >= 10)
             item.setTextSize(20);
         else
-            item.setTextSize(40);
+            item.setTextSize(38);
     }
 }
 

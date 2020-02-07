@@ -74,7 +74,7 @@ public class BarChartCustomRenderer extends BarChartRenderer {
 
                 if (bitmap != null) {
                     Bitmap scaledBitmap = getScaledBitmap(bitmap);
-                    c.drawBitmap(scaledBitmap, x - scaledBitmap.getWidth() / 2f, (bottom + 0.5f * negOffset) - scaledBitmap.getWidth() / 2f, null);
+                    c.drawBitmap(scaledBitmap, x - scaledBitmap.getWidth() / 2f, (bottom + 0.6f * negOffset) - scaledBitmap.getWidth() / 2f, null);
                 }
             }
         }
