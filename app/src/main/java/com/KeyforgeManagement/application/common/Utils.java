@@ -34,8 +34,6 @@ public final class Utils {
         return num < 0 ? 0 : num;
     }
 
-    private Utils() {
-    }
 
 
     public static boolean checkForUpdate(Context c) {
@@ -61,4 +59,8 @@ public final class Utils {
 
         return (diff / (1000 * 60 * 60 * 24)) >= 3;
     }
+
+    private Utils() {
+    }
+
 }

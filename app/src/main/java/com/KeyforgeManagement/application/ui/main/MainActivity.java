@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
         View fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> SearchActivity.start(this));
+
 
         RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -202,5 +205,29 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     }
 
+    private boolean checkIsFirst() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!preferences.contains("isFirstAccess")) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirstAccess", true);
+            editor.apply();
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkIsFirst()) {
+            Snackbar.make(
+                    findViewById(R.id.activity_main_parent_layout),
+                    getString(R.string.lonely), Snackbar.LENGTH_LONG)
+                    .setAction("CLOSE", view -> {
+                    })
+                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                    .show();
+        }
+
+    }
 }

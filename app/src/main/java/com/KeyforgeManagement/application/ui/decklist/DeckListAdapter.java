@@ -49,11 +49,13 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
     }
 
     public void onNewDecks(List<Deck> decks) {
+
         this.decks.clear();
         this.decks.addAll(decks);
         this.bufferList.clear();
         this.bufferList.addAll(decks);
         notifyDataSetChanged();
+
     }
 
     public void sort(int parameter) {

@@ -46,7 +46,7 @@ public class Information extends AppCompatActivity {
                 .addItem(getLicenseElement())
                 .addEmail("lucapivettaworkstuff@gmail.com")
                 .addPlayStore("com.KeyforgeManagement.application")
-                .addGitHub("Pive01")
+                .addGitHub("Pive01/Keyforge_management")
                 .create();
 
         setContentView(aboutPage);
@@ -62,7 +62,7 @@ public class Information extends AppCompatActivity {
     private Element getDisclaimer() {
         Element discalimer = new Element();
         discalimer.setTitle("Keyforge Information");
-        discalimer.setOnClickListener(v -> CreditsActivity.start(this, getString(R.string.Informations)));
+        discalimer.setOnClickListener(v -> CreditsActivity.start(this, getString(R.string.Information)));
         return discalimer;
     }
 

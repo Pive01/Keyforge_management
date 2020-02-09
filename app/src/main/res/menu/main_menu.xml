@@ -46,7 +46,7 @@
     <item
         android:id="@+id/action_about_us"
         android:icon="@drawable/ic_info_outline_white_24dp"
-        android:title="@string/informations"
+        android:title="@string/information"
         app:showAsAction="never" />
 
 
