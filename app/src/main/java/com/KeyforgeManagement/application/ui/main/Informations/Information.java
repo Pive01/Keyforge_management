@@ -46,7 +46,7 @@ public class Information extends AppCompatActivity {
                 .addItem(getLicenseElement())
                 .addEmail("lucapivettaworkstuff@gmail.com")
                 .addPlayStore("com.KeyforgeManagement.application")
-                .addGitHub("Pive01/Keyforge_management")
+                .addGitHub("Pive01/Keyforge_management?files=1")
                 .create();
 
         setContentView(aboutPage);

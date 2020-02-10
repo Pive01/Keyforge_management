@@ -2,6 +2,7 @@ package com.KeyforgeManagement.application.data.api;
 
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
+import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
 
 import java.util.List;
@@ -37,6 +38,10 @@ public final class Api {
 
     public static Call<List<GlobalStatistics>> getStats() {
         return APIDOK.getStatistics();
+    }
+
+    public static Call<SingleDeckReference> getDeckFromId(String deckId) {
+        return APIDOK.getDeckFromId(deckId);
     }
 
     private Api() {

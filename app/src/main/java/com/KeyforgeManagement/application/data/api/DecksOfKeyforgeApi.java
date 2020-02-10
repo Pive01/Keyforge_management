@@ -2,6 +2,7 @@ package com.KeyforgeManagement.application.data.api;
 
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
+import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface DecksOfKeyforgeApi {
 
     @GET("stats")
     Call<List<GlobalStatistics>> getStatistics();
+
+    @GET("decks/with-synergies/{id}")
+    Call<SingleDeckReference> getDeckFromId(@Path("id") String deckId);
 }

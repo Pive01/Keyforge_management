@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
 import com.KeyforgeManagement.application.data.storage.Card.CardRepository;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +51,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     List<Boolean> tempMaverick = new ArrayList<>();
     List<Boolean> tempAnomaly = new ArrayList<>();
     private int index = 0;
+    ProgressBar loadingDecks;
+    private Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
 
 
     public static void start(Context context) {
@@ -67,6 +72,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         cardRepository = new CardRepository(this);
         deckCardRepository = new DeckCardRepository(this);
 
+        loadingDecks = findViewById(R.id.progress_bar);
+
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DeckListAdapter(this);
@@ -75,39 +82,41 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         mRecyclerView.setAdapter(mAdapter);
 
         cardList = new ArrayList<>();
+
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            System.out.println(intent.getStringExtra(Intent.EXTRA_TEXT));
+            Matcher m = p.matcher(intent.getStringExtra(Intent.EXTRA_TEXT));
+            if (m.find())
+                searchById(m.group());
+            else
+                displayDecks(intent.getStringExtra(Intent.EXTRA_TEXT));
+        }
     }
 
     private void displayDecks(String name) {
-        ProgressBar loadingDecks = findViewById(R.id.progress_bar);
         loadingDecks.setVisibility(View.VISIBLE);
         Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
             @Override
             public void onResponse(Call<List<Deck>> call, Response<List<Deck>> response) {
 
                 if (response.body() == null || response.body().size() == 0) {
-                    Snackbar.make(
-                            findViewById(R.id.activity_search_parent_layout),
-                            "No decks found for your query", Snackbar.LENGTH_LONG)
-                            .setAction("CLOSE", view -> {
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                            .show();
-                }
+                    showSnackBar("No decks found for your query");
+                } else
+                    mAdapter.onNewDecks(response.body());
                 loadingDecks.setVisibility(View.GONE);
-                mAdapter.onNewDecks(response.body());
+
 
             }
 
             @Override
             public void onFailure(Call<List<Deck>> call, Throwable t) {
                 loadingDecks.setVisibility(View.GONE);
-                Snackbar.make(
-                        findViewById(R.id.activity_search_parent_layout),
-                        "There has been an error while loading decks\n Try again later", Snackbar.LENGTH_LONG)
-                        .setAction("CLOSE", view -> {
-                        })
-                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                        .show();
+                showSnackBar("There has been an error while loading decks\n Try again later");
             }
         });
     }
@@ -136,16 +145,9 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             @Override
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
                 if (response.body() == null) {
-                    Snackbar.make(
-                            findViewById(R.id.activity_search_parent_layout),
-                            "This deck has not been registered yet\n Try again later", Snackbar.LENGTH_LONG)
-                            .setAction("CLOSE", view -> {
-                            })
-                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                            .show();
+                    showSnackBar("This deck has not been registered yet\n Try again later");
                     deckRepository.delete(deck);
                     return;
-
                 }
                 tempMaverick.clear();
                 tempAnomaly.clear();
@@ -176,13 +178,33 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
-                Snackbar.make(
-                        findViewById(R.id.activity_search_parent_layout),
-                        "There has been an error while loading cards\n Try again later", Snackbar.LENGTH_LONG)
-                        .setAction("CLOSE", view -> {
-                        })
-                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                        .show();
+                showSnackBar("There has been an error while loading cards\n Try again later");
+            }
+        });
+    }
+
+
+    private void searchById(String id) {
+        loadingDecks.setVisibility(View.VISIBLE);
+        Api.getDeckFromId(id).enqueue(new Callback<SingleDeckReference>() {
+            @Override
+            public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
+                loadingDecks.setVisibility(View.GONE);
+                if (response.body() == null) {
+                    showSnackBar("Bad id");
+                } else {
+                    List<Deck> justToMakeItWork = new ArrayList<>();
+                    justToMakeItWork.add(response.body().getDeck());
+                    mAdapter.onNewDecks(justToMakeItWork);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SingleDeckReference> call, Throwable t) {
+                loadingDecks.setVisibility(View.GONE);
+                showSnackBar("This is doesn't correspond to any deck");
+
             }
         });
     }
@@ -196,6 +218,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         MenuItem searchItem = menu.findItem(R.id.search_button);
         searchItem.expandActionView();
         SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search deck name or id");
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
@@ -204,8 +227,13 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                Matcher m = p.matcher(searchView.getQuery().toString());
                 searchView.clearFocus();
-                displayDecks(searchView.getQuery().toString());
+                if (m.find())
+                    searchById(m.group());
+                else
+                    displayDecks(searchView.getQuery().toString());
                 searchItem.collapseActionView();
                 return true;
             }
@@ -222,6 +250,16 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void showSnackBar(String s) {
+        Snackbar.make(
+                findViewById(R.id.activity_search_parent_layout),
+                s, Snackbar.LENGTH_LONG)
+                .setAction("CLOSE", view -> {
+                })
+                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .show();
     }
 
 }
