@@ -1,7 +1,6 @@
 package com.KeyforgeManagement.application.ui.main;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.KeyforgeManagement.application.R;
-import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.Stats;
-import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
@@ -25,25 +22,25 @@ import com.KeyforgeManagement.application.ui.detail.DetailActivity;
 import com.KeyforgeManagement.application.ui.main.Informations.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
+import com.tombayley.activitycircularreveal.CircularReveal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
 
     private DeckRepository repository;
     private DeckListAdapter mAdapter;
-    private Stats statistics;
+    private static Stats statistics;
 
+    public static void start(Context context, Intent i) {
+        context.startActivity(new Intent(context, MainActivity.class));
+        statistics = (Stats) i.getSerializableExtra("stats");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +49,14 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         setSupportActionBar(findViewById(R.id.toolbar));
 
         View fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> SearchActivity.start(this));
+        fab.setOnClickListener(v ->
+                CircularReveal.presentActivity(new CircularReveal.Builder(
+                        this,
+                        findViewById(android.R.id.content).getRootView(),
+                        new Intent(this, SearchActivity.class),
+                        500
+                ))
+        );
 
 
         RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
@@ -64,16 +68,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, mAdapter::onNewDecks);
-
-
-        ProgressDialog dialog = new ProgressDialog(MainActivity.this);
-        dialog.setMessage("Loading Global data ...");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
-
-        loadData(dialog);
-
     }
 
     @Override
@@ -91,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         new AlertDialog.Builder(this)
                 .setTitle("Remove a deck")
                 .setMessage("Are you sure you want to remove this deck?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    repository.delete(deck);
-                })
+                .setPositiveButton(android.R.string.yes, (dialog, which) ->
+                        repository.delete(deck)
+                )
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
@@ -181,30 +175,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         }
     }
 
-    private void loadData(ProgressDialog dialog) {
-        Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
-            @Override
-            public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
-                assert response.body() != null;
-                statistics = response.body().get(0).getStats();
-                dialog.hide();
-            }
-
-            @Override
-            public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
-                Snackbar.make(
-                        findViewById(R.id.activity_main_parent_layout),
-                        "There has been an error while loading data", Snackbar.LENGTH_LONG)
-                        .setAction("CLOSE", view -> {
-                        })
-                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                        .show();
-                dialog.hide();
-            }
-        });
-
-    }
-
     private boolean checkIsFirst() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!preferences.contains("isFirstAccess")) {
@@ -229,5 +199,13 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                     .show();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
