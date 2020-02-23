@@ -17,10 +17,6 @@ public class CardRepository {
         cardDao = DecksDatabase.getDatabase(context).getCardDao();
     }
 
-    public void insert(Card card) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> cardDao.addCard(card));
-    }
-
     public void insertBulk(Collection<Card> collection, Consumer<Collection<Card>> callback) {
         Future<?> future = DecksDatabase.databaseWriteExecutor.submit(() -> cardDao.bulkAdd(collection));
         try {

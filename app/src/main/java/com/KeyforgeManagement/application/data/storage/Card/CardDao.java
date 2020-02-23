@@ -13,8 +13,6 @@ import androidx.room.Query;
 
 @Dao
 public interface CardDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addCard(Card card);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void bulkAdd(Collection<Card> cardsDeckRefCollection);
