@@ -11,21 +11,18 @@ import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 public class CardRepository {
-    private CardDao mCardDao;
+    private CardDao cardDao;
 
     public CardRepository(Context context) {
-        DecksDatabase db = DecksDatabase.getDatabase(context);
-        mCardDao = db.getCardDao();
+        cardDao = DecksDatabase.getDatabase(context).getCardDao();
     }
 
     public void insert(Card card) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            mCardDao.addCard(card);
-        });
+        DecksDatabase.databaseWriteExecutor.execute(() -> cardDao.addCard(card));
     }
 
     public void insertBulk(Collection<Card> collection, Consumer<Collection<Card>> callback) {
-        Future<?> future = DecksDatabase.databaseWriteExecutor.submit(() -> mCardDao.bulkAdd(collection));
+        Future<?> future = DecksDatabase.databaseWriteExecutor.submit(() -> cardDao.bulkAdd(collection));
         try {
             future.get();
         } catch (ExecutionException | InterruptedException e) {
