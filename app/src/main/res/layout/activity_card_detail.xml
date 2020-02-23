@@ -46,8 +46,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="14dp"
                     android:paddingHorizontal="3sp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/testimage" />
+                    android:scaleType="fitCenter" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -95,8 +94,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5sp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="5sp">
 
                     <TextView
                         style="@style/detailString"
