@@ -1,4 +1,4 @@
-package com.KeyforgeManagement.application.ui.detail.Fragments;
+package com.KeyforgeManagement.application.ui.detail.fragments;
 
 import android.content.Context;
 import android.util.AttributeSet;

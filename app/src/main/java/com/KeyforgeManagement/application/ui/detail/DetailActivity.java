@@ -22,8 +22,8 @@ import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
-import com.KeyforgeManagement.application.ui.detail.Fragments.CardFragmentAdapter;
-import com.KeyforgeManagement.application.ui.detail.Fragments.CustomViewPager;
+import com.KeyforgeManagement.application.ui.detail.fragments.CardFragmentAdapter;
+import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
 import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
