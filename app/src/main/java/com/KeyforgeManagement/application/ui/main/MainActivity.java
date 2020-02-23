@@ -28,7 +28,7 @@ import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
-import com.KeyforgeManagement.application.ui.main.Informations.Information;
+import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.tombayley.activitycircularreveal.CircularReveal;

@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.Informations.CreditsActivity"
+            android:name=".ui.main.information.CreditsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.main.Informations.Information"
+            android:name=".ui.main.information.Information"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.charts.ChartActivity"

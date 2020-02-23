@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.main.Informations.Information">
+    tools:context=".ui.main.information.Information">
 
     <com.google.android.material.appbar.AppBarLayout
 
