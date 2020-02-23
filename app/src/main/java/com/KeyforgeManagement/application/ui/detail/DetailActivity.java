@@ -57,7 +57,6 @@ public class DetailActivity extends AppCompatActivity {
     private static DatabaseSaver dbs;
     private ProgressDialog dialog;
 
-
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, DetailActivity.class));
         deck = (Deck) i.getSerializableExtra("deckInfo");
@@ -91,9 +90,9 @@ public class DetailActivity extends AppCompatActivity {
         Button addLoss = findViewById(R.id.addLoss);
         Button removeWin = findViewById(R.id.removeWins);
         Button removeLoss = findViewById(R.id.removeLoss);
-        inizializeTextViews();
+        initializeTextViews();
         updateView();
-        inizializeButtons(addWin, addLoss, removeLoss, removeWin);
+        initializeButtons(addWin, addLoss, removeLoss, removeWin);
 
         repository = new DeckRepository(this);
 
@@ -104,11 +103,9 @@ public class DetailActivity extends AppCompatActivity {
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deck.getSasRating());
-
     }
 
-
-    private void inizializeTextViews() {
+    private void initializeTextViews() {
         TextView power = findViewById(R.id.deck_power_txt);
         TextView chain = findViewById(R.id.deck_chain_txt);
         TextView winloss = findViewById(R.id.deck_winandloss_txt);
@@ -144,10 +141,9 @@ public class DetailActivity extends AppCompatActivity {
         lossesView.setText(String.valueOf(deck.getLocalLosses()));
         adjustSize(winsView);
         adjustSize(lossesView);
-
     }
 
-    private void inizializeButtons(Button addWin, Button addLoss,
+    private void initializeButtons(Button addWin, Button addLoss,
                                    Button removeLoss, Button removeWin) {
         addLoss.setOnClickListener(v -> {
             deck.setLocalLosses((deck.getLocalLosses() + 1));
@@ -181,7 +177,6 @@ public class DetailActivity extends AppCompatActivity {
         map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 23)));
         map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 35)));
 
-
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -203,7 +198,6 @@ public class DetailActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
 
     private void assembleData(List<Card> cardList) {
         List<Card> temp = new ArrayList<>();
@@ -245,7 +239,6 @@ public class DetailActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 dbs.trySaveCards(response.body(), deck, collection -> {
                     dialog.hide();
                     getInfoCards();
@@ -256,7 +249,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
                 dialog.hide();
-
             }
         });
     }
@@ -267,13 +259,11 @@ public class DetailActivity extends AppCompatActivity {
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
     private void getShareIntent() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -299,6 +289,5 @@ public class DetailActivity extends AppCompatActivity {
         else
             item.setTextSize(38);
     }
-
 }
 

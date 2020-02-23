@@ -31,7 +31,6 @@ public class CardFragmentAdapter extends FragmentPagerAdapter {
 
         CardListFragment cardListFragment = new CardListFragment();
 
-
         Bundle bundle = new Bundle();
         bundle.putSerializable("list", (Serializable) map.get(houseArr[position]));
         bundle.putSerializable("house", houseArr[position]);
