@@ -3,6 +3,7 @@ package com.KeyforgeManagement.application.data.storage.DeckWithCards;
 import com.KeyforgeManagement.application.data.model.Card;
 import com.KeyforgeManagement.application.data.model.CardsDeckRef;
 
+import java.util.Collection;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -14,8 +15,12 @@ import androidx.room.Transaction;
 
 @Dao
 public interface DeckWithCardsDao {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void add(CardsDeckRef cardsDeckRef);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void bulkAdd(Collection<CardsDeckRef> cardsDeckRefCollection);
 
     @Transaction
     @Query("SELECT * FROM cards INNER JOIN cards_deck_join" +

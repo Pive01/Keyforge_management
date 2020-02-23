@@ -4,6 +4,8 @@ package com.KeyforgeManagement.application.ui.search;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,17 +16,13 @@ import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
-import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
-import com.KeyforgeManagement.application.data.storage.Card.CardRepository;
-import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
-import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
+import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.tombayley.activitycircularreveal.CircularReveal;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -45,13 +43,7 @@ import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
 
     private DeckListAdapter mAdapter;
-    private DeckRepository deckRepository;
-    private CardRepository cardRepository;
-    private DeckCardRepository deckCardRepository;
-    private List<String> cardList;
-    List<Boolean> tempMaverick = new ArrayList<>();
-    List<Boolean> tempAnomaly = new ArrayList<>();
-    private int index = 0;
+    private DatabaseSaver dbs;
     ProgressBar loadingDecks;
     private Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
     private CircularReveal mActivityCircularReveal;
@@ -63,6 +55,9 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setSupportActionBar(findViewById(R.id.toolbar_search));
@@ -73,20 +68,16 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         mActivityCircularReveal = new CircularReveal(findViewById(android.R.id.content).getRootView());
         mActivityCircularReveal.onActivityCreate(getIntent());
 
-        deckRepository = new DeckRepository(this);
-        cardRepository = new CardRepository(this);
-        deckCardRepository = new DeckCardRepository(this);
-
         loadingDecks = findViewById(R.id.progress_bar);
 
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewSrc);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new DeckListAdapter(this);
 
+        dbs = new DatabaseSaver(this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-
-        cardList = new ArrayList<>();
 
 
         Intent intent = getIntent();
@@ -132,8 +123,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    deckRepository.insert(deck);
-                    saveCards(deck);
+                    dbs.saveDeck(deck);
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -142,50 +132,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     @Override
     public void onLongDeckClicked(Deck deck) {
 
-    }
-
-    private void saveCards(Deck deck) {
-        Api.getCards(deck.getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
-
-            @Override
-            public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
-                if (response.body() == null) {
-                    showSnackBar("This deck has not been registered yet\n Try again later");
-                    deckRepository.delete(deck);
-                    return;
-                }
-                tempMaverick.clear();
-                tempAnomaly.clear();
-                List<String> legacy = response.body().getData().getSet_era_cards().getLegacy();
-
-                response.body().get_linked().getCards().forEach(card -> {
-                    tempMaverick.add(card.getIs_maverick());
-                    tempAnomaly.add(card.getIs_anomaly());
-                    card.setIs_anomaly(false);
-                    card.setIs_legacy(false);
-                    card.setIs_maverick(false);
-                    cardRepository.insert(card);
-                });
-                cardList.clear();
-                cardList.addAll(response.body().getData().get_links().getCards());
-
-                response.body().get_linked().getCards().forEach(card -> {
-                    deckCardRepository.insert(card, deck,
-                            Collections.frequency(cardList, card.getId()),
-                            tempMaverick.get(index), legacy.contains(card.getId()), tempAnomaly.get(index));
-                    index++;
-
-                });
-                index = 0;
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Kmvresults> call, Throwable t) {
-                showSnackBar("There has been an error while loading cards\n Try again later");
-            }
-        });
     }
 
 

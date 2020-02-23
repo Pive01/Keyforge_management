@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+
 public final class Utils {
 
     public static String enumValueToString(String value) {
@@ -33,8 +34,6 @@ public final class Utils {
     public static int absolute(int num) {
         return num < 0 ? 0 : num;
     }
-
-
 
     public static boolean checkForUpdate(Context c) {
 

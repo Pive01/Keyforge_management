@@ -1,6 +1,7 @@
 package com.KeyforgeManagement.application.ui.detail;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +11,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
+import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Card;
 import com.KeyforgeManagement.application.data.model.CardsDeckRef;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.House;
 import com.KeyforgeManagement.application.data.model.Stats;
+import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
+import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
@@ -32,6 +36,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.KeyforgeManagement.application.common.Utils.absolute;
 
@@ -47,6 +54,8 @@ public class DetailActivity extends AppCompatActivity {
     private CustomViewPager viewPager;
     private HashMap<House, List<Card>> map = new HashMap<>();
     private List<CardsDeckRef> refList;
+    private static DatabaseSaver dbs;
+    private ProgressDialog dialog;
 
 
     public static void start(Context context, Intent i) {
@@ -64,6 +73,12 @@ public class DetailActivity extends AppCompatActivity {
         infoToolbar.setTitle(deck.getName());
 
         setSupportActionBar(infoToolbar);
+
+        dbs = new DatabaseSaver(this);
+
+        dialog = new ProgressDialog(DetailActivity.this);
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -83,7 +98,7 @@ public class DetailActivity extends AppCompatActivity {
         repository = new DeckRepository(this);
 
         deckCardRepository = new DeckCardRepository(getApplicationContext());
-        deckCardRepository.getInfoForCards(deck).observe(this, this::support);
+        getInfoCards();
 
         BarChart chart = findViewById(R.id.barchart);
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
@@ -156,22 +171,17 @@ public class DetailActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void getCards(List<Card> cardToShow) {
         House[] houseArr = new House[3];
-        int start = 0;
-        int j = 1;
-        cardToShow.sort(Comparator.comparing(Card::getHouse));
-        List<Card> temp;
 
-        for (int i = 0; i < 3; i++) {
-            while ((cardToShow.size() != j + 1)
-                    && cardToShow.get(j).getHouse().equals(cardToShow.get(j + 1).getHouse())) {
-                j++;
-            }
-            houseArr[i] = cardToShow.get(j).getHouse();
-            temp = new ArrayList<>(cardToShow.subList(start, j + 1));
-            map.put(houseArr[i], temp);
-            start = j + 1;
-            j++;
-        }
+        cardToShow.sort(Comparator.comparing(Card::getHouse));
+        houseArr[0] = cardToShow.get(0).getHouse();
+        houseArr[1] = cardToShow.get(12).getHouse();
+        houseArr[2] = cardToShow.get(24).getHouse();
+
+        map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 11)));
+        map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 23)));
+        map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 35)));
+
+
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -194,9 +204,14 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void assembleData(List<Card> cardList) {
         List<Card> temp = new ArrayList<>();
 
+        if (cardList == null || cardList.size() == 0) {
+            downloadCards();
+            return;
+        }
         cardList.forEach(reference -> {
             refList.forEach(value -> {
                 if (reference.getId().equals(value.getCardId())) {
@@ -212,7 +227,42 @@ public class DetailActivity extends AppCompatActivity {
         getCards(temp);
     }
 
+    private void getInfoCards() {
+        deckCardRepository.getInfoForCards(deck).observe(this, this::support);
+    }
+
+    private void downloadCards() {
+
+        dialog.setMessage("Downloading cards");
+        dialog.show();
+        Api.getCards(deck.getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
+            @Override
+            public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
+
+                if (response.body() == null) {
+                    dialog.hide();
+                    onBackPressed();
+                    return;
+                }
+
+
+                dbs.trySaveCards(response.body(), deck, collection -> {
+                    dialog.hide();
+                    getInfoCards();
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<Kmvresults> call, Throwable t) {
+                dialog.hide();
+
+            }
+        });
+    }
+
     private void support(List<CardsDeckRef> cardList) {
+        refList.clear();
         refList.addAll(cardList);
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
@@ -249,5 +299,6 @@ public class DetailActivity extends AppCompatActivity {
         else
             item.setTextSize(38);
     }
+
 }
 

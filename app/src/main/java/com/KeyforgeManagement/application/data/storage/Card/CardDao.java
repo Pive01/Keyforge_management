@@ -2,6 +2,7 @@ package com.KeyforgeManagement.application.data.storage.Card;
 
 import com.KeyforgeManagement.application.data.model.Card;
 
+import java.util.Collection;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -14,6 +15,9 @@ import androidx.room.Query;
 public interface CardDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCard(Card card);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void bulkAdd(Collection<Card> cardsDeckRefCollection);
 
     @Query("select * from cards")
     LiveData<List<Card>> getCards();

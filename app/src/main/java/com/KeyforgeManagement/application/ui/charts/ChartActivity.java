@@ -68,8 +68,6 @@ public class ChartActivity extends AppCompatActivity {
         DeckRepository repository;
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, this::getSatsDecks);
-
-
     }
 
     @Override

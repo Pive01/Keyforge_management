@@ -37,7 +37,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/CircularReveal">
             <meta-data
                 android:name="android.app.searchable"

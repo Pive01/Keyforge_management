@@ -39,7 +39,72 @@ public class Deck implements Serializable {
     private double disruption;
     private double amberProtection;
     private int effectivePower;
+    //---------
+    private double houseCheating;
+    private double aercScore;
+    private double synergyRating;
+    private double antisynergyRating;
+    private int cardDrawCount;
+    private int cardArchiveCount;
+    private int keyCheatCount;
 
+    public double getHouseCheating() {
+        return houseCheating;
+    }
+
+    public void setHouseCheating(double houseCheating) {
+        this.houseCheating = houseCheating;
+    }
+
+    public double getAercScore() {
+        return aercScore;
+    }
+
+    public void setAercScore(double aercScore) {
+        this.aercScore = aercScore;
+    }
+
+    public double getSynergyRating() {
+        return synergyRating;
+    }
+
+    public void setSynergyRating(double synergyRating) {
+        this.synergyRating = synergyRating;
+    }
+
+    public double getAntisynergyRating() {
+        return antisynergyRating;
+    }
+
+    public void setAntisynergyRating(double antisynergyRating) {
+        this.antisynergyRating = antisynergyRating;
+    }
+
+    public int getCardDrawCount() {
+        return cardDrawCount;
+    }
+
+    public void setCardDrawCount(int cardDrawCount) {
+        this.cardDrawCount = cardDrawCount;
+    }
+
+    public int getCardArchiveCount() {
+        return cardArchiveCount;
+    }
+
+    public void setCardArchiveCount(int cardArchiveCount) {
+        this.cardArchiveCount = cardArchiveCount;
+    }
+
+    public int getKeyCheatCount() {
+        return keyCheatCount;
+    }
+
+    public void setKeyCheatCount(int keyCheatCount) {
+        this.keyCheatCount = keyCheatCount;
+    }
+
+    //------------
     public double getArtifactControl() {
         return artifactControl;
     }
@@ -151,7 +216,6 @@ public class Deck implements Serializable {
     public void setTotalArmor(int totalArmor) {
         this.totalArmor = totalArmor;
     }
-
 
 
     public int getLocalWins() {

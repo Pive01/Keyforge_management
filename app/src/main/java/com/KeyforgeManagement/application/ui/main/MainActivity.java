@@ -1,19 +1,28 @@
 package com.KeyforgeManagement.application.ui.main;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.KeyforgeManagement.application.R;
+import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.Stats;
+import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
+import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
+import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
+import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.ResponseImport;
+import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
@@ -29,6 +38,9 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
@@ -36,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     private DeckRepository repository;
     private DeckListAdapter mAdapter;
     private static Stats statistics;
+    private String auth = "";
+    private String usrName = "";
+    private ProgressDialog dialog;
+
 
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -47,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSupportActionBar(findViewById(R.id.toolbar));
+
+        dialog = new ProgressDialog(MainActivity.this);
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
 
         View fab = findViewById(R.id.fab);
         fab.setOnClickListener(v ->
@@ -66,9 +86,11 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         mAdapter = new DeckListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
+
         repository = new DeckRepository(this);
         repository.getAllDecks().observe(this, mAdapter::onNewDecks);
     }
+
 
     @Override
     public void onDeckClicked(Deck deck) {
@@ -128,16 +150,14 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int ARTIFACT = 4;
-        int ACTION = 3;
-        int WINS = 2;
-        int AEMBER = 1;
-        int SAS = 0;
         switch (item.getItemId()) {
             case R.id.sort_decks:
                 return true;
             case R.id.action_about_us:
                 Information.start(this);
+                return true;
+            case R.id.import_dok:
+                showDialog();
                 return true;
             case R.id.graph_charts:
                 if (mAdapter.getItemCount() <= 0) {
@@ -156,19 +176,19 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 ChartActivity.start(this, i);
                 return true;
             case R.id.sort_by_sas:
-                mAdapter.sort(SAS);
+                mAdapter.sort(0);
                 return true;
             case R.id.sort_by_amber:
-                mAdapter.sort(AEMBER);
+                mAdapter.sort(1);
                 return true;
             case R.id.sort_by_wins:
-                mAdapter.sort(WINS);
+                mAdapter.sort(2);
                 return true;
             case R.id.sort_by_action_count:
-                mAdapter.sort(ACTION);
+                mAdapter.sort(3);
                 return true;
             case R.id.sort_by_artifact_count:
-                mAdapter.sort(ARTIFACT);
+                mAdapter.sort(4);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -189,16 +209,8 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkIsFirst()) {
-            Snackbar.make(
-                    findViewById(R.id.activity_main_parent_layout),
-                    getString(R.string.lonely), Snackbar.LENGTH_LONG)
-                    .setAction("CLOSE", view -> {
-                    })
-                    .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
-                    .show();
-        }
-
+        if (checkIsFirst())
+            showSnackBarMain(getString(R.string.lonely));
     }
 
     @Override
@@ -207,5 +219,110 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private void getAuthorization(String email, String psw) {
+        dialog.setMessage("Getting Authorization ...");
+        dialog.show();
+
+        Api.getAuthorization(new UserValidator(email, psw)).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.headers().get("Authorization") == null) {
+                    dialog.hide();
+                    showSnackBarMain("Invalid credential");
+                }
+
+                auth = response.headers().get("Authorization");
+                dialog.hide();
+                getUserName();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                showSnackBarMain("There has been an error");
+                dialog.hide();
+            }
+        });
+
+
+    }
+
+    private void getUserName() {
+        dialog.setMessage("Getting UserName ...");
+        dialog.show();
+        Api.getUserName(auth).enqueue(new Callback<UserInfo>() {
+            @Override
+            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                if (response.body() == null) {
+                    showSnackBarMain("There has been an error");
+                    System.out.println("getUserName body null");
+                    dialog.hide();
+                    return;
+                }
+                usrName = response.body().getUsername();
+                dialog.hide();
+                importDok(usrName);
+            }
+
+            @Override
+            public void onFailure(Call<UserInfo> call, Throwable t) {
+                showSnackBarMain("There has been an error");
+                System.out.println("getUserName failure");
+                dialog.hide();
+            }
+        });
+    }
+
+    private void importDok(String userName) {
+        dialog.setMessage("Importing data ...");
+        dialog.show();
+        Api.importDecks(new RequestBody(userName), auth).enqueue(new Callback<ResponseImport>() {
+            @Override
+            public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
+                if (response.body() != null) {
+                    DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
+                    response.body().getDecks().forEach(dbs::saveDeck);
+                    dialog.hide();
+                } else {
+                    showSnackBarMain("An error occurred while importing data");
+                    dialog.hide();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseImport> call, Throwable t) {
+                showSnackBarMain("An error occurred while importing data");
+                dialog.hide();
+            }
+        });
+    }
+
+    private void showSnackBarMain(String s) {
+        Snackbar.make(
+                findViewById(R.id.activity_main_parent_layout),
+                s, Snackbar.LENGTH_LONG)
+                .setAction("CLOSE", view -> {
+                })
+                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .show();
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.credential_layout, null);
+        builder.setView(dialogView);
+        builder.setPositiveButton("Sign in", (dialogInterface, i) -> {
+            EditText email = dialogView.findViewById(R.id.userEmail);
+            EditText psw = dialogView.findViewById(R.id.password_dok);
+
+
+            getAuthorization(email.getText().toString(), psw.getText().toString());
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        builder.show();
     }
 }

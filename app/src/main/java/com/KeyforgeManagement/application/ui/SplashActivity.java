@@ -3,6 +3,7 @@ package com.KeyforgeManagement.application.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ImageView img = findViewById(R.id.imageView);
+        img.setImageResource(R.drawable.logosplash);
         loading = findViewById(R.id.progress_bar_spalsh);
         loading.setVisibility(View.VISIBLE);
 
@@ -51,6 +54,7 @@ public class SplashActivity extends AppCompatActivity {
     private void failed() {
         loading.setVisibility(View.GONE);
         Toast.makeText(this, "There has been an error while loading data", Toast.LENGTH_LONG).show();
+        openMain();
     }
 
     private void openMain() {
