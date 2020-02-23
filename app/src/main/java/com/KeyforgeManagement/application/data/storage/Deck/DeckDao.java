@@ -44,7 +44,6 @@ public interface DeckDao {
                           double aercScore, double synergyRating, double antisynergyRating,
                           long id);
 
-
     @Transaction
     @Query("SELECT * FROM decks WHERE id=:id")
     List<DeckDTO> getDeckDTOs(long id);

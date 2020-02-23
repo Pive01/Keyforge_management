@@ -26,7 +26,7 @@ public abstract class DecksDatabase extends RoomDatabase {
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private static volatile DecksDatabase INSTANCE;//so there is only 1 instance of it
 
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE decks" +
@@ -59,6 +59,7 @@ public abstract class DecksDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
     public abstract DeckDao getDeckDao();
 
     public abstract CardDao getCardDao();

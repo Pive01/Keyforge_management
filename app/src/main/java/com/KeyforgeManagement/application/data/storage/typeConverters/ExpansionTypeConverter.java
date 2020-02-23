@@ -6,9 +6,6 @@ import androidx.room.TypeConverter;
 
 public final class ExpansionTypeConverter {
 
-    private ExpansionTypeConverter() {
-    }
-
     @TypeConverter
     public static String fromExpansion(Expansion expansion) {
         return expansion.name();
@@ -17,5 +14,8 @@ public final class ExpansionTypeConverter {
     @TypeConverter
     public static Expansion fromString(String expansionName) {
         return Expansion.valueOf(expansionName);
+    }
+
+    private ExpansionTypeConverter() {
     }
 }
