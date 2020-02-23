@@ -23,11 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardListFragment extends Fragment implements CardListInteractionListener {
 
-    private CardListAdapter mAdapter;
-
-    public CardListFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,7 +37,7 @@ public class CardListFragment extends Fragment implements CardListInteractionLis
         });
         mRecyclerView.setHasFixedSize(false);
 
-        mAdapter = new CardListAdapter(this);
+        CardListAdapter mAdapter = new CardListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         ImageView imageView = view.findViewById(R.id.house_icon);
@@ -61,7 +56,5 @@ public class CardListFragment extends Fragment implements CardListInteractionLis
         Intent i = new Intent(getContext(), CardDetailActivity.class);
         i.putExtra("card", card);
         CardDetailActivity.start(getContext(), i);
-
     }
-
 }
