@@ -52,8 +52,8 @@ public class DatabaseSaver {
             card.setIs_legacy(false);
             card.setIs_maverick(false);
             cardsColletions.add(card);
-            cardRepository.insert(card);
         });
+
         cardRepository.insertBulk(cardsColletions, cards -> {
             cardList.clear();
             cardList.addAll(response.getData().get_links().getCards());
