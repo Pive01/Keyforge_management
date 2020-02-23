@@ -27,29 +27,20 @@ public class DeckRepository {
     }
 
     public void insert(Deck deck) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            mDeckDao.addDeck(deck);
-        });
+        DecksDatabase.databaseWriteExecutor.execute(() -> mDeckDao.addDeck(deck));
     }
 
     public void delete(Deck deck) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            mDeckDao.deleteDeck(deck);
-        });
+        DecksDatabase.databaseWriteExecutor.execute(() -> mDeckDao.deleteDeck(deck));
     }
 
     public void updateWins(int wins, long id) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            mDeckDao.updateWins(wins, id);
-        });
+        DecksDatabase.databaseWriteExecutor.execute(() -> mDeckDao.updateWins(wins, id));
     }
 
     public void updateLosses(int losses, long id) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            mDeckDao.updateLosses(losses, id);
-        });
+        DecksDatabase.databaseWriteExecutor.execute(() -> mDeckDao.updateLosses(losses, id));
     }
-
 
     public void updateStatus(Deck deck) {
         DecksDatabase.databaseWriteExecutor.execute(() -> {
@@ -57,11 +48,6 @@ public class DeckRepository {
                     deck.getWins(), deck.getLosses(), deck.getAercScore(), deck.getSynergyRating(),
                     deck.getAntisynergyRating(), deck.getId());
         });
-    }
-
-
-    public List<DeckDTO> cose(long id) {
-        return mDeckDao.getDeckDTOs(id);
     }
 
     public LiveData<List<DeckDTO>> getAllDecksDTO() {

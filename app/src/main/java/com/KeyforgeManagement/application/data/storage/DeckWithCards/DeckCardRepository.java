@@ -35,12 +35,11 @@ public class DeckCardRepository {
         callback.accept(collection);
     }
 
-    public void insert(Card card, Deck deck, int count, Boolean isMaverick, Boolean
-            isLegacy, Boolean isAnomaly) {
-        DecksDatabase.databaseWriteExecutor.execute(() -> {
-            deckWithCardsDao.add(new CardsDeckRef(card.getId(), deck.getId(),
-                    count, isMaverick, isLegacy, isAnomaly));
-        });
+    public void insert(Card card, Deck deck, int count, Boolean isMaverick, Boolean isLegacy,
+                       Boolean isAnomaly) {
+        DecksDatabase.databaseWriteExecutor.execute(() -> deckWithCardsDao.add(
+                new CardsDeckRef(card.getId(), deck.getId(), count, isMaverick, isLegacy, isAnomaly)
+        ));
     }
 
     public LiveData<List<Card>> getCards(Deck deck) {
@@ -49,15 +48,9 @@ public class DeckCardRepository {
 
     public void delete(Deck deck) {
         DecksDatabase.databaseWriteExecutor.execute(() -> deckWithCardsDao.delete(deck.getId()));
-
     }
 
     public LiveData<List<CardsDeckRef>> getInfoForCards(Deck deck) {
-
         return deckWithCardsDao.getInfoForCards(deck.getId());
-
     }
-
-
-
 }

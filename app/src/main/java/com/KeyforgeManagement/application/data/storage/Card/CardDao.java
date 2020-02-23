@@ -19,6 +19,6 @@ public interface CardDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void bulkAdd(Collection<Card> cardsDeckRefCollection);
 
-    @Query("select * from cards")
+    @Query("SELECT * FROM cards")
     LiveData<List<Card>> getCards();
 }
