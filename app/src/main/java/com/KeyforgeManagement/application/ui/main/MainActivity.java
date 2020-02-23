@@ -268,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             @Override
             public void onFailure(Call<UserInfo> call, Throwable t) {
                 showSnackBarMain("There has been an error");
-                System.out.println("getUserName failure");
                 dialog.hide();
             }
         });
