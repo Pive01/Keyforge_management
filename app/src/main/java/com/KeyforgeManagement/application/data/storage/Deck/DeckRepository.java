@@ -7,6 +7,7 @@ import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.storage.DecksDatabase;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 import androidx.lifecycle.LiveData;
 
@@ -24,6 +25,13 @@ public class DeckRepository {
 
     public LiveData<List<Deck>> getAllDecks() {
         return mAllDecks;
+    }
+
+    public Future<Deck> add(Deck deck) {
+        return DecksDatabase.execute(() -> {
+            mDeckDao.addDeck(deck);
+            return deck;
+        });
     }
 
     public void insert(Deck deck) {

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
@@ -31,6 +30,7 @@ import com.KeyforgeManagement.application.ui.detail.DetailActivity;
 import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.tombayley.activitycircularreveal.CircularReveal;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -314,9 +314,8 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         View dialogView = inflater.inflate(R.layout.credential_layout, null);
         builder.setView(dialogView);
         builder.setPositiveButton("Sign in", (dialogInterface, i) -> {
-            EditText email = dialogView.findViewById(R.id.userEmail);
-            EditText psw = dialogView.findViewById(R.id.password_dok);
-
+            TextInputEditText email = dialogView.findViewById(R.id.userEmail);
+            TextInputEditText psw = dialogView.findViewById(R.id.password_dok);
 
             getAuthorization(email.getText().toString(), psw.getText().toString());
         });

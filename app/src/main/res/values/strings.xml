@@ -33,5 +33,7 @@
     <string name="licenses">Open Source Licenses</string>
     <string name="lonely"><![CDATA[It feels a bit lonely here… try adding a deck with + button ->]]></string>
     <string name="importDok">Import</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 
 </resources>

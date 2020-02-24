@@ -15,6 +15,7 @@ public class CreditsActivity extends AppCompatActivity {
 
     private static String txtToShow;
 
+    // TODO put txtToSHow in intent
     public static void start(Context context, String txtToShowPassed) {
         context.startActivity(new Intent(context, CreditsActivity.class));
         txtToShow = txtToShowPassed;

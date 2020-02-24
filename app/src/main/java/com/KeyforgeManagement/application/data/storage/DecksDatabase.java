@@ -9,8 +9,10 @@ import com.KeyforgeManagement.application.data.storage.Card.CardDao;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckDao;
 import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckWithCardsDao;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -58,6 +60,10 @@ public abstract class DecksDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+
+    public static <V> Future<V> execute(Callable<V> command) {
+        return databaseWriteExecutor.submit(command);
     }
 
     public abstract DeckDao getDeckDao();
