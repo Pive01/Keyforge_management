@@ -173,9 +173,9 @@ public class DetailActivity extends AppCompatActivity {
         houseArr[1] = cardToShow.get(12).getHouse();
         houseArr[2] = cardToShow.get(24).getHouse();
 
-        map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 11)));
-        map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 23)));
-        map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 35)));
+        map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 12)));
+        map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 24)));
+        map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 36)));
 
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
