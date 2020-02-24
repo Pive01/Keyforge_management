@@ -18,15 +18,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 public class DatabaseSaver {
-    private DeckRepository deckRepository;
-    private CardRepository cardRepository;
-    private DeckCardRepository deckCardRepository;
-    private List<String> cardList;
-    private List<Boolean> tempMaverick = new ArrayList<>();
-    private List<Boolean> tempAnomaly = new ArrayList<>();
+    private final DeckRepository deckRepository;
+    private final CardRepository cardRepository;
+    private final DeckCardRepository deckCardRepository;
+    private final List<String> cardList;
+    private final List<Boolean> tempMaverick = new ArrayList<>();
+    private final List<Boolean> tempAnomaly = new ArrayList<>();
     private int index = 0;
-    private Collection<CardsDeckRef> cardsDeckRefCollection;
-    private Collection<Card> cardsColletions;
+    private final Collection<CardsDeckRef> cardsDeckRefCollection;
+    private final Collection<Card> cardsColletions;
 
 
     public DatabaseSaver(Context c) {

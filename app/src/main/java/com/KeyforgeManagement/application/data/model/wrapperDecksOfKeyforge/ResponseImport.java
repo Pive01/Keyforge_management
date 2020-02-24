@@ -5,8 +5,8 @@ import com.KeyforgeManagement.application.data.model.Deck;
 import java.util.List;
 
 public class ResponseImport {
-    List<Deck> decks;
-    int page;
+    private List<Deck> decks;
+    private int page;
 
     public List<Deck> getDecks() {
         return decks;

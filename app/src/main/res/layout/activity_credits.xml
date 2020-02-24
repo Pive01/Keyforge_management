@@ -32,7 +32,7 @@
         android:layout_marginLeft="8sp"
         android:layout_marginRight="8sp"
         android:autoLink="web"
-        android:gravity="left"
+        android:gravity="start"
         android:text="@string/crashLytics"
         android:textSize="17sp" />
 

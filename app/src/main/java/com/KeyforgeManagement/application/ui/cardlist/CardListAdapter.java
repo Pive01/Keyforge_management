@@ -48,10 +48,10 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     }
 
     class CardViewHolder extends RecyclerView.ViewHolder {
-        private ImageView cardRarity;
-        private ImageView specialRarity;
-        private TextView cardName;
-        private CardListInteractionListener listener;
+        private final ImageView cardRarity;
+        private final ImageView specialRarity;
+        private final TextView cardName;
+        private final CardListInteractionListener listener;
 
         CardViewHolder(@NonNull View itemView, CardListInteractionListener listener) {
             super(itemView);

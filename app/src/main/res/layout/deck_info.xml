@@ -134,8 +134,7 @@
             android:id="@+id/totalpower_count_value"
             style="@style/textTournamentInfo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="65" />
+            android:layout_height="wrap_content" />
 
         <TextView
             style="@style/detailString"
@@ -149,8 +148,7 @@
             android:id="@+id/totalarmor_count_value"
             style="@style/textTournamentInfo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="16" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

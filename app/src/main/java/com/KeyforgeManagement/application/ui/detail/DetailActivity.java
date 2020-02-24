@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView winsView;
     private TextView lossesView;
     private CustomViewPager viewPager;
-    private HashMap<House, List<Card>> map = new HashMap<>();
+    private final HashMap<House, List<Card>> map = new HashMap<>();
     private List<CardsDeckRef> refList;
     private static DatabaseSaver dbs;
     private ProgressDialog dialog;

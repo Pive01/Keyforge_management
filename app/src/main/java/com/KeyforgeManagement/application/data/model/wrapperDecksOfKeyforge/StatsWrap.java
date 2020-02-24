@@ -2,7 +2,7 @@ package com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge;
 
 import java.util.List;
 
-public class StatsWrap {
+class StatsWrap {
     private List<GlobalStatistics> globalStatistics;
 
     public List<GlobalStatistics> getGlobalStatistics() {

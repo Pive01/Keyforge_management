@@ -12,9 +12,9 @@ import java.util.concurrent.Future;
 import androidx.lifecycle.LiveData;
 
 public class DeckRepository {
-    private DeckDao mDeckDao;
-    private LiveData<List<Deck>> mAllDecks;
-    private LiveData<List<DeckDTO>> allDecksDTO;
+    private final DeckDao mDeckDao;
+    private final LiveData<List<Deck>> mAllDecks;
+    private final LiveData<List<DeckDTO>> allDecksDTO;
 
     public DeckRepository(Context context) {
         DecksDatabase db = DecksDatabase.getDatabase(context);

@@ -22,7 +22,7 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     private final List<Deck> decks;
     private final DeckListInteractionListener listener;
-    private List<Deck> bufferList;
+    private final List<Deck> bufferList;
 
 
     public DeckListAdapter(DeckListInteractionListener listener) {
@@ -105,12 +105,12 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     static class DeckViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView[] houseArr;
-        private TextView deckName;
-        private TextView expansion;
-        private TextView sasScore;
-        private TextView rawAember;
-        private DeckListInteractionListener listener;
+        private final ImageView[] houseArr;
+        private final TextView deckName;
+        private final TextView expansion;
+        private final TextView sasScore;
+        private final TextView rawAember;
+        private final DeckListInteractionListener listener;
 
         DeckViewHolder(@NonNull View itemView, DeckListInteractionListener listener) {
             super(itemView);

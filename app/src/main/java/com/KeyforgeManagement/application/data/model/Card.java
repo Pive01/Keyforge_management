@@ -88,10 +88,6 @@ public class Card implements Serializable {
         return card_title;
     }
 
-    public void setCard_title(String card_title) {
-        this.card_title = card_title;
-    }
-
     public String getCard_type() {
         return card_type;
     }

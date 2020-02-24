@@ -18,7 +18,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface DecksOfKeyforgeApi {
+interface DecksOfKeyforgeApi {
 
     @GET("decks/by-name/{name}")
     Call<List<Deck>> getDecks(@Path("name") String deckName);

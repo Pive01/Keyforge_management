@@ -22,9 +22,9 @@ import java.util.List;
 
 
 public class BarChartImplementer {
-    private BarChart chart;
-    private Stats statistic;
-    private String label;
+    private final BarChart chart;
+    private final Stats statistic;
+    private final String label;
     private int count = 0;
     private int secondCounter = 0;
 

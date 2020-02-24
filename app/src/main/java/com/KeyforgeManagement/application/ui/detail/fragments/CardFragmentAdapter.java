@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class CardFragmentAdapter extends FragmentPagerAdapter {
 
-    House[] houseArr;
-    private HashMap<House, List<Card>> map;
+    private final House[] houseArr;
+    private final HashMap<House, List<Card>> map;
 
     public CardFragmentAdapter(@NonNull FragmentManager fm, int behavior, HashMap<House, List<Card>> map, House[] houseArr) {
         super(fm, behavior);

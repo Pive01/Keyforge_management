@@ -23,7 +23,7 @@ import retrofit2.Response;
 public class SplashActivity extends AppCompatActivity {
 
 
-    ProgressBar loading;
+    private ProgressBar loading;
     private Stats statistics;
 
     @Override

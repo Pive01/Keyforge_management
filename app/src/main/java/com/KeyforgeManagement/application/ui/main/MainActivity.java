@@ -36,6 +36,7 @@ import com.tombayley.activitycircularreveal.CircularReveal;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                             .setAction("CLOSE", view -> {
 
                             })
-                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                            .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                             .show();
                     return true;
                 }
@@ -304,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 s, Snackbar.LENGTH_LONG)
                 .setAction("CLOSE", view -> {
                 })
-                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .show();
     }
 

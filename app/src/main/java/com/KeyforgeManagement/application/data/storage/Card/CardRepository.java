@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 public class CardRepository {
-    private CardDao cardDao;
+    private final CardDao cardDao;
 
     public CardRepository(Context context) {
         cardDao = DecksDatabase.getDatabase(context).getCardDao();

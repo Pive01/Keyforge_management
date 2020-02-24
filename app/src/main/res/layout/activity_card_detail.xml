@@ -46,7 +46,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="14dp"
                     android:paddingHorizontal="3sp"
-                    android:scaleType="fitCenter" />
+                    android:contentDescription="@string/card_icon"
+                    android:scaleType="fitCenter"
+                    tools:targetApi="o" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

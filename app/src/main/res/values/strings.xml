@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">Keyforge Management</string>
-    <string name="toolbar_appname">KEYFORGE MANAGEMENT</string>
-    <string name="addBtn">Add a deck</string>
-    <string name="viewBtn">My decks</string>
-    <string name="infoBtn">Info</string>
-    <string name="hintTxt">Type a deck name</string>
     <string name="aember">Æmber</string>
     <string name="sas_score">SAS</string>
-    <string name="about_us">About us</string>
-    <string name="scan_deck">Scan Deck</string>
     <string name="search">Search</string>
     <string name="main_title">My Decks</string>
     <string name="wins">Wins</string>
@@ -35,5 +28,17 @@
     <string name="importDok">Import</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="card_icon">Card Icon</string>
+    <string name="app_logo">App logo</string>
+    <string name="rarity">Rarity</string>
+    <string name="special_card_attribute">Special card attribute</string>
+    <string name="house_1">house 1</string>
+    <string name="house_2">house 2</string>
+    <string name="house_3">house 3</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="share">Share</string>
+    <string name="charts">Charts</string>
+    <string name="strongest_deck">Strongest deck</string>
 
 </resources>

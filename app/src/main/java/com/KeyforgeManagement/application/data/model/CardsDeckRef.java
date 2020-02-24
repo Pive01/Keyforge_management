@@ -54,48 +54,24 @@ public class CardsDeckRef {
         return is_maverick;
     }
 
-    public void setIs_maverick(Boolean is_maverick) {
-        this.is_maverick = is_maverick;
-    }
-
     public Boolean getIs_legacy() {
         return is_legacy;
-    }
-
-    public void setIs_legacy(Boolean is_legacy) {
-        this.is_legacy = is_legacy;
     }
 
     public Boolean getIs_anomaly() {
         return is_anomaly;
     }
 
-    public void setIs_anomaly(Boolean is_anomaly) {
-        this.is_anomaly = is_anomaly;
-    }
-
-
     public String getCardId() {
         return cardId;
-    }
-
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
     }
 
     public long getDeckId() {
         return deckId;
     }
 
-    public void setDeckId(int deckId) {
-        this.deckId = deckId;
-    }
-
     public int getCount() {
         return count;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
 }

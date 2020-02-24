@@ -102,7 +102,7 @@ public class ChartActivity extends AppCompatActivity {
 
 
         TextView winRate = findViewById(R.id.txtView_winrate);
-        winRate.setText("Strongest deck");
+        winRate.setText(getResources().getString(R.string.strongest_deck));
     }
 
     private void fillView(Deck deck, View itemView) {
@@ -121,8 +121,8 @@ public class ChartActivity extends AppCompatActivity {
         houseArr[2].setImageResource(deck.getHouses()[2].getImageId());
         deckName.setText(deck.getName());
         expansion.setText(deck.getExpansion().toString());
-        sasScore.setText(Integer.toString(deck.getSasRating()));
-        rawAember.setText(Integer.toString(deck.getRawAmber()));
+        sasScore.setText(String.valueOf(deck.getSasRating()));
+        rawAember.setText(String.valueOf(deck.getRawAmber()));
     }
 
     private void makeOnClickable(Deck deck, View itemView) {

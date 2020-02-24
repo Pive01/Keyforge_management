@@ -3,11 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="toolBarBlue">#0000FF</color>
+
     <color name="btnBlue">#2196F3</color>
     <color name="white">#F5F5F5</color>
     <color name="srcAzure">#80DEEA</color>
     <color name="black">#000000</color>
-    <color name="orange">#f57f17</color>
     <color name="yellow">#ffc400</color>
 </resources>
