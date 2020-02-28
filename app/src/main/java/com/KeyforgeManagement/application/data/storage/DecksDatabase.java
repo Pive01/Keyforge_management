@@ -26,7 +26,7 @@ public abstract class DecksDatabase extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 2;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-    private static volatile DecksDatabase INSTANCE;//so there is only 1 instance of it
+    private static volatile DecksDatabase INSTANCE;
 
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override

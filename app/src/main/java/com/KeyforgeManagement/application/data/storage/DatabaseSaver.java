@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 public class DatabaseSaver {
@@ -68,27 +67,14 @@ public class DatabaseSaver {
             deckCardRepository.insertBulk(cardsDeckRefCollection, callback);
             index = 0;
         });
-
-        try {
-            Collection<Card> inserted = cardRepository.insertCards(cardsColletions).get();
-            cardList.clear();
-            cardList.addAll(response.getData().get_links().getCards());
-            response.get_linked().getCards().forEach(card -> {
-                cardsDeckRefCollection.add(new CardsDeckRef(card.getId(), deck.getId(),
-                        Collections.frequency(cardList, card.getId()), tempMaverick.get(index),
-                        legacy.contains(card.getId()), tempAnomaly.get(index)));
-                index++;
-
-            });
-            deckCardRepository.insertBulk(cardsDeckRefCollection, callback);
-            index = 0;
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveDeck(Deck deck) {
         deckRepository.insert(deck);
+    }
+
+    public void saveMultipleDecks(Collection<Deck> deckCollection, Consumer<Collection<Deck>> callback) {
+        deckRepository.insertBulk(deckCollection, callback);
     }
 
 

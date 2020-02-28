@@ -40,5 +40,23 @@
     <string name="share">Share</string>
     <string name="charts">Charts</string>
     <string name="strongest_deck">Strongest deck</string>
+    <string name="board">Board</string>
+    <string name="speed">Speed</string>
+    <string name="extras">Extras</string>
+    <string name="amber_control">amber control</string>
+    <string name="expected_amber">expected amber</string>
+    <string name="amber_protection">amber protection</string>
+    <string name="artifact_control">artifact control</string>
+    <string name="creature_control">creature control</string>
+    <string name="efficiency">efficiency</string>
+    <string name="key_cheat">key cheat</string>
+    <string name="archive">archive</string>
+    <string name="disruption">disruption</string>
+    <string name="house_cheating">house cheating</string>
+    <string name="effective_power">effective power</string>
+    <string name="base_aerc">BASE AERC</string>
+    <string name="synergy">SYNERGY</string>
+    <string name="antisynergy">ANTISYNERGY</string>
+    <string name="information_logo_button">Information logo button</string>
 
 </resources>

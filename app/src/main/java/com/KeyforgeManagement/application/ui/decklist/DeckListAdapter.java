@@ -58,6 +58,12 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     }
 
+    public Deck getDeckAt(int position) {
+        if (position >= decks.size())
+            return null;
+        return decks.get(position);
+    }
+
     public void sort(int parameter) {
         switch (parameter) {
             case 0:

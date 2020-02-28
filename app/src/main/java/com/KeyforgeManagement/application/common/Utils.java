@@ -1,6 +1,7 @@
 package com.KeyforgeManagement.application.common;
 
 
+
 public final class Utils {
 
     public static String enumValueToString(String value) {
@@ -24,6 +25,7 @@ public final class Utils {
     public static int absolute(int num) {
         return num < 0 ? 0 : num;
     }
+
 
     private Utils() {
     }
