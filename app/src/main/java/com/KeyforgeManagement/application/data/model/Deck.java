@@ -10,6 +10,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+
 @Entity(tableName = "decks")
 public class Deck implements Serializable {
     @PrimaryKey
@@ -33,13 +34,12 @@ public class Deck implements Serializable {
     private int localLosses;
     private double artifactControl;
     private double creatureControl;
-    private double efficency;
+    private double efficency; //TODO rename to efficiency without losing all data
     private double amberControl;
     private double expectedAmber;
     private double disruption;
     private double amberProtection;
     private int effectivePower;
-    //---------
     private double houseCheating;
     private double aercScore;
     private double synergyRating;
@@ -104,7 +104,6 @@ public class Deck implements Serializable {
         this.keyCheatCount = keyCheatCount;
     }
 
-    //------------
     public double getArtifactControl() {
         return artifactControl;
     }
@@ -326,6 +325,7 @@ public class Deck implements Serializable {
         return expansion;
     }
 
+
     @Override
     public String toString() {
         return "Deck{" +
@@ -354,6 +354,13 @@ public class Deck implements Serializable {
                 ", disruption=" + disruption +
                 ", amberProtection=" + amberProtection +
                 ", effectivePower=" + effectivePower +
+                ", houseCheating=" + houseCheating +
+                ", aercScore=" + aercScore +
+                ", synergyRating=" + synergyRating +
+                ", antisynergyRating=" + antisynergyRating +
+                ", cardDrawCount=" + cardDrawCount +
+                ", cardArchiveCount=" + cardArchiveCount +
+                ", keyCheatCount=" + keyCheatCount +
                 ", rawAmber=" + rawAmber +
                 ", houses=" + Arrays.toString(houses) +
                 '}';

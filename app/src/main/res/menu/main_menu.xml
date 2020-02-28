@@ -5,15 +5,13 @@
     <item
         android:id="@+id/search_deck_mylist"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView"
-
-        />
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/graph_charts"
         android:icon="@drawable/ic_timeline_black_24dp"
-        android:title="Charts"
+        android:title="@string/charts"
         app:showAsAction="always" />
     <item
         android:id="@+id/sort_decks"

@@ -22,7 +22,7 @@ public class BarChartCustomRenderer extends BarChartRenderer {
     private Context context;
     private List<Bitmap> imageList;
 
-    public BarChartCustomRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler, List<Bitmap> imageList, Context context) {
+    BarChartCustomRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler, List<Bitmap> imageList, Context context) {
         super(chart, animator, viewPortHandler);
         this.context = context;
         this.imageList = imageList;

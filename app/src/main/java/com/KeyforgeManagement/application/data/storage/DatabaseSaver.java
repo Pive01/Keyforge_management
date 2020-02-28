@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class DatabaseSaver {
-    private DeckRepository deckRepository;
-    private CardRepository cardRepository;
-    private DeckCardRepository deckCardRepository;
-    private List<String> cardList;
-    private List<Boolean> tempMaverick = new ArrayList<>();
-    private List<Boolean> tempAnomaly = new ArrayList<>();
+    private final DeckRepository deckRepository;
+    private final CardRepository cardRepository;
+    private final DeckCardRepository deckCardRepository;
+    private final List<String> cardList;
+    private final List<Boolean> tempMaverick = new ArrayList<>();
+    private final List<Boolean> tempAnomaly = new ArrayList<>();
     private int index = 0;
-    private Collection<CardsDeckRef> cardsDeckRefCollection;
-    private Collection<Card> cardsColletions;
+    private final Collection<CardsDeckRef> cardsDeckRefCollection;
+    private final Collection<Card> cardsColletions;
 
 
     public DatabaseSaver(Context c) {
@@ -52,8 +52,8 @@ public class DatabaseSaver {
             card.setIs_legacy(false);
             card.setIs_maverick(false);
             cardsColletions.add(card);
-            cardRepository.insert(card);
         });
+
         cardRepository.insertBulk(cardsColletions, cards -> {
             cardList.clear();
             cardList.addAll(response.getData().get_links().getCards());
@@ -71,6 +71,10 @@ public class DatabaseSaver {
 
     public void saveDeck(Deck deck) {
         deckRepository.insert(deck);
+    }
+
+    public void saveMultipleDecks(Collection<Deck> deckCollection, Consumer<Collection<Deck>> callback) {
+        deckRepository.insertBulk(deckCollection, callback);
     }
 
 

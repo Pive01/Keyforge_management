@@ -1,4 +1,4 @@
-package com.KeyforgeManagement.application.ui.main.Informations;
+package com.KeyforgeManagement.application.ui.main.information;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.KeyforgeManagement.application.ui.detail.Fragments;
+package com.KeyforgeManagement.application.ui.detail.fragments;
 
 import android.os.Bundle;
 
@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class CardFragmentAdapter extends FragmentPagerAdapter {
 
-    House[] houseArr;
-    private HashMap<House, List<Card>> map;
+    private final House[] houseArr;
+    private final HashMap<House, List<Card>> map;
 
     public CardFragmentAdapter(@NonNull FragmentManager fm, int behavior, HashMap<House, List<Card>> map, House[] houseArr) {
         super(fm, behavior);
@@ -30,7 +30,6 @@ public class CardFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         CardListFragment cardListFragment = new CardListFragment();
-
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("list", (Serializable) map.get(houseArr[position]));

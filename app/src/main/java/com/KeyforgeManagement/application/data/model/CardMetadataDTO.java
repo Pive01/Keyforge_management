@@ -5,10 +5,26 @@ import androidx.room.Relation;
 
 public class CardMetadataDTO {
     @Embedded
-    public CardsDeckRef cardsDeckRef;
+    private CardsDeckRef cardsDeckRef;
 
     @Relation(parentColumn = "cardId", entityColumn = "id")
-    public Card card;
+    private Card card;
+
+    public CardsDeckRef getCardsDeckRef() {
+        return cardsDeckRef;
+    }
+
+    public void setCardsDeckRef(CardsDeckRef cardsDeckRef) {
+        this.cardsDeckRef = cardsDeckRef;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
 
     @Override
     public String toString() {

@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
@@ -44,9 +45,10 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
     private DeckListAdapter mAdapter;
     private DatabaseSaver dbs;
-    ProgressBar loadingDecks;
-    private Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
+    private final Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
+    private ProgressBar loadingDecks;
     private CircularReveal mActivityCircularReveal;
+    private static boolean byName = false;
 
 
     public static void start(Context context) {
@@ -95,6 +97,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     }
 
     private void displayDecks(String name) {
+        byName = true;
         loadingDecks.setVisibility(View.VISIBLE);
         Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
             @Override
@@ -123,7 +126,27 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    dbs.saveDeck(deck);
+                    if (byName) {
+                        loadingDecks.setVisibility(View.VISIBLE);
+                        Api.getDeckFromId(deck.getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
+                            @Override
+                            public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
+                                if (response.body() == null) {
+                                    showSnackBar("Error");
+                                } else
+                                    dbs.saveDeck(response.body().getDeck());
+                                loadingDecks.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onFailure(Call<SingleDeckReference> call, Throwable t) {
+                                loadingDecks.setVisibility(View.GONE);
+                                showSnackBar("Error");
+                            }
+                        });
+
+                    } else
+                        dbs.saveDeck(deck);
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -136,6 +159,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
 
     private void searchById(String id) {
+        byName = false;
         loadingDecks.setVisibility(View.VISIBLE);
         Api.getDeckFromId(id).enqueue(new Callback<SingleDeckReference>() {
             @Override
@@ -209,7 +233,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 s, Snackbar.LENGTH_LONG)
                 .setAction("CLOSE", view -> {
                 })
-                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .show();
     }
 

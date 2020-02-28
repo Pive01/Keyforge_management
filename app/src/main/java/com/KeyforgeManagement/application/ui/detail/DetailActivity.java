@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
@@ -22,10 +24,12 @@ import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
-import com.KeyforgeManagement.application.ui.detail.Fragments.CardFragmentAdapter;
-import com.KeyforgeManagement.application.ui.detail.Fragments.CustomViewPager;
+import com.KeyforgeManagement.application.ui.detail.fragments.CardFragmentAdapter;
+import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
 import com.github.mikephil.charting.charts.BarChart;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,11 +56,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView winsView;
     private TextView lossesView;
     private CustomViewPager viewPager;
-    private HashMap<House, List<Card>> map = new HashMap<>();
+    private final HashMap<House, List<Card>> map = new HashMap<>();
     private List<CardsDeckRef> refList;
     private static DatabaseSaver dbs;
     private ProgressDialog dialog;
-
 
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, DetailActivity.class));
@@ -80,6 +83,7 @@ public class DetailActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
 
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -91,10 +95,17 @@ public class DetailActivity extends AppCompatActivity {
         Button addLoss = findViewById(R.id.addLoss);
         Button removeWin = findViewById(R.id.removeWins);
         Button removeLoss = findViewById(R.id.removeLoss);
-        inizializeTextViews();
+        initializeTextViews();
         updateView();
-        inizializeButtons(addWin, addLoss, removeLoss, removeWin);
+        initializeButtons(addWin, addLoss, removeLoss, removeWin);
 
+
+        ImageButton infoLogo = findViewById(R.id.infobutton);
+        infoLogo.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://decksofkeyforge.com/about/sas"));
+            startActivity(browserIntent);
+        });
         repository = new DeckRepository(this);
 
         deckCardRepository = new DeckCardRepository(getApplicationContext());
@@ -104,29 +115,51 @@ public class DetailActivity extends AppCompatActivity {
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deck.getSasRating());
-
     }
 
+    private void initializeTextViews() {
+        DecimalFormat df = new DecimalFormat("#.#");
+        df.setRoundingMode(RoundingMode.CEILING);
 
-    private void inizializeTextViews() {
+        DecimalFormat noDot = new DecimalFormat("#");
+        noDot.setRoundingMode(RoundingMode.CEILING);
+
         TextView power = findViewById(R.id.deck_power_txt);
         TextView chain = findViewById(R.id.deck_chain_txt);
         TextView winloss = findViewById(R.id.deck_winandloss_txt);
-        TextView actionCount = findViewById(R.id.action_count_value);
-        TextView artifactCount = findViewById(R.id.artifact_count_value);
-        TextView creatureCount = findViewById(R.id.creature_count_value);
-        TextView upgradeCount = findViewById(R.id.upgrade_count_value);
-        TextView totalPower = findViewById(R.id.totalpower_count_value);
-        TextView totalarmor = findViewById(R.id.totalarmor_count_value);
         power.setText(String.valueOf(deck.getPowerLevel()));
         chain.setText(String.valueOf(deck.getChains()));
         winloss.setText((deck.getWins()) + " / " + deck.getLosses());
-        actionCount.setText(String.valueOf(deck.getActionCount()));
-        artifactCount.setText(String.valueOf(deck.getArtifactCount()));
-        creatureCount.setText(String.valueOf(deck.getCreatureCount()));
-        upgradeCount.setText(String.valueOf(deck.getUpgradeCount()));
-        totalPower.setText(String.valueOf(deck.getTotalPower()));
-        totalarmor.setText(String.valueOf(deck.getTotalArmor()));
+        TextView amberCntrl = findViewById(R.id.txtView_amber_control);
+        TextView expectedAmber = findViewById(R.id.txtView_expected_amber);
+        TextView amberProtection = findViewById(R.id.txtView_amber_protection);
+        TextView artifactControl = findViewById(R.id.txtView_artifact_control);
+        TextView creatureControl = findViewById(R.id.txtView_creature_control);
+        TextView effectivePower = findViewById(R.id.txtView_effective_power);
+        TextView houseCheating = findViewById(R.id.txtView_house_cheating);
+        TextView disruption = findViewById(R.id.txtView_disruption);
+        TextView amber = findViewById(R.id.txtView_amber);
+        TextView keyCheat = findViewById(R.id.txtView_key_cheat);
+        TextView archive = findViewById(R.id.txtView_archive);
+        TextView aerc = findViewById(R.id.base_aerc);
+        TextView synergy = findViewById(R.id.synegy);
+        TextView antisynergy = findViewById(R.id.antisynegy);
+        amberCntrl.setText(String.valueOf(df.format(deck.getAmberControl())));
+        expectedAmber.setText(String.valueOf(noDot.format(deck.getExpectedAmber())));
+        amberProtection.setText(String.valueOf(df.format(deck.getAmberProtection())));
+        artifactControl.setText(String.valueOf(df.format(deck.getArtifactControl())));
+        creatureControl.setText(String.valueOf(df.format(deck.getCreatureControl())));
+        effectivePower.setText(String.valueOf(df.format(deck.getEffectivePower())));
+        houseCheating.setText(String.valueOf(df.format(deck.getHouseCheating())));
+        disruption.setText(String.valueOf(df.format(deck.getDisruption())));
+        amber.setText(String.valueOf(df.format(deck.getRawAmber())));
+        keyCheat.setText(String.valueOf(df.format(deck.getKeyCheatCount())));
+        archive.setText(String.valueOf(df.format(deck.getCardArchiveCount())));
+        aerc.setText(String.valueOf(noDot.format(deck.getAercScore())));
+        synergy.setText("+ " + noDot.format(deck.getSynergyRating()));
+        antisynergy.setText("- " + noDot.format(deck.getAntisynergyRating()));
+
+
     }
 
     private void updateWins() {
@@ -144,10 +177,9 @@ public class DetailActivity extends AppCompatActivity {
         lossesView.setText(String.valueOf(deck.getLocalLosses()));
         adjustSize(winsView);
         adjustSize(lossesView);
-
     }
 
-    private void inizializeButtons(Button addWin, Button addLoss,
+    private void initializeButtons(Button addWin, Button addLoss,
                                    Button removeLoss, Button removeWin) {
         addLoss.setOnClickListener(v -> {
             deck.setLocalLosses((deck.getLocalLosses() + 1));
@@ -177,10 +209,9 @@ public class DetailActivity extends AppCompatActivity {
         houseArr[1] = cardToShow.get(12).getHouse();
         houseArr[2] = cardToShow.get(24).getHouse();
 
-        map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 11)));
-        map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 23)));
-        map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 35)));
-
+        map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 12)));
+        map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 24)));
+        map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 36)));
 
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
@@ -204,7 +235,6 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void assembleData(List<Card> cardList) {
         List<Card> temp = new ArrayList<>();
 
@@ -212,17 +242,15 @@ public class DetailActivity extends AppCompatActivity {
             downloadCards();
             return;
         }
-        cardList.forEach(reference -> {
-            refList.forEach(value -> {
-                if (reference.getId().equals(value.getCardId())) {
-                    reference.setIs_maverick(value.getIs_maverick());
-                    reference.setIs_legacy(value.getIs_legacy());
-                    reference.setIs_anomaly(value.getIs_anomaly());
-                    for (int i = 0; i < value.getCount(); i++)
-                        temp.add(reference);
-                }
-            });
-        });
+        cardList.forEach(reference -> refList.forEach(value -> {
+            if (reference.getId().equals(value.getCardId())) {
+                reference.setIs_maverick(value.getIs_maverick());
+                reference.setIs_legacy(value.getIs_legacy());
+                reference.setIs_anomaly(value.getIs_anomaly());
+                for (int i = 0; i < value.getCount(); i++)
+                    temp.add(reference);
+            }
+        }));
 
         getCards(temp);
     }
@@ -245,7 +273,6 @@ public class DetailActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 dbs.trySaveCards(response.body(), deck, collection -> {
                     dialog.hide();
                     getInfoCards();
@@ -256,7 +283,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
                 dialog.hide();
-
             }
         });
     }
@@ -267,13 +293,11 @@ public class DetailActivity extends AppCompatActivity {
         deckCardRepository.getCards(deck).observe(this, this::assembleData);
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
-
 
     private void getShareIntent() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -299,6 +323,5 @@ public class DetailActivity extends AppCompatActivity {
         else
             item.setTextSize(38);
     }
-
 }
 

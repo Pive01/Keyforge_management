@@ -18,7 +18,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface DecksOfKeyforgeApi {
+interface DecksOfKeyforgeApi {
 
     @GET("decks/by-name/{name}")
     Call<List<Deck>> getDecks(@Path("name") String deckName);
@@ -29,20 +29,14 @@ public interface DecksOfKeyforgeApi {
     @GET("decks/with-synergies/{id}")
     Call<SingleDeckReference> getDeckFromId(@Path("id") String deckId);
 
-    @Headers({
-            "timezone: 60"
-    })
+    @Headers({"timezone: 60"})
     @POST("decks/filter")
     Call<ResponseImport> importDecks(@Body RequestBody body, @Header("authorization") String auth);
 
     @POST("users/login")
     Call<Void> getAuthorization(@Body UserValidator usr);
 
-    @Headers({
-            "timezone: 60"
-    })
+    @Headers({"timezone: 60"})
     @GET("users/secured/your-user")
     Call<UserInfo> getUserName(@Header("authorization") String auth);
-
-
 }

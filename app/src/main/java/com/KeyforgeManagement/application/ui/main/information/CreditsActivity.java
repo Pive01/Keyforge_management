@@ -1,4 +1,4 @@
-package com.KeyforgeManagement.application.ui.main.Informations;
+package com.KeyforgeManagement.application.ui.main.information;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ public class CreditsActivity extends AppCompatActivity {
 
     private static String txtToShow;
 
+    // TODO put txtToSHow in intent
     public static void start(Context context, String txtToShowPassed) {
         context.startActivity(new Intent(context, CreditsActivity.class));
         txtToShow = txtToShowPassed;

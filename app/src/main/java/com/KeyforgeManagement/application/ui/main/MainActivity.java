@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
@@ -22,22 +21,26 @@ import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.Req
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.ResponseImport;
+import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
-import com.KeyforgeManagement.application.ui.main.Informations.Information;
+import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.tombayley.activitycircularreveal.CircularReveal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,12 +48,14 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
 
-    private DeckRepository repository;
+    private static DeckRepository repository;
     private DeckListAdapter mAdapter;
     private static Stats statistics;
     private String auth = "";
     private String usrName = "";
     private ProgressDialog dialog;
+    private boolean error = false;
+    private SwipeRefreshLayout swipeRefresh;
 
 
     public static void start(Context context, Intent i) {
@@ -78,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 ))
         );
 
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(() -> refreshStatus(0));
 
         RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,11 +102,40 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     @Override
     public void onDeckClicked(Deck deck) {
         Intent i = new Intent(this, DetailActivity.class);
-        i.putExtra("deckInfo", deck);
         i.putExtra("stats", statistics);
+        if (deck.getAercScore() == 0.0) {
+            dialog.setMessage("Updating deck info");
+            dialog.show();
+            Api.getDeckFromId(deck.getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
+                @Override
+                public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
+                    if (response.body() == null) {
+                        showSnackBarMain("There has been an error");
+                        dialog.hide();
+                        return;
+                    }
 
-        DetailActivity.start(this, i);
+                    repository.migrateToV2(response.body().getDeck(), deck1 -> {
+                        repository.getSingleDeck(deck, deck2 -> {
+                            dialog.hide();
+                            i.putExtra("deckInfo", deck2);
+                            DetailActivity.start(MainActivity.this, i);
+                        });
+                    });
+                }
 
+                @Override
+                public void onFailure(Call<SingleDeckReference> call, Throwable t) {
+                    showSnackBarMain("There has been an error");
+                    dialog.hide();
+                }
+
+            });
+
+        } else {
+            i.putExtra("deckInfo", deck);
+            DetailActivity.start(this, i);
+        }
     }
 
     @Override
@@ -167,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                             .setAction("CLOSE", view -> {
 
                             })
-                            .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                            .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                             .show();
                     return true;
                 }
@@ -256,7 +292,6 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                 if (response.body() == null) {
                     showSnackBarMain("There has been an error");
-                    System.out.println("getUserName body null");
                     dialog.hide();
                     return;
                 }
@@ -280,9 +315,9 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             @Override
             public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
                 if (response.body() != null) {
+
                     DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
-                    response.body().getDecks().forEach(dbs::saveDeck);
-                    dialog.hide();
+                    dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
                 } else {
                     showSnackBarMain("An error occurred while importing data");
                     dialog.hide();
@@ -304,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 s, Snackbar.LENGTH_LONG)
                 .setAction("CLOSE", view -> {
                 })
-                .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
+                .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                 .show();
     }
 
@@ -314,14 +349,45 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         View dialogView = inflater.inflate(R.layout.credential_layout, null);
         builder.setView(dialogView);
         builder.setPositiveButton("Sign in", (dialogInterface, i) -> {
-            EditText email = dialogView.findViewById(R.id.userEmail);
-            EditText psw = dialogView.findViewById(R.id.password_dok);
-
+            TextInputEditText email = dialogView.findViewById(R.id.userEmail);
+            TextInputEditText psw = dialogView.findViewById(R.id.password_dok);
 
             getAuthorization(email.getText().toString(), psw.getText().toString());
         });
         builder.setNegativeButton("Cancel", null);
 
         builder.show();
+    }
+
+    private void refreshStatus(int i) {
+        if (error || mAdapter.getDeckAt(i) == null) {
+            swipeRefresh.setRefreshing(false);
+            return;
+        }
+        Api.getDeckFromId(mAdapter.getDeckAt(i).getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
+            @Override
+            public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
+                if (response.body() == null) {
+                    showSnackBarMain("Error try later");
+                    error = true;
+                }
+                error = false;
+                repository.updateStatus(response.body().getDeck(), deck -> {
+                    if (i == mAdapter.getItemCount() - 1) {
+                        swipeRefresh.setRefreshing(false);
+                        return;
+                    }
+
+                    refreshStatus(i + 1);
+                });
+            }
+
+            @Override
+            public void onFailure(Call<SingleDeckReference> call, Throwable t) {
+                showSnackBarMain("Error try later");
+                error = true;
+                swipeRefresh.setRefreshing(false);
+            }
+        });
     }
 }

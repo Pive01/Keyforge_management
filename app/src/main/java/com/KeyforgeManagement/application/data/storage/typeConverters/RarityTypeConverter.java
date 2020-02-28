@@ -7,9 +7,6 @@ import androidx.room.TypeConverter;
 
 public class RarityTypeConverter {
 
-    private RarityTypeConverter() {
-    }
-
     @TypeConverter
     public static String fromRarity(Rarity rarity) {
         return rarity.name();
@@ -18,5 +15,8 @@ public class RarityTypeConverter {
     @TypeConverter
     public static Rarity fromString(String rarityName) {
         return Rarity.valueOf(rarityName);
+    }
+
+    private RarityTypeConverter() {
     }
 }

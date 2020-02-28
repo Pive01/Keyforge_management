@@ -1,14 +1,7 @@
 <resources>
     <string name="app_name">Keyforge Management</string>
-    <string name="toolbar_appname">KEYFORGE MANAGEMENT</string>
-    <string name="addBtn">Add a deck</string>
-    <string name="viewBtn">My decks</string>
-    <string name="infoBtn">Info</string>
-    <string name="hintTxt">Type a deck name</string>
     <string name="aember">Æmber</string>
     <string name="sas_score">SAS</string>
-    <string name="about_us">About us</string>
-    <string name="scan_deck">Scan Deck</string>
     <string name="search">Search</string>
     <string name="main_title">My Decks</string>
     <string name="wins">Wins</string>
@@ -33,5 +26,37 @@
     <string name="licenses">Open Source Licenses</string>
     <string name="lonely"><![CDATA[It feels a bit lonely here… try adding a deck with + button ->]]></string>
     <string name="importDok">Import</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="card_icon">Card Icon</string>
+    <string name="app_logo">App logo</string>
+    <string name="rarity">Rarity</string>
+    <string name="special_card_attribute">Special card attribute</string>
+    <string name="house_1">house 1</string>
+    <string name="house_2">house 2</string>
+    <string name="house_3">house 3</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="share">Share</string>
+    <string name="charts">Charts</string>
+    <string name="strongest_deck">Strongest deck</string>
+    <string name="board">Board</string>
+    <string name="speed">Speed</string>
+    <string name="extras">Extras</string>
+    <string name="amber_control">amber control</string>
+    <string name="expected_amber">expected amber</string>
+    <string name="amber_protection">amber protection</string>
+    <string name="artifact_control">artifact control</string>
+    <string name="creature_control">creature control</string>
+    <string name="efficiency">efficiency</string>
+    <string name="key_cheat">key cheat</string>
+    <string name="archive">archive</string>
+    <string name="disruption">disruption</string>
+    <string name="house_cheating">house cheating</string>
+    <string name="effective_power">effective power</string>
+    <string name="base_aerc">BASE AERC</string>
+    <string name="synergy">SYNERGY</string>
+    <string name="antisynergy">ANTISYNERGY</string>
+    <string name="information_logo_button">Information logo button</string>
 
 </resources>

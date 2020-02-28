@@ -47,14 +47,13 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         notifyDataSetChanged();
     }
 
+    class CardViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView cardRarity;
+        private final ImageView specialRarity;
+        private final TextView cardName;
+        private final CardListInteractionListener listener;
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
-        private ImageView cardRarity;
-        private ImageView specialRarity;
-        private TextView cardName;
-        private CardListInteractionListener listener;
-
-        public CardViewHolder(@NonNull View itemView, CardListInteractionListener listener) {
+        CardViewHolder(@NonNull View itemView, CardListInteractionListener listener) {
             super(itemView);
             this.listener = listener;
             cardName = itemView.findViewById(R.id.cardnameview);
@@ -63,7 +62,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
 
         }
 
-        public void display(Card card) {
+        void display(Card card) {
             cardRarity.setImageResource(card.getRarity().getImageCardId());
             cardName.setText(card.getCard_title());
 

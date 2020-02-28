@@ -8,10 +8,26 @@ import androidx.room.Relation;
 public class DeckDTO {
 
     @Embedded
-    public Deck deck;
+    private Deck deck;
 
     @Relation(parentColumn = "id", entityColumn = "deckId", entity = CardsDeckRef.class)
-    public List<CardMetadataDTO> cards;
+    private List<CardMetadataDTO> cards;
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public List<CardMetadataDTO> getCards() {
+        return cards;
+    }
+
+    public void setCards(List<CardMetadataDTO> cards) {
+        this.cards = cards;
+    }
 
     @Override
     public String toString() {

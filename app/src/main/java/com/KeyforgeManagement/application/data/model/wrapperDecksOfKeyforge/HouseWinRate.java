@@ -1,8 +1,8 @@
 package com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge;
 
 public class HouseWinRate {
-    String x;
-    double y;
+    private String x;
+    private double y;
 
     public String getX() {
         return x;
