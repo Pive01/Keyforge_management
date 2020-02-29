@@ -84,7 +84,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         );
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
-        swipeRefresh.setOnRefreshListener(() -> refreshStatus(0));
+        swipeRefresh.setOnRefreshListener(() -> {
+            error = false;
+            refreshStatus(0);
+        });
 
         RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -103,39 +106,9 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     public void onDeckClicked(Deck deck) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("stats", statistics);
-        if (deck.getAercScore() == 0.0) {
-            dialog.setMessage("Updating deck info");
-            dialog.show();
-            Api.getDeckFromId(deck.getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
-                @Override
-                public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
-                    if (response.body() == null) {
-                        showSnackBarMain("There has been an error");
-                        dialog.hide();
-                        return;
-                    }
+        i.putExtra("deckInfo", deck);
+        DetailActivity.start(this, i);
 
-                    repository.migrateToV2(response.body().getDeck(), deck1 -> {
-                        repository.getSingleDeck(deck, deck2 -> {
-                            dialog.hide();
-                            i.putExtra("deckInfo", deck2);
-                            DetailActivity.start(MainActivity.this, i);
-                        });
-                    });
-                }
-
-                @Override
-                public void onFailure(Call<SingleDeckReference> call, Throwable t) {
-                    showSnackBarMain("There has been an error");
-                    dialog.hide();
-                }
-
-            });
-
-        } else {
-            i.putExtra("deckInfo", deck);
-            DetailActivity.start(this, i);
-        }
     }
 
     @Override
@@ -364,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
             swipeRefresh.setRefreshing(false);
             return;
         }
+        System.out.println("Saving " + mAdapter.getDeckAt(i).getName());
         Api.getDeckFromId(mAdapter.getDeckAt(i).getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
             @Override
             public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {

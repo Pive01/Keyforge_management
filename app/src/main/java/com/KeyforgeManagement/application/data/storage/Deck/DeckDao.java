@@ -24,9 +24,6 @@ public interface DeckDao {
     @Query("select * from decks ORDER BY sasRating DESC,rawAmber DESC")
     LiveData<List<Deck>> getDecks();
 
-    @Query("SELECT * FROM decks WHERE id=:id")
-    Deck getSingleDeck(long id);
-
     @Query("UPDATE decks SET localWins=:wins WHERE id=:id")
     void updateWins(int wins, long id);
 
@@ -46,22 +43,15 @@ public interface DeckDao {
             "losses=:losses," +
             "aercScore=:aercScore," +
             "synergyRating=:synergyRating," +
+            "keyCheatCount=:keyCheatCount ," +
+            "houseCheating=:houseCheating," +
+            "cardDrawCount=:cardDrawCount," +
+            "cardArchiveCount=:cardArchiveCount," +
             "antisynergyRating=:antisynergyRating WHERE id=:id")
     void updateDeckStatus(int sasRating, int powerLevel, int chains, int wins, int losses,
                           double aercScore, double synergyRating, double antisynergyRating,
-                          long id);
-
-    @Query("UPDATE decks SET keyCheatCount=:keyCheatCount ," +
-            "houseCheating=:houseCheating," +
-            "aercScore=:aercScore," +
-            "synergyRating=:synergyRating," +
-            "antisynergyRating=:antisynergyRating," +
-            "cardDrawCount=:cardDrawCount," +
-            "cardArchiveCount=:cardArchiveCount WHERE id=:id")
-    void migrateToV2(double houseCheating, double aercScore, double synergyRating,
-                     double antisynergyRating, int cardDrawCount, int cardArchiveCount,
-                     int keyCheatCount, long id);
-
+                          int cardDrawCount, int cardArchiveCount, double houseCheating,
+                          int keyCheatCount, long id);
 
     @Transaction
     @Query("SELECT * FROM decks WHERE id=:id")

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
@@ -27,6 +28,7 @@ import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
 import com.KeyforgeManagement.application.ui.detail.fragments.CardFragmentAdapter;
 import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
 import com.github.mikephil.charting.charts.BarChart;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -38,6 +40,7 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
@@ -159,6 +162,9 @@ public class DetailActivity extends AppCompatActivity {
         synergy.setText("+ " + noDot.format(deck.getSynergyRating()));
         antisynergy.setText("- " + noDot.format(deck.getAntisynergyRating()));
 
+        ImageView expansionIcon = findViewById(R.id.expansion_img);
+        expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
+
 
     }
 
@@ -202,6 +208,16 @@ public class DetailActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void getCards(List<Card> cardToShow) {
+        if (cardToShow.isEmpty()) {
+            Snackbar.make(
+                    findViewById(R.id.mainDetailLayout),
+                    "Error while loading cards...Try delete and re-add this deck", Snackbar.LENGTH_LONG)
+                    .setAction("CLOSE", view -> {
+                    })
+                    .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+                    .show();
+            return;
+        }
         House[] houseArr = new House[3];
 
         cardToShow.sort(Comparator.comparing(Card::getHouse));
