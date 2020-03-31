@@ -82,4 +82,8 @@ public class DeckRepository {
     public LiveData<List<DeckDTO>> getAllDecksDTO() {
         return allDecksDTO;
     }
+
+    public LiveData<DeckDTO> getDeckDTO(long id) {
+        return mDeckDao.getDeckDTOs(id);
+    }
 }

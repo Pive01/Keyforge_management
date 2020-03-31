@@ -25,25 +25,19 @@
 
     <style name="textFontHigh">
         <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textStyle">italic|bold</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="textFontLow">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="textDetailBold">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">italic|bold</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="textTournamentInfo">
         <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textStyle">italic</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -57,15 +51,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:elevation">4sp</item>
         <item name="android:foreground">?selectableItemBackground</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:backgroundTint">@color/yellow</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
         <item name="android:background">@drawable/buttonbackground</item>
     </style>
-
-    <style name="CircularReveal" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
 
     <style name="AppTheme.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>

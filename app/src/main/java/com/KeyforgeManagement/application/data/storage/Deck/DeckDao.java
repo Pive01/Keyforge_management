@@ -55,7 +55,7 @@ public interface DeckDao {
 
     @Transaction
     @Query("SELECT * FROM decks WHERE id=:id")
-    List<DeckDTO> getDeckDTOs(long id);
+    LiveData<DeckDTO> getDeckDTOs(long id);
 
     @Transaction
     @Query("SELECT * FROM decks")

@@ -48,6 +48,8 @@
                     android:paddingHorizontal="3sp"
                     android:contentDescription="@string/card_icon"
                     android:scaleType="fitCenter"
+                    android:layout_marginBottom="10sp"
+
                     tools:targetApi="o" />
 
                 <LinearLayout
@@ -57,6 +59,7 @@
 
                     <TextView
                         style="@style/detailString"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4sp"
@@ -80,6 +83,7 @@
                         style="@style/detailString"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/black"
                         android:padding="4sp"
                         android:text="@string/type" />
 
@@ -101,6 +105,7 @@
 
                     <TextView
                         style="@style/detailString"
+                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4sp"

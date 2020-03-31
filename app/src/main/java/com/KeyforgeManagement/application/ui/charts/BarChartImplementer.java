@@ -26,8 +26,6 @@ public class BarChartImplementer {
     private final Stats statistic;
     private final String label;
     private int count = 0;
-    private int secondCounter = 0;
-
 
     public BarChartImplementer(BarChart chart, Stats toShow, String label) {
         this.chart = chart;
@@ -45,9 +43,9 @@ public class BarChartImplementer {
         statistic.getSas().forEach(item -> {
             values.add(new BarEntry(item.getX(), ((int) item.getY())));
             if (item.getX() == Compare) {
-                colors.add(Color.MAGENTA);
+                colors.add(Color.parseColor("#ffc400"));
             } else
-                colors.add(Color.GREEN);
+                colors.add(Color.parseColor("#80DEEA"));
         });
 
 
@@ -95,10 +93,7 @@ public class BarChartImplementer {
 
         chart.getAxisRight().setEnabled(false);
         List<BarEntry> houseValues = new ArrayList<>();
-        int[] Colors = new int[]{Color.parseColor("#F36330"), Color.parseColor("#D92473"),
-                Color.parseColor("#21A7D2"), Color.parseColor("#93CA37"),
-                Color.parseColor("#F7F142"), Color.parseColor("#37474F"),
-                Color.parseColor("#14754A"), Color.parseColor("#2B457E"), Color.parseColor("#4BBCD4"), Color.DKGRAY};
+        int Colors = Color.parseColor("#ffc400");
 
 
         statistic.getHouseWinRate().forEach(item -> {
@@ -106,10 +101,9 @@ public class BarChartImplementer {
             houseValues.add(new BarEntry(count++, (int) ((item.getY() * 100) - 4800)));
             LegendEntry temp = new LegendEntry();
             temp.label = item.getX();
-            temp.formColor = Colors[secondCounter++];
         });
         BarDataSet dataSet = new BarDataSet(houseValues, "");
-        dataSet.setColors(Colors);
+        dataSet.setColor(Colors);
         dataSet.setDrawValues(false);
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);

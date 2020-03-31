@@ -16,14 +16,14 @@ import android.widget.TextView;
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Card;
-import com.KeyforgeManagement.application.data.model.CardsDeckRef;
+import com.KeyforgeManagement.application.data.model.CardMetadataDTO;
 import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.House;
 import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
-import com.KeyforgeManagement.application.data.storage.DeckWithCards.DeckCardRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
 import com.KeyforgeManagement.application.ui.detail.fragments.CardFragmentAdapter;
 import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
@@ -40,6 +40,7 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -52,21 +53,19 @@ import static com.KeyforgeManagement.application.common.Utils.absolute;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private static Deck deck;
+    private static DeckDTO deckDTO;
     private static Stats statistic;
     private DeckRepository repository;
-    private DeckCardRepository deckCardRepository;
     private TextView winsView;
     private TextView lossesView;
     private CustomViewPager viewPager;
     private final HashMap<House, List<Card>> map = new HashMap<>();
-    private List<CardsDeckRef> refList;
     private static DatabaseSaver dbs;
     private ProgressDialog dialog;
 
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, DetailActivity.class));
-        deck = (Deck) i.getSerializableExtra("deckInfo");
+        deckDTO = (DeckDTO) i.getSerializableExtra("deckInfo");
         statistic = (Stats) i.getSerializableExtra("stats");
     }
 
@@ -76,7 +75,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Toolbar infoToolbar = findViewById(R.id.deck_info_toolbar);
-        infoToolbar.setTitle(deck.getName());
+        infoToolbar.setTitle(deckDTO.getDeck().getName());
 
         setSupportActionBar(infoToolbar);
 
@@ -86,11 +85,8 @@ public class DetailActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
 
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        refList = new ArrayList<>();
 
         winsView = findViewById(R.id.winsCounter);
         lossesView = findViewById(R.id.lossCounter);
@@ -105,19 +101,20 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageButton infoLogo = findViewById(R.id.infobutton);
         infoLogo.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://decksofkeyforge.com/about/sas"));
-            startActivity(browserIntent);
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse("https://decksofkeyforge.com/about/sas"));
+
         });
         repository = new DeckRepository(this);
 
-        deckCardRepository = new DeckCardRepository(getApplicationContext());
-        getInfoCards();
+        assembleData();
 
         BarChart chart = findViewById(R.id.barchart);
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
                 "Sas Ratings");
-        chartImplementer.createSasBarChart(deck.getSasRating());
+        chartImplementer.createSasBarChart(deckDTO.getDeck().getSasRating());
     }
 
     private void initializeTextViews() {
@@ -127,6 +124,7 @@ public class DetailActivity extends AppCompatActivity {
         DecimalFormat noDot = new DecimalFormat("#");
         noDot.setRoundingMode(RoundingMode.CEILING);
 
+        Deck deck = deckDTO.getDeck();
         TextView power = findViewById(R.id.deck_power_txt);
         TextView chain = findViewById(R.id.deck_chain_txt);
         TextView winloss = findViewById(R.id.deck_winandloss_txt);
@@ -169,18 +167,18 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void updateWins() {
-        repository.updateWins(deck.getLocalWins(), deck.getId());
+        repository.updateWins(deckDTO.getDeck().getLocalWins(), deckDTO.getDeck().getId());
         updateView();
     }
 
     private void updateLosses() {
-        repository.updateLosses(deck.getLocalLosses(), deck.getId());
+        repository.updateLosses(deckDTO.getDeck().getLocalLosses(), deckDTO.getDeck().getId());
         updateView();
     }
 
     private void updateView() {
-        winsView.setText(String.valueOf(deck.getLocalWins()));
-        lossesView.setText(String.valueOf(deck.getLocalLosses()));
+        winsView.setText(String.valueOf(deckDTO.getDeck().getLocalWins()));
+        lossesView.setText(String.valueOf(deckDTO.getDeck().getLocalLosses()));
         adjustSize(winsView);
         adjustSize(lossesView);
     }
@@ -188,20 +186,20 @@ public class DetailActivity extends AppCompatActivity {
     private void initializeButtons(Button addWin, Button addLoss,
                                    Button removeLoss, Button removeWin) {
         addLoss.setOnClickListener(v -> {
-            deck.setLocalLosses((deck.getLocalLosses() + 1));
+            deckDTO.getDeck().setLocalLosses((deckDTO.getDeck().getLocalLosses() + 1));
             updateLosses();
         });
         addWin.setOnClickListener(v -> {
-            deck.setLocalWins((deck.getLocalWins() + 1));
+            deckDTO.getDeck().setLocalWins((deckDTO.getDeck().getLocalWins() + 1));
             updateWins();
 
         });
         removeWin.setOnClickListener(v -> {
-            deck.setLocalWins(absolute((deck.getLocalWins() - 1)));
+            deckDTO.getDeck().setLocalWins(absolute((deckDTO.getDeck().getLocalWins() - 1)));
             updateWins();
         });
         removeLoss.setOnClickListener(v -> {
-            deck.setLocalLosses(absolute((deck.getLocalLosses() - 1)));
+            deckDTO.getDeck().setLocalLosses(absolute((deckDTO.getDeck().getLocalLosses() - 1)));
             updateLosses();
         });
     }
@@ -211,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
         if (cardToShow.isEmpty()) {
             Snackbar.make(
                     findViewById(R.id.mainDetailLayout),
-                    "Error while loading cards...Try delete and re-add this deck", Snackbar.LENGTH_LONG)
+                    "Error while loading cards...Try delete and re-add this deckDTO", Snackbar.LENGTH_LONG)
                     .setAction("CLOSE", view -> {
                     })
                     .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
@@ -251,35 +249,34 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-    private void assembleData(List<Card> cardList) {
-        List<Card> temp = new ArrayList<>();
-
-        if (cardList == null || cardList.size() == 0) {
+    private void assembleData() {
+        if (deckDTO.getCards() == null || deckDTO.getCards().size() == 0) {
             downloadCards();
             return;
         }
-        cardList.forEach(reference -> refList.forEach(value -> {
-            if (reference.getId().equals(value.getCardId())) {
-                reference.setIs_maverick(value.getIs_maverick());
-                reference.setIs_legacy(value.getIs_legacy());
-                reference.setIs_anomaly(value.getIs_anomaly());
-                for (int i = 0; i < value.getCount(); i++)
-                    temp.add(reference);
-            }
-        }));
 
+        List<Card> temp = new ArrayList<>();
+        List<CardMetadataDTO> cardRefList = deckDTO.getCards();
+
+
+        cardRefList.forEach(cardMetadataDTO -> {
+            Card refCard;
+            refCard = cardMetadataDTO.getCard();
+            refCard.setIs_anomaly(cardMetadataDTO.getCardsDeckRef().getIs_anomaly());
+            refCard.setIs_maverick(cardMetadataDTO.getCardsDeckRef().getIs_maverick());
+            refCard.setIs_legacy(cardMetadataDTO.getCardsDeckRef().getIs_legacy());
+            for (int i = 0; i < cardMetadataDTO.getCardsDeckRef().getCount(); i++)
+                temp.add(refCard);
+
+        });
         getCards(temp);
-    }
-
-    private void getInfoCards() {
-        deckCardRepository.getInfoForCards(deck).observe(this, this::support);
     }
 
     private void downloadCards() {
 
         dialog.setMessage("Downloading cards");
         dialog.show();
-        Api.getCards(deck.getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
+        Api.getCards(deckDTO.getDeck().getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
             @Override
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
 
@@ -289,9 +286,9 @@ public class DetailActivity extends AppCompatActivity {
                     return;
                 }
 
-                dbs.trySaveCards(response.body(), deck, collection -> {
+                dbs.trySaveCards(response.body(), deckDTO.getDeck(), collection -> {
                     dialog.hide();
-                    getInfoCards();
+                    refreshDeckCards();
                 });
 
             }
@@ -303,12 +300,14 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    private void support(List<CardsDeckRef> cardList) {
-        refList.clear();
-        refList.addAll(cardList);
-        deckCardRepository.getCards(deck).observe(this, this::assembleData);
+    private void refreshDeckCards() {
+        repository.getDeckDTO(deckDTO.getDeck().getId()).observe(this, this::adjustObj);
     }
 
+    private void adjustObj(DeckDTO x) {
+        deckDTO = x;
+        assembleData();
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
@@ -319,7 +318,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/html");
         String BASE_PATH = "https://www.keyforgegame.com/deck-details/";
-        String shareBody = "Take a look at this deck!\n" + BASE_PATH + deck.getKeyforgeId();
+        String shareBody = "Take a look at this deckDTO!\n" + BASE_PATH + deckDTO.getDeck().getKeyforgeId();
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "sample");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));

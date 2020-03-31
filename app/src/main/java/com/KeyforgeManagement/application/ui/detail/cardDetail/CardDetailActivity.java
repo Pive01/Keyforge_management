@@ -36,7 +36,10 @@ public class CardDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ImageView imageView = findViewById(R.id.cardicon);
-        Glide.with(this).load(card.getFront_image()).into(imageView);
+        Glide.with(this)
+                .load(card.getFront_image())
+                .placeholder(R.drawable.testcardempty)
+                .into(imageView);
 
         TextView type = findViewById(R.id.card_type);
         type.setText(card.getCard_type());

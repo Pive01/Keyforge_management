@@ -40,12 +40,12 @@
                 style="@style/mainButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/yellow"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:padding="5sp"
                 android:text="@string/global_house_rankings"
                 android:textAllCaps="true"
-                android:textAppearance="@style/textDetailBold" />
+                android:textAppearance="@style/textFontHigh" />
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/houses_chart"
@@ -56,12 +56,12 @@
                 style="@style/mainButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/yellow"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:padding="5sp"
                 android:text="@string/most_win_deck"
                 android:textAllCaps="true"
-                android:textAppearance="@style/textDetailBold" />
+                android:textAppearance="@style/textFontHigh" />
 
 
             <include
@@ -73,12 +73,12 @@
                 style="@style/mainButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/yellow"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:padding="5sp"
                 android:text="@string/most_win_rate_deck"
                 android:textAllCaps="true"
-                android:textAppearance="@style/textDetailBold" />
+                android:textAppearance="@style/textFontHigh" />
 
             <include
                 android:id="@+id/most_win_rate_deck"

@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
-import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
@@ -25,14 +25,13 @@ import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.Sing
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
-import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
-import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
+import com.KeyforgeManagement.application.ui.deckDTOlist.DeckDTOListAdapter;
+import com.KeyforgeManagement.application.ui.deckDTOlist.DeckDTOListInteractionListener;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
 import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.tombayley.activitycircularreveal.CircularReveal;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -46,10 +45,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements DeckListInteractionListener {
+public class MainActivity extends AppCompatActivity implements DeckDTOListInteractionListener {
 
     private static DeckRepository repository;
-    private DeckListAdapter mAdapter;
+    private DeckDTOListAdapter mAdapter;
     private static Stats statistics;
     private String auth = "";
     private String usrName = "";
@@ -74,16 +73,10 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         dialog.setInverseBackgroundForced(false);
 
         View fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v ->
-                CircularReveal.presentActivity(new CircularReveal.Builder(
-                        this,
-                        findViewById(android.R.id.content).getRootView(),
-                        new Intent(this, SearchActivity.class),
-                        500
-                ))
-        );
+        fab.setOnClickListener(v -> SearchActivity.start(this));
 
         swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         swipeRefresh.setOnRefreshListener(() -> {
             error = false;
             refreshStatus(0);
@@ -93,17 +86,16 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new DeckListAdapter(this);
+        mAdapter = new DeckDTOListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
 
         repository = new DeckRepository(this);
-        repository.getAllDecks().observe(this, mAdapter::onNewDecks);
+        repository.getAllDecksDTO().observe(this, mAdapter::onNewDecks);
     }
 
-
     @Override
-    public void onDeckClicked(Deck deck) {
+    public void onDeckClicked(DeckDTO deck) {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("stats", statistics);
         i.putExtra("deckInfo", deck);
@@ -112,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     }
 
     @Override
-    public void onLongDeckClicked(Deck deck) {
+    public void onLongDeckClicked(DeckDTO deck) {
         new AlertDialog.Builder(this)
                 .setTitle("Remove a deck")
                 .setMessage("Are you sure you want to remove this deck?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) ->
-                        repository.delete(deck)
+                        repository.delete(deck.getDeck())
                 )
                 .setNegativeButton(android.R.string.no, null)
                 .show();
@@ -184,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
                 i.putExtra("stats", statistics);
                 ChartActivity.start(this, i);
                 return true;
+
             case R.id.sort_by_sas:
                 mAdapter.sort(0);
                 return true;
@@ -333,12 +326,11 @@ public class MainActivity extends AppCompatActivity implements DeckListInteracti
     }
 
     private void refreshStatus(int i) {
-        if (error || mAdapter.getDeckAt(i) == null) {
+        if (error || mAdapter.getDeckDTOAt(i) == null) {
             swipeRefresh.setRefreshing(false);
             return;
         }
-        System.out.println("Saving " + mAdapter.getDeckAt(i).getName());
-        Api.getDeckFromId(mAdapter.getDeckAt(i).getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
+        Api.getDeckFromId(mAdapter.getDeckDTOAt(i).getDeck().getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
             @Override
             public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
                 if (response.body() == null) {

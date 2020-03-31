@@ -20,7 +20,6 @@ import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.tombayley.activitycircularreveal.CircularReveal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private DatabaseSaver dbs;
     private final Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
     private ProgressBar loadingDecks;
-    private CircularReveal mActivityCircularReveal;
     private static boolean byName = false;
 
 
@@ -67,8 +65,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mActivityCircularReveal = new CircularReveal(findViewById(android.R.id.content).getRootView());
-        mActivityCircularReveal.onActivityCreate(getIntent());
 
         loadingDecks = findViewById(R.id.progress_bar);
 
@@ -237,8 +233,4 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                 .show();
     }
 
-    @Override
-    public void onBackPressed() {
-        mActivityCircularReveal.unRevealActivity(this);
-    }
 }

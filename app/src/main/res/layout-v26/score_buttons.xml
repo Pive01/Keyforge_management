@@ -18,7 +18,7 @@
             tools:targetApi="o">
 
             <TextView
-                style="@style/textDetailBold"
+                style="@style/textFontHigh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"
@@ -38,6 +38,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:backgroundTint="@color/srcAzure"
+                    android:gravity="center"
                     android:text="@string/minus" />
 
                 <TextView
@@ -57,6 +58,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:backgroundTint="@color/srcAzure"
+                    android:gravity="center"
                     android:text="@string/plus" />
             </LinearLayout>
         </LinearLayout>
@@ -72,7 +74,7 @@
             tools:targetApi="o">
 
             <TextView
-                style="@style/textDetailBold"
+                style="@style/textFontHigh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"
