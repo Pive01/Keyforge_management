@@ -27,10 +27,4 @@ public class CardRepository {
         callback.accept(collection);
     }
 
-    public Future<Collection<Card>> insertCards(Collection<Card> collection) {
-        return DecksDatabase.execute(() -> {
-            cardDao.bulkAdd(collection);
-            return collection;
-        });
-    }
 }

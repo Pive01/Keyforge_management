@@ -2,18 +2,13 @@ package com.KeyforgeManagement.application.data.storage.DeckWithCards;
 
 import android.content.Context;
 
-import com.KeyforgeManagement.application.data.model.Card;
 import com.KeyforgeManagement.application.data.model.CardsDeckRef;
-import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.storage.DecksDatabase;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
-
-import androidx.lifecycle.LiveData;
 
 
 public class DeckCardRepository {
@@ -35,11 +30,4 @@ public class DeckCardRepository {
         callback.accept(collection);
     }
 
-    public LiveData<List<Card>> getCards(Deck deck) {
-        return deckWithCardsDao.getCardsForDeck(deck.getId());
-    }
-
-    public LiveData<List<CardsDeckRef>> getInfoForCards(Deck deck) {
-        return deckWithCardsDao.getInfoForCards(deck.getId());
-    }
 }
