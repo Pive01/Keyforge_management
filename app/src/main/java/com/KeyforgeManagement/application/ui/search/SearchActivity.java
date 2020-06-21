@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.KeyforgeManagement.application.R;
+import com.KeyforgeManagement.application.common.Utils;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
@@ -95,22 +97,24 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private void displayDecks(String name) {
         byName = true;
         loadingDecks.setVisibility(View.VISIBLE);
-        Api.getDecks(name).enqueue(new Callback<List<Deck>>() {
+        Api.getDecks(name).enqueue(new Callback<List<NewDeckFormat>>() {
             @Override
-            public void onResponse(Call<List<Deck>> call, Response<List<Deck>> response) {
+            public void onResponse(Call<List<NewDeckFormat>> call, Response<List<NewDeckFormat>> response) {
 
                 if (response.body() == null || response.body().size() == 0) {
                     showSnackBar("No decks found for your query");
                 } else
-                    mAdapter.onNewDecks(response.body());
+                    mAdapter.onNewDecks(Utils.convertToOldList(response.body()));
+
                 loadingDecks.setVisibility(View.GONE);
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Deck>> call, Throwable t) {
+            public void onFailure(Call<List<NewDeckFormat>> call, Throwable t) {
                 loadingDecks.setVisibility(View.GONE);
+                t.printStackTrace();
                 showSnackBar("There has been an error while loading decks\n Try again later");
             }
         });
@@ -130,7 +134,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                                 if (response.body() == null) {
                                     showSnackBar("Error");
                                 } else
-                                    dbs.saveDeck(response.body().getDeck());
+                                    dbs.saveDeck(response.body().getDeck().convertToOld());
                                 loadingDecks.setVisibility(View.GONE);
                             }
 
@@ -165,7 +169,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
                     showSnackBar("Bad id");
                 } else {
                     List<Deck> justToMakeItWork = new ArrayList<>();
-                    justToMakeItWork.add(response.body().getDeck());
+                    justToMakeItWork.add(response.body().getDeck().convertToOld());
                     mAdapter.onNewDecks(justToMakeItWork);
                 }
 

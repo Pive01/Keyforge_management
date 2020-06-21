@@ -1,6 +1,6 @@
 package com.KeyforgeManagement.application.data.api;
 
-import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
@@ -41,7 +41,7 @@ public final class Api {
             .build()
             .create(DecksOfKeyforgeApi.class);
 
-    public static Call<List<Deck>> getDecks(String deckName) {
+    public static Call<List<NewDeckFormat>> getDecks(String deckName) {
         return APIDOK.getDecks(deckName);
     }
 
@@ -63,6 +63,10 @@ public final class Api {
 
     public static Call<Void> getAuthorization(UserValidator usr) {
         return APIDOK.getAuthorization(usr);
+    }
+
+    public static Call<Void> addDeck(String auth, String deckId) {
+        return APIDOK.addDeck(auth, deckId);
     }
 
     public static Call<UserInfo> getUserName(String auth) {

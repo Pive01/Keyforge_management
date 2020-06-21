@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
-import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
@@ -27,8 +27,8 @@ import androidx.appcompat.widget.Toolbar;
 public class ChartActivity extends AppCompatActivity {
 
     private static Stats statistic;
-    private static Deck mostWinDeck;
-    private static Deck betterWinRate;
+    private static DeckDTO mostWinDeck;
+    private static DeckDTO betterWinRate;
     private static int totalPlays;
     private static double bestTotalPlaysWinRate;
 
@@ -67,7 +67,7 @@ public class ChartActivity extends AppCompatActivity {
         }
         DeckRepository repository;
         repository = new DeckRepository(this);
-        repository.getAllDecks().observe(this, this::getSatsDecks);
+        repository.getAllDecksDTO().observe(this, this::getSatsDecks);
     }
 
     @Override
@@ -76,21 +76,21 @@ public class ChartActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getSatsDecks(List<Deck> deckList) {
+    private void getSatsDecks(List<DeckDTO> deckList) {
         bestTotalPlaysWinRate = 0;
         mostWinDeck = deckList.get(0);
         betterWinRate = deckList.get(0);
 
         deckList.forEach(item -> {
 
-            if (item.getLocalWins() > mostWinDeck.getLocalWins())
+            if (item.getDeck().getLocalWins() > mostWinDeck.getDeck().getLocalWins())
                 mostWinDeck = item;
 
-            totalPlays = item.getLocalLosses() + item.getLocalWins();
-            if ((item.getLocalWins() != 0) && ((((double) item.getLocalWins()) / totalPlays) * Math.atan(totalPlays)) > bestTotalPlaysWinRate) {
+            totalPlays = item.getDeck().getLocalLosses() + item.getDeck().getLocalWins();
+            if ((item.getDeck().getLocalWins() != 0) && ((((double) item.getDeck().getLocalWins()) / totalPlays) * Math.atan(totalPlays)) > bestTotalPlaysWinRate) {
                 System.out.println("here");
                 betterWinRate = item;
-                bestTotalPlaysWinRate = ((((double) item.getLocalWins()) / totalPlays) * Math.atan(totalPlays));
+                bestTotalPlaysWinRate = ((((double) item.getDeck().getLocalWins()) / totalPlays) * Math.atan(totalPlays));
             }
 
         });
@@ -105,7 +105,7 @@ public class ChartActivity extends AppCompatActivity {
         winRate.setText(getResources().getString(R.string.strongest_deck));
     }
 
-    private void fillView(Deck deck, View itemView) {
+    private void fillView(DeckDTO deck, View itemView) {
         ImageView[] houseArr = new ImageView[]{
                 itemView.findViewById(R.id.img_house1),
                 itemView.findViewById(R.id.img_house2),
@@ -116,16 +116,16 @@ public class ChartActivity extends AppCompatActivity {
         TextView sasScore = itemView.findViewById(R.id.sas_rating);
         TextView rawAember = itemView.findViewById(R.id.raw_amber);
 
-        houseArr[0].setImageResource(deck.getHouses()[0].getImageId());
-        houseArr[1].setImageResource(deck.getHouses()[1].getImageId());
-        houseArr[2].setImageResource(deck.getHouses()[2].getImageId());
-        deckName.setText(deck.getName());
-        expansion.setText(deck.getExpansion().toString());
-        sasScore.setText(String.valueOf(deck.getSasRating()));
-        rawAember.setText(String.valueOf(deck.getRawAmber()));
+        houseArr[0].setImageResource(deck.getDeck().getHouses()[0].getImageId());
+        houseArr[1].setImageResource(deck.getDeck().getHouses()[1].getImageId());
+        houseArr[2].setImageResource(deck.getDeck().getHouses()[2].getImageId());
+        deckName.setText(deck.getDeck().getName());
+        expansion.setText(deck.getDeck().getExpansion().toString());
+        sasScore.setText(String.valueOf(deck.getDeck().getSasRating()));
+        rawAember.setText(String.valueOf(deck.getDeck().getRawAmber()));
     }
 
-    private void makeOnClickable(Deck deck, View itemView) {
+    private void makeOnClickable(DeckDTO deck, View itemView) {
         itemView.setOnClickListener(v -> {
             Intent i = new Intent(ChartActivity.this, DetailActivity.class);
             i.putExtra("deckInfo", deck);

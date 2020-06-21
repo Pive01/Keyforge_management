@@ -1,6 +1,11 @@
 package com.KeyforgeManagement.application.common;
 
 
+import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Utils {
 
@@ -24,6 +29,12 @@ public final class Utils {
 
     public static int absolute(int num) {
         return num < 0 ? 0 : num;
+    }
+
+    public static List<Deck> convertToOldList(List<NewDeckFormat> newList) {
+        List<Deck> oldList = new ArrayList<>();
+        newList.forEach(item -> oldList.add(item.convertToOld()));
+        return oldList;
     }
 
 

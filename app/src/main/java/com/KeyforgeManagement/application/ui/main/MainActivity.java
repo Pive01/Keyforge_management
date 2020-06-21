@@ -283,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 if (response.body() != null) {
 
                     DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
+                    System.out.println(response.body().getDecks());
                     dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
                 } else {
                     showSnackBarMain("An error occurred while importing data");
@@ -338,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                     error = true;
                 }
                 error = false;
-                repository.updateStatus(response.body().getDeck(), deck -> {
+                repository.updateStatus(response.body().getDeck().convertToOld(), deck -> {
                     if (i == mAdapter.getItemCount() - 1) {
                         swipeRefresh.setRefreshing(false);
                         return;

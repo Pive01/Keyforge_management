@@ -6,6 +6,7 @@ import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArray
 import java.io.Serializable;
 import java.util.Arrays;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -47,6 +48,10 @@ public class Deck implements Serializable {
     private int cardDrawCount;
     private int cardArchiveCount;
     private int keyCheatCount;
+    private int rawAmber;
+    @TypeConverters({HouseArrayTypeConverter.class})
+    @ColumnInfo(name = "houses")
+    private House[] houses;
 
     public double getHouseCheating() {
         return houseCheating;
@@ -232,10 +237,6 @@ public class Deck implements Serializable {
     public void setLocalLosses(int localLosses) {
         this.localLosses = localLosses;
     }
-
-    private int rawAmber;
-    @TypeConverters({HouseArrayTypeConverter.class})
-    private House[] houses;
 
     public void setId(long id) {
         this.id = id;

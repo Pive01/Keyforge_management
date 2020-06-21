@@ -1,18 +1,20 @@
 package com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge;
 
+import com.KeyforgeManagement.application.common.Utils;
 import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 
 import java.util.List;
 
 public class ResponseImport {
-    private List<Deck> decks;
+    private List<NewDeckFormat> decks;
     private int page;
 
     public List<Deck> getDecks() {
-        return decks;
+        return Utils.convertToOldList(decks);
     }
 
-    public void setDecks(List<Deck> decks) {
+    public void setDecks(List<NewDeckFormat> decks) {
         this.decks = decks;
     }
 

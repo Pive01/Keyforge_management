@@ -1,16 +1,16 @@
 package com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge;
 
-import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 
 public class SingleDeckReference {
 
-    private Deck deck;
+    private NewDeckFormat deck;
 
-    public Deck getDeck() {
+    public NewDeckFormat getDeck() {
         return deck;
     }
 
-    public void setDeck(Deck deck) {
+    public void setDeck(NewDeckFormat deck) {
         this.deck = deck;
     }
 }

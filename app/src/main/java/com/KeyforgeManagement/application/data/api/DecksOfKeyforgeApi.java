@@ -1,6 +1,6 @@
 package com.KeyforgeManagement.application.data.api;
 
-import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
@@ -21,7 +21,7 @@ import retrofit2.http.Path;
 interface DecksOfKeyforgeApi {
 
     @GET("decks/by-name/{name}")
-    Call<List<Deck>> getDecks(@Path("name") String deckName);
+    Call<List<NewDeckFormat>> getDecks(@Path("name") String deckName);
 
     @GET("stats")
     Call<List<GlobalStatistics>> getStatistics();
@@ -35,6 +35,9 @@ interface DecksOfKeyforgeApi {
 
     @POST("users/login")
     Call<Void> getAuthorization(@Body UserValidator usr);
+
+    @POST("decks/{id}/import-and-add")
+    Call<Void> addDeck(@Header("authorization") String auth, @Path("id") String deckId);
 
     @Headers({"timezone: 60"})
     @GET("users/secured/your-user")

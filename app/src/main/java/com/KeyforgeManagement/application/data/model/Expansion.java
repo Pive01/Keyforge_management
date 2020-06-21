@@ -10,7 +10,7 @@ public enum Expansion {
     CALL_OF_THE_ARCHONS(R.drawable.ic_cota),
     AGE_OF_ASCENSION(R.drawable.ic_aoa),
     WORLDS_COLLIDE(R.drawable.ic_wc),
-    UNKNOWN(R.drawable.ic_cota);
+    MASS_MUTATION(R.drawable.ic_mm);
 
     @DrawableRes
     private final int imageExpId;
