@@ -17,7 +17,7 @@
     <string name="sas">SAS</string>
     <string name="information">Info</string>
     <string name="global_house_rankings">Global house rankings</string>
-    <string name="Information">All the Keyforge information (Deck , Houses ,Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge website .For more information about it visit <a href="www.decksofkeyforge.com">www.decksofkeyforge.com</a>; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
+    <string name="Information">All the Keyforge information (Deck, Houses, Cards) are copyrighted by Fantasy Flight Games\n\n The SAS score is a copyrighted property of Decks of Keyforge website .For more information about it visit <a href="www.decksofkeyforge.com">www.decksofkeyforge.com</a>; \n  It represent the how much \'strong\' is your deck based on a scale from 0 to 100 and it is subjected to change at any time</string>
     <string name="most_win_deck">Most Wins Deck</string>
     <string name="most_win_rate_deck">Most win rate deck</string>
     <string name="crashLytics">We use Crashlytics — a service offered by Fabric — a company owned by Google Inc. 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.\nCrashlytics provides us information about crashes and malfunctions in Applications.\nTo Crashlytics, in case of malfunction or failure, the following information is transmitted:\n・IP-address of the device;\n・information about the device, such as: device ID, model and device type, name and version of the operating system, settings and language of the device;\n・version and functionality of the application;\n・time of failure.\nData transmitted to Crashlytics neither stored or transferred to other services or resources, nor associated with other data available to Google.\nFor more information on Crashlytics privacy settings, please access:\n<a href="https://docs.fabric.io/apple/fabric/data-privacy.html">https://docs.fabric.io/apple/fabric/data-privacy.html</a>;\n<a href="https://docs.fabric.io/android/fabric/data-privacy.html">https://docs.fabric.io/android/fabric/data-privacy.html</a>.\nGoogle privacy policy is available at:\n<a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a>.\nGoogle is certified under the Privacy Shield and hereby guarantees compliance with European privacy laws:\n<a href="https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI">https://www.privacyshield.gov/participant?id=a2zt000000001L5AAI</a></string>
@@ -25,7 +25,7 @@
     <string name="type">Type</string>
     <string name="licenses">Open Source Licenses</string>
     <string name="lonely"><![CDATA[It feels a bit lonely here… try adding a deck with + button ->]]></string>
-    <string name="importDok">Import</string>
+    <string name="importDok">Import from DOK</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="card_icon">Card Icon</string>
@@ -45,7 +45,7 @@
     <string name="extras">Extras</string>
     <string name="amber_control">amber control</string>
     <string name="expected_amber">expected amber</string>
-    <string name="amber_protection">amber protection</string>
+    <string name="creautre_protection">creature protection</string>
     <string name="artifact_control">artifact control</string>
     <string name="creature_control">creature control</string>
     <string name="efficiency">efficiency</string>
@@ -58,5 +58,6 @@
     <string name="synergy">SYNERGY</string>
     <string name="antisynergy">ANTISYNERGY</string>
     <string name="information_logo_button">Information logo button</string>
+    <string name="counts">Counts</string>
 
 </resources>

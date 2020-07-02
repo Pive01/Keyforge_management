@@ -41,7 +41,6 @@ import retrofit2.Response;
 
 import static androidx.appcompat.widget.SearchView.OnQueryTextListener;
 
-
 public class SearchActivity extends AppCompatActivity implements DeckListInteractionListener {
 
     private DeckListAdapter mAdapter;
@@ -49,7 +48,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     private final Pattern p = Pattern.compile(".{8}-.{4}-.{4}-.{4}-.{12}");
     private ProgressBar loadingDecks;
     private static boolean byName = false;
-
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, SearchActivity.class));
@@ -67,7 +65,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         loadingDecks = findViewById(R.id.progress_bar);
 
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewSrc);
@@ -78,7 +75,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -101,14 +97,12 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
             @Override
             public void onResponse(Call<List<NewDeckFormat>> call, Response<List<NewDeckFormat>> response) {
 
-                if (response.body() == null || response.body().size() == 0) {
+                if (response.body() == null || response.body().size() == 0)
                     showSnackBar("No decks found for your query");
-                } else
+                else
                     mAdapter.onNewDecks(Utils.convertToOldList(response.body()));
 
                 loadingDecks.setVisibility(View.GONE);
-
-
             }
 
             @Override
@@ -154,9 +148,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
     @Override
     public void onLongDeckClicked(Deck deck) {
-
     }
-
 
     private void searchById(String id) {
         byName = false;
@@ -185,7 +177,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
     }
 
     @Override
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
 

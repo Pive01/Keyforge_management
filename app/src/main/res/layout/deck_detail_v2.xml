@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/mainButtonStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4sp"
     android:backgroundTint="#DDDDDD"
     android:baselineAligned="false"
-    style="@style/mainButtonStyle"
     android:orientation="vertical">
 
     <LinearLayout
@@ -159,8 +159,8 @@
 
                 <ImageView
                     android:id="@+id/expansion_img"
-                    android:layout_height="match_parent"
                     android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:adjustViewBounds="true"
                     android:padding="7sp"
@@ -229,6 +229,7 @@
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,11 +241,11 @@
                     android:layout_width="0sp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:contentDescription="@string/amber_protection"
-                    android:src="@drawable/ic_amber_protection" />
+                    android:contentDescription="@string/aember"
+                    android:src="@drawable/ic_amber_icon" />
 
                 <include
-                    android:id="@+id/txtView_amber_protection"
+                    android:id="@+id/txtView_amber"
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
         </LinearLayout>
@@ -319,6 +320,25 @@
                     android:id="@+id/txtView_effective_power"
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:orientation="horizontal"
+                android:padding="2sp">
+
+                <ImageView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/creautre_protection"
+                    android:src="@drawable/ic_creautre_protection" />
+
+                <include
+                    android:id="@+id/txtView_creature_protection"
+                    layout="@layout/deck_stats_textview" />
+            </LinearLayout>
         </LinearLayout>
         <!---/////////////////-->
         <LinearLayout
@@ -346,11 +366,11 @@
                     android:layout_width="0sp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:contentDescription="@string/house_cheating"
-                    android:src="@drawable/ic_house_cheating" />
+                    android:contentDescription="@string/efficiency"
+                    android:src="@drawable/ic_efficiency" />
 
                 <include
-                    android:id="@+id/txtView_house_cheating"
+                    android:id="@+id/txtView_efficiency"
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
 
@@ -370,40 +390,6 @@
 
                 <include
                     android:id="@+id/txtView_disruption"
-                    layout="@layout/deck_stats_textview" />
-            </LinearLayout>
-        </LinearLayout>
-        <!---/////////////////-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3sp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/extras"
-                android:textSize="20sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4sp"
-                android:orientation="horizontal"
-                android:padding="2sp">
-
-                <ImageView
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/aember"
-                    android:src="@drawable/ic_amber_icon" />
-
-                <include
-                    android:id="@+id/txtView_amber"
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
 
@@ -442,6 +428,95 @@
 
                 <include
                     android:id="@+id/txtView_archive"
+                    layout="@layout/deck_stats_textview" />
+            </LinearLayout>
+        </LinearLayout>
+        <!---/////////////////-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3sp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/counts"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:orientation="horizontal"
+                android:padding="2sp">
+
+                <ImageView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/creature_count"
+                    android:src="@drawable/ic_creature" />
+
+                <include
+                    android:id="@+id/txtView_creature"
+                    layout="@layout/deck_stats_textview" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:orientation="horizontal"
+                android:padding="2sp">
+
+                <ImageView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/action_count"
+                    android:src="@drawable/ic_action" />
+
+                <include
+                    android:id="@+id/txtView_action"
+                    layout="@layout/deck_stats_textview" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:orientation="horizontal"
+                android:padding="2sp">
+
+                <ImageView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/artifact_count"
+                    android:src="@drawable/ic_artifact" />
+
+                <include
+                    android:id="@+id/txtView_artifact"
+                    layout="@layout/deck_stats_textview" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4sp"
+                android:orientation="horizontal"
+                android:padding="2sp">
+
+                <ImageView
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/upgrade_count"
+                    android:src="@drawable/ic_upgrade" />
+
+                <include
+                    android:id="@+id/txtView_upgrade"
                     layout="@layout/deck_stats_textview" />
             </LinearLayout>
         </LinearLayout>

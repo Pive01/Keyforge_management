@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
     @Override
     public void onDeckClicked(DeckDTO deck) {
+        System.out.println(deck.getDeck().toString());
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("stats", statistics);
         i.putExtra("deckInfo", deck);
@@ -246,8 +247,6 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 dialog.hide();
             }
         });
-
-
     }
 
     private void getUserName() {
@@ -281,15 +280,12 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
             @Override
             public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
                 if (response.body() != null) {
-
                     DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
-                    System.out.println(response.body().getDecks());
                     dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
                 } else {
                     showSnackBarMain("An error occurred while importing data");
                     dialog.hide();
                 }
-
             }
 
             @Override
@@ -339,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                     error = true;
                 }
                 error = false;
+
                 repository.updateStatus(response.body().getDeck().convertToOld(), deck -> {
                     if (i == mAdapter.getItemCount() - 1) {
                         swipeRefresh.setRefreshing(false);

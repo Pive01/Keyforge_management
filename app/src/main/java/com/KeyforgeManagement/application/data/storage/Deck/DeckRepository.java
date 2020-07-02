@@ -68,7 +68,8 @@ public class DeckRepository {
             mDeckDao.updateDeckStatus(deck.getSasRating(), deck.getPowerLevel(), deck.getChains(),
                     deck.getWins(), deck.getLosses(), deck.getAercScore(), deck.getSynergyRating(),
                     deck.getAntisynergyRating(), deck.getCardDrawCount(), deck.getCardArchiveCount(),
-                    deck.getHouseCheating(), deck.getKeyCheatCount(), deck.getId());
+                    deck.getHouseCheating(), deck.getKeyCheatCount(), deck.getId(),
+                    deck.getEfficiency(), deck.getExpectedAmber(), deck.getCreatureProtection());
         });
 
         try {

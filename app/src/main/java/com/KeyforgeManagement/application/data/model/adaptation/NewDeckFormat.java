@@ -6,6 +6,8 @@ import com.KeyforgeManagement.application.data.model.House;
 import com.KeyforgeManagement.application.data.storage.typeConverters.ExpansionTypeConverter;
 import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 
+import java.util.Arrays;
+
 import androidx.room.TypeConverters;
 
 public class NewDeckFormat {
@@ -30,6 +32,13 @@ public class NewDeckFormat {
     private double artifactControl;
     private double creatureControl;
     private double efficency; //TODO rename to efficiency without losing all data
+    private double efficiency;
+    private double creatureProtection;
+
+    public double getEfficiency() {
+        return efficiency;
+    }
+
     private double amberControl;
     private double expectedAmber;
     private double disruption;
@@ -326,6 +335,18 @@ public class NewDeckFormat {
         return arr;
     }
 
+    public void setEfficiency(double efficiency) {
+        this.efficiency = efficiency;
+    }
+
+    public double getCreatureProtection() {
+        return creatureProtection;
+    }
+
+    public void setCreatureProtection(double creatureProtection) {
+        this.creatureProtection = creatureProtection;
+    }
+
     public Deck convertToOld() {
         Deck converted = new Deck();
         converted.setId(this.getId());
@@ -362,6 +383,50 @@ public class NewDeckFormat {
         converted.setKeyCheatCount(this.getKeyCheatCount());
         converted.setRawAmber(this.getRawAmber());
         converted.setHouses(this.ExtractHouses());
+        converted.setEfficiency(this.getEfficiency());
+        converted.setCreatureProtection(this.getCreatureProtection());
         return converted;
+    }
+
+    @Override
+    public String toString() {
+        return "NewDeckFormat{" +
+                "id=" + id +
+                ", keyforgeId='" + keyforgeId + '\'' +
+                ", name='" + name + '\'' +
+                ", expansion=" + expansion +
+                ", creatureCount=" + creatureCount +
+                ", actionCount=" + actionCount +
+                ", artifactCount=" + artifactCount +
+                ", upgradeCount=" + upgradeCount +
+                ", sasRating=" + sasRating +
+                ", powerLevel=" + powerLevel +
+                ", chains=" + chains +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", totalPower=" + totalPower +
+                ", totalArmor=" + totalArmor +
+                ", localWins=" + localWins +
+                ", localLosses=" + localLosses +
+                ", artifactControl=" + artifactControl +
+                ", creatureControl=" + creatureControl +
+                ", efficency=" + efficency +
+                ", efficiency=" + efficiency +
+                ", amberControl=" + amberControl +
+                ", expectedAmber=" + expectedAmber +
+                ", disruption=" + disruption +
+                ", amberProtection=" + amberProtection +
+                ", effectivePower=" + effectivePower +
+                ", houseCheating=" + houseCheating +
+                ", aercScore=" + aercScore +
+                ", synergyRating=" + synergyRating +
+                ", antisynergyRating=" + antisynergyRating +
+                ", cardDrawCount=" + cardDrawCount +
+                ", cardArchiveCount=" + cardArchiveCount +
+                ", keyCheatCount=" + keyCheatCount +
+                ", rawAmber=" + rawAmber +
+                ", housesAndCards=" + Arrays.toString(housesAndCards) +
+                ", creatureProtection=" + creatureProtection +
+                '}';
     }
 }

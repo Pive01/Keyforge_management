@@ -35,7 +35,26 @@ public class Deck implements Serializable {
     private int localLosses;
     private double artifactControl;
     private double creatureControl;
+
+    private double creatureProtection;
+    private double efficiency;
+
+    public double getCreatureProtection() {
+        return creatureProtection;
+    }
     private double efficency; //TODO rename to efficiency without losing all data
+
+    public void setCreatureProtection(double creatureProtection) {
+        this.creatureProtection = creatureProtection;
+    }
+
+    public double getEfficiency() {
+        return efficiency;
+    }
+
+    public void setEfficiency(double efficiency) {
+        this.efficiency = efficiency;
+    }
     private double amberControl;
     private double expectedAmber;
     private double disruption;
@@ -326,7 +345,6 @@ public class Deck implements Serializable {
         return expansion;
     }
 
-
     @Override
     public String toString() {
         return "Deck{" +
@@ -349,7 +367,9 @@ public class Deck implements Serializable {
                 ", localLosses=" + localLosses +
                 ", artifactControl=" + artifactControl +
                 ", creatureControl=" + creatureControl +
+                ", creatureProtection=" + creatureProtection +
                 ", efficency=" + efficency +
+                ", efficiency=" + efficiency +
                 ", amberControl=" + amberControl +
                 ", expectedAmber=" + expectedAmber +
                 ", disruption=" + disruption +
