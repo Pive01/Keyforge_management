@@ -165,6 +165,7 @@
                     android:adjustViewBounds="true"
                     android:padding="7sp"
                     android:scaleType="fitCenter"
+                    android:contentDescription="@string/house_logo"
                     android:src="@drawable/ic_cota" />
             </LinearLayout>
         </LinearLayout>

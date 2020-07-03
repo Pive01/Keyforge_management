@@ -1,6 +1,9 @@
 package com.KeyforgeManagement.application.common;
 
 
+import android.content.Context;
+import android.util.DisplayMetrics;
+
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 
@@ -37,6 +40,9 @@ public final class Utils {
         return oldList;
     }
 
+    public static float convertDpToPixel(float dp, Context context) {
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
 
     private Utils() {
     }

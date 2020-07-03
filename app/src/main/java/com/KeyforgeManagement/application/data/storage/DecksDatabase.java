@@ -48,24 +48,71 @@ public abstract class DecksDatabase extends RoomDatabase {
         }
     };
 
+
     private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE decks" +
-                    " ADD efficiency REAL NOT NULL DEFAULT 0");
-            database.execSQL("ALTER TABLE decks" +
-                    " ADD creatureProtection REAL NOT NULL DEFAULT 0");
+            database.execSQL("CREATE TABLE `decks_new`" +
+                    "  ( " +
+                    "     `id`                 INTEGER NOT NULL, " +
+                    "     `keyforgeid`         TEXT," +
+                    "     `name`               TEXT," +
+                    "     `expansion`          TEXT," +
+                    "     `creaturecount`      INTEGER NOT NULL," +
+                    "     `actioncount`        INTEGER NOT NULL," +
+                    "     `artifactcount`      INTEGER NOT NULL," +
+                    "     `upgradecount`       INTEGER NOT NULL," +
+                    "     `sasrating`          INTEGER NOT NULL," +
+                    "     `powerlevel`         INTEGER NOT NULL," +
+                    "     `chains`             INTEGER NOT NULL," +
+                    "     `wins`               INTEGER NOT NULL," +
+                    "     `losses`             INTEGER NOT NULL," +
+                    "     `totalpower`         INTEGER NOT NULL," +
+                    "     `totalarmor`         INTEGER NOT NULL," +
+                    "     `localwins`          INTEGER NOT NULL," +
+                    "     `locallosses`        INTEGER NOT NULL," +
+                    "     `artifactcontrol`    REAL NOT NULL," +
+                    "     `creaturecontrol`    REAL NOT NULL," +
+                    "     `creatureprotection` REAL NOT NULL," +
+                    "     `efficiency`         REAL NOT NULL," +
+                    "     `ambercontrol`       REAL NOT NULL," +
+                    "     `expectedamber`      REAL NOT NULL," +
+                    "     `disruption`         REAL NOT NULL," +
+                    "     `effectivepower`     INTEGER NOT NULL," +
+                    "     `aercscore`          REAL NOT NULL," +
+                    "     `synergyrating`      REAL NOT NULL," +
+                    "     `antisynergyrating`  REAL NOT NULL," +
+                    "     `carddrawcount`      INTEGER NOT NULL," +
+                    "     `cardarchivecount`   INTEGER NOT NULL," +
+                    "     `keycheatcount`      INTEGER NOT NULL," +
+                    "     `rawamber`           INTEGER NOT NULL," +
+                    "     `houses`             TEXT," +
+                    "     PRIMARY KEY(`id`)" +
+                    "  ) ");
+            database.execSQL("Insert into decks_new(id,keyforgeid,name,expansion,creaturecount," +
+                    "actioncount,artifactcount,upgradecount,sasrating,powerlevel,chains,wins," +
+                    "losses,totalpower,totalarmor,localwins,locallosses,artifactcontrol," +
+                    "creaturecontrol,ambercontrol,expectedamber," +
+                    "disruption,effectivepower,aercscore,synergyrating,antisynergyrating," +
+                    "carddrawcount,cardarchivecount,keycheatcount,rawamber,houses)" +
+                    " Select id,keyforgeid,name,expansion,creaturecount,actioncount," +
+                    "artifactcount,upgradecount,sasrating,powerlevel,chains,wins,losses," +
+                    "totalpower,totalarmor,localwins,locallosses,artifactcontrol," +
+                    "creaturecontrol,ambercontrol,expectedamber," +
+                    "disruption,effectivepower,aercscore,synergyrating,antisynergyrating," +
+                    "carddrawcount,cardarchivecount,keycheatcount,rawamber,houses from decks ");
+
+            database.execSQL("drop table decks");
+            database.execSQL("alter table decks_new rename to decks");
         }
     };
-
     public static DecksDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (DecksDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             DecksDatabase.class, "deck_database")
-                            .addMigrations(MIGRATION_1_2)
-                            .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .build();
                 }
             }
