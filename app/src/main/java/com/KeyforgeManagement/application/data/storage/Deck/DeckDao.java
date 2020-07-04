@@ -44,7 +44,6 @@ public interface DeckDao {
             "aercScore=:aercScore," +
             "synergyRating=:synergyRating," +
             "keyCheatCount=:keyCheatCount ," +
-            "houseCheating=:houseCheating," +
             "cardDrawCount=:cardDrawCount," +
             "cardArchiveCount=:cardArchiveCount," +
             "expectedAmber=:expectedAmber," +
@@ -53,7 +52,7 @@ public interface DeckDao {
             "antisynergyRating=:antisynergyRating WHERE id=:id")
     void updateDeckStatus(int sasRating, int powerLevel, int chains, int wins, int losses,
                           double aercScore, double synergyRating, double antisynergyRating,
-                          int cardDrawCount, int cardArchiveCount, double houseCheating,
+                          int cardDrawCount, int cardArchiveCount,
                           int keyCheatCount, long id, double efficiency, double expectedAmber,
                           double creatureProtection);
 

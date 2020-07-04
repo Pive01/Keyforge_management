@@ -42,7 +42,6 @@ public class Deck implements Serializable {
     public double getCreatureProtection() {
         return creatureProtection;
     }
-    private double efficency; //TODO rename to efficiency without losing all data
 
     public void setCreatureProtection(double creatureProtection) {
         this.creatureProtection = creatureProtection;
@@ -58,9 +57,7 @@ public class Deck implements Serializable {
     private double amberControl;
     private double expectedAmber;
     private double disruption;
-    private double amberProtection;
     private int effectivePower;
-    private double houseCheating;
     private double aercScore;
     private double synergyRating;
     private double antisynergyRating;
@@ -71,14 +68,6 @@ public class Deck implements Serializable {
     @TypeConverters({HouseArrayTypeConverter.class})
     @ColumnInfo(name = "houses")
     private House[] houses;
-
-    public double getHouseCheating() {
-        return houseCheating;
-    }
-
-    public void setHouseCheating(double houseCheating) {
-        this.houseCheating = houseCheating;
-    }
 
     public double getAercScore() {
         return aercScore;
@@ -144,14 +133,6 @@ public class Deck implements Serializable {
         this.creatureControl = creatureControl;
     }
 
-    public double getEfficency() {
-        return efficency;
-    }
-
-    public void setEfficency(double efficency) {
-        this.efficency = efficency;
-    }
-
     public double getAmberControl() {
         return amberControl;
     }
@@ -174,14 +155,6 @@ public class Deck implements Serializable {
 
     public void setDisruption(double disruption) {
         this.disruption = disruption;
-    }
-
-    public double getAmberProtection() {
-        return amberProtection;
-    }
-
-    public void setAmberProtection(double amberProtection) {
-        this.amberProtection = amberProtection;
     }
 
     public int getEffectivePower() {
@@ -368,14 +341,11 @@ public class Deck implements Serializable {
                 ", artifactControl=" + artifactControl +
                 ", creatureControl=" + creatureControl +
                 ", creatureProtection=" + creatureProtection +
-                ", efficency=" + efficency +
                 ", efficiency=" + efficiency +
                 ", amberControl=" + amberControl +
                 ", expectedAmber=" + expectedAmber +
                 ", disruption=" + disruption +
-                ", amberProtection=" + amberProtection +
                 ", effectivePower=" + effectivePower +
-                ", houseCheating=" + houseCheating +
                 ", aercScore=" + aercScore +
                 ", synergyRating=" + synergyRating +
                 ", antisynergyRating=" + antisynergyRating +

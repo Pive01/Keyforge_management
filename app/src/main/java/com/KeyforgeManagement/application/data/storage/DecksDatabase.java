@@ -55,52 +55,55 @@ public abstract class DecksDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE `decks_new`" +
                     "  ( " +
                     "     `id`                 INTEGER NOT NULL, " +
-                    "     `keyforgeid`         TEXT," +
+                    "     `keyforgeId`         TEXT," +
                     "     `name`               TEXT," +
                     "     `expansion`          TEXT," +
-                    "     `creaturecount`      INTEGER NOT NULL," +
-                    "     `actioncount`        INTEGER NOT NULL," +
-                    "     `artifactcount`      INTEGER NOT NULL," +
-                    "     `upgradecount`       INTEGER NOT NULL," +
-                    "     `sasrating`          INTEGER NOT NULL," +
-                    "     `powerlevel`         INTEGER NOT NULL," +
+                    "     `creatureCount`      INTEGER NOT NULL," +
+                    "     `actionCount`        INTEGER NOT NULL," +
+                    "     `artifactCount`      INTEGER NOT NULL," +
+                    "     `upgradeCount`       INTEGER NOT NULL," +
+                    "     `sasRating`          INTEGER NOT NULL," +
+                    "     `powerLevel`         INTEGER NOT NULL," +
                     "     `chains`             INTEGER NOT NULL," +
                     "     `wins`               INTEGER NOT NULL," +
                     "     `losses`             INTEGER NOT NULL," +
-                    "     `totalpower`         INTEGER NOT NULL," +
-                    "     `totalarmor`         INTEGER NOT NULL," +
-                    "     `localwins`          INTEGER NOT NULL," +
-                    "     `locallosses`        INTEGER NOT NULL," +
-                    "     `artifactcontrol`    REAL NOT NULL," +
-                    "     `creaturecontrol`    REAL NOT NULL," +
-                    "     `creatureprotection` REAL NOT NULL," +
+                    "     `totalPower`         INTEGER NOT NULL," +
+                    "     `totalArmor`         INTEGER NOT NULL," +
+                    "     `localWins`          INTEGER NOT NULL," +
+                    "     `localLosses`        INTEGER NOT NULL," +
+                    "     `artifactControl`    REAL NOT NULL," +
+                    "     `creatureControl`    REAL NOT NULL," +
+                    "     `creatureProtection` REAL NOT NULL," +
                     "     `efficiency`         REAL NOT NULL," +
-                    "     `ambercontrol`       REAL NOT NULL," +
-                    "     `expectedamber`      REAL NOT NULL," +
+                    "     `amberControl`       REAL NOT NULL," +
+                    "     `expectedAmber`      REAL NOT NULL," +
                     "     `disruption`         REAL NOT NULL," +
-                    "     `effectivepower`     INTEGER NOT NULL," +
-                    "     `aercscore`          REAL NOT NULL," +
-                    "     `synergyrating`      REAL NOT NULL," +
-                    "     `antisynergyrating`  REAL NOT NULL," +
-                    "     `carddrawcount`      INTEGER NOT NULL," +
-                    "     `cardarchivecount`   INTEGER NOT NULL," +
-                    "     `keycheatcount`      INTEGER NOT NULL," +
-                    "     `rawamber`           INTEGER NOT NULL," +
+                    "     `effectivePower`     INTEGER NOT NULL," +
+                    "     `aercScore`          REAL NOT NULL," +
+                    "     `synergyRating`      REAL NOT NULL," +
+                    "     `antisynergyRating`  REAL NOT NULL," +
+                    "     `cardDrawCount`      INTEGER NOT NULL," +
+                    "     `cardArchiveCount`   INTEGER NOT NULL," +
+                    "     `keyCheatCount`      INTEGER NOT NULL," +
+                    "     `rawAmber`           INTEGER NOT NULL," +
                     "     `houses`             TEXT," +
                     "     PRIMARY KEY(`id`)" +
                     "  ) ");
-            database.execSQL("Insert into decks_new(id,keyforgeid,name,expansion,creaturecount," +
-                    "actioncount,artifactcount,upgradecount,sasrating,powerlevel,chains,wins," +
-                    "losses,totalpower,totalarmor,localwins,locallosses,artifactcontrol," +
-                    "creaturecontrol,ambercontrol,expectedamber," +
-                    "disruption,effectivepower,aercscore,synergyrating,antisynergyrating," +
-                    "carddrawcount,cardarchivecount,keycheatcount,rawamber,houses)" +
-                    " Select id,keyforgeid,name,expansion,creaturecount,actioncount," +
-                    "artifactcount,upgradecount,sasrating,powerlevel,chains,wins,losses," +
-                    "totalpower,totalarmor,localwins,locallosses,artifactcontrol," +
-                    "creaturecontrol,ambercontrol,expectedamber," +
-                    "disruption,effectivepower,aercscore,synergyrating,antisynergyrating," +
-                    "carddrawcount,cardarchivecount,keycheatcount,rawamber,houses from decks ");
+            database.execSQL("Alter table decks add efficiency Real not null default 0");
+            database.execSQL("Alter table decks add creatureProtection Real not null default 0");
+
+            database.execSQL("Insert into decks_new(id,keyforgeId,name,expansion,creatureCount," +
+                    "actionCount,artifactCount,upgradeCount,sasRating,powerLevel,chains,wins," +
+                    "losses,totalPower,totalArmor,localWins,localLosses,artifactControl," +
+                    "creatureControl,amberControl,expectedAmber,disruption,effectivePower," +
+                    "aercScore,synergyRating,antisynergyRating,cardDrawCount,cardArchiveCount," +
+                    "keyCheatCount,rawAmber,houses,efficiency,creatureProtection)" +
+                    "Select id,keyforgeId,name,expansion,creatureCount,actionCount,artifactCount," +
+                    "upgradeCount,sasRating,powerLevel,chains,wins,losses,totalPower,totalArmor," +
+                    "localWins,localLosses,artifactControl,creatureControl,amberControl," +
+                    "expectedAmber,disruption,effectivePower,aercScore,synergyRating," +
+                    "antisynergyRating,cardDrawCount,cardArchiveCount,keyCheatCount,rawAmber," +
+                    "houses,efficiency,creatureProtection from decks");
 
             database.execSQL("drop table decks");
             database.execSQL("alter table decks_new rename to decks");

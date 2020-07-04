@@ -31,7 +31,6 @@ public class NewDeckFormat {
     private int localLosses;
     private double artifactControl;
     private double creatureControl;
-    private double efficency; //TODO rename to efficiency without losing all data
     private double efficiency;
     private double creatureProtection;
 
@@ -42,9 +41,7 @@ public class NewDeckFormat {
     private double amberControl;
     private double expectedAmber;
     private double disruption;
-    private double amberProtection;
     private int effectivePower;
-    private double houseCheating;
     private double aercScore;
     private double synergyRating;
     private double antisynergyRating;
@@ -207,14 +204,6 @@ public class NewDeckFormat {
         this.creatureControl = creatureControl;
     }
 
-    public double getEfficency() {
-        return efficency;
-    }
-
-    public void setEfficency(double efficency) {
-        this.efficency = efficency;
-    }
-
     public double getAmberControl() {
         return amberControl;
     }
@@ -239,28 +228,12 @@ public class NewDeckFormat {
         this.disruption = disruption;
     }
 
-    public double getAmberProtection() {
-        return amberProtection;
-    }
-
-    public void setAmberProtection(double amberProtection) {
-        this.amberProtection = amberProtection;
-    }
-
     public int getEffectivePower() {
         return effectivePower;
     }
 
     public void setEffectivePower(int effectivePower) {
         this.effectivePower = effectivePower;
-    }
-
-    public double getHouseCheating() {
-        return houseCheating;
-    }
-
-    public void setHouseCheating(double houseCheating) {
-        this.houseCheating = houseCheating;
     }
 
     public double getAercScore() {
@@ -368,13 +341,10 @@ public class NewDeckFormat {
         converted.setLocalLosses(this.getLocalLosses());
         converted.setArtifactControl(this.getArtifactControl());
         converted.setCreatureControl(this.getCreatureControl());
-        converted.setEfficency(this.getEfficency()); //TODO rename to efficiency without losing all data
         converted.setAmberControl(this.getAmberControl());
         converted.setExpectedAmber(this.getExpectedAmber());
         converted.setDisruption(this.getDisruption());
-        converted.setAmberProtection(this.getAmberProtection());
         converted.setEffectivePower(this.getEffectivePower());
-        converted.setHouseCheating(this.getHouseCheating());
         converted.setAercScore(this.getAercScore());
         converted.setSynergyRating(this.getSynergyRating());
         converted.setAntisynergyRating(this.getAntisynergyRating());
@@ -410,14 +380,11 @@ public class NewDeckFormat {
                 ", localLosses=" + localLosses +
                 ", artifactControl=" + artifactControl +
                 ", creatureControl=" + creatureControl +
-                ", efficency=" + efficency +
                 ", efficiency=" + efficiency +
                 ", amberControl=" + amberControl +
                 ", expectedAmber=" + expectedAmber +
                 ", disruption=" + disruption +
-                ", amberProtection=" + amberProtection +
                 ", effectivePower=" + effectivePower +
-                ", houseCheating=" + houseCheating +
                 ", aercScore=" + aercScore +
                 ", synergyRating=" + synergyRating +
                 ", antisynergyRating=" + antisynergyRating +
