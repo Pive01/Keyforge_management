@@ -12,7 +12,6 @@ import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
 import com.KeyforgeManagement.application.ui.main.MainActivity;
-import com.amitshekhar.DebugDB;
 
 import java.util.List;
 
@@ -35,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
         img.setImageResource(R.drawable.logosplash);
         loading = findViewById(R.id.progress_bar_spalsh);
         loading.setVisibility(View.VISIBLE);
-        DebugDB.getAddressLog();
 
         Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
             @Override
