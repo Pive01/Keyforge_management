@@ -1,6 +1,5 @@
 package com.KeyforgeManagement.application.ui.deckDTOlist;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,8 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
     @NonNull
     @Override
     public DeckDTOViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.deck_displayer, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.deck_displayer, parent, false);
         return new DeckDTOViewHolder(v, listener);
     }
 
@@ -72,27 +72,32 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
     public void sort(int parameter) {
         switch (parameter) {
             case 0:
-                this.deckDTOlist.sort(Comparator.comparing((DeckDTO x) -> x.getDeck().getSasRating())
+                this.deckDTOlist.sort(
+                        Comparator.comparing((DeckDTO x) -> x.getDeck().getSasRating())
                         .thenComparing((DeckDTO x) -> x.getDeck().getRawAmber())
                         .reversed());
                 break;
             case 1:
-                this.deckDTOlist.sort(Comparator.comparing((DeckDTO x) -> x.getDeck().getRawAmber())
+                this.deckDTOlist.sort(
+                        Comparator.comparing((DeckDTO x) -> x.getDeck().getRawAmber())
                         .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
                         .reversed());
                 break;
             case 2:
-                this.deckDTOlist.sort(Comparator.comparing((DeckDTO x) -> x.getDeck().getLocalWins())
+                this.deckDTOlist.sort(
+                        Comparator.comparing((DeckDTO x) -> x.getDeck().getLocalWins())
                         .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
                         .reversed());
                 break;
             case 3:
-                this.deckDTOlist.sort(Comparator.comparing((DeckDTO x) -> x.getDeck().getActionCount())
+                this.deckDTOlist.sort(
+                        Comparator.comparing((DeckDTO x) -> x.getDeck().getActionCount())
                         .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
                         .reversed());
                 break;
             case 4:
-                this.deckDTOlist.sort(Comparator.comparing((DeckDTO x) -> x.getDeck().getArtifactCount())
+                this.deckDTOlist.sort(
+                        Comparator.comparing((DeckDTO x) -> x.getDeck().getArtifactCount())
                         .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
                         .reversed());
                 break;
@@ -118,24 +123,30 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
     public void advancedFilter(String tofilter, int sortingParameter) {
         List<DeckDTO> newList = new ArrayList<>(deckDTOBufferList);
         List<DeckDTO> toRemove = new ArrayList<>();
-        List<String> parameterList = Arrays.asList(tofilter.substring(1).toUpperCase().replace(" ", "_").split(","));
+        List<String> parameterList = Arrays.asList(tofilter.substring(1)
+                .toUpperCase()
+                .replace(" ", "_")
+                .split(","));
         for (int i = 0; i < parameterList.size(); i++) {
             int finalI = i;
             newList.forEach(item -> {
                 if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)) != null) {
                     boolean isIn = false;
                     for (int j = 0; j < 3; j++) {
-                        if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)).equals(item.getDeck().getHouses()[j]))
+                        if (HouseArrayTypeConverter
+                                .fromSingleString(parameterList.get(finalI))
+                                .equals(item.getDeck().getHouses()[j]))
                             isIn = true;
                     }
                     if (!isIn)
                         toRemove.add(item);
                 } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI)) != null) {
-                    if (!ExpansionTypeConverter.fromString(parameterList.get(finalI)).equals(item.getDeck().getExpansion()))
+                    if (!ExpansionTypeConverter
+                            .fromString(parameterList.get(finalI))
+                            .equals(item.getDeck().getExpansion()))
                         toRemove.add(item);
                 } else toRemove.add(item);
             });
-            toRemove.forEach(item -> Log.i("cose", item.getDeck().getName()));
             newList.removeAll(toRemove);
         }
         this.deckDTOlist.clear();
