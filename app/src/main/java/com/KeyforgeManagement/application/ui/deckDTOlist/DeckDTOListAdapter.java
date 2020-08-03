@@ -1,5 +1,6 @@
 package com.KeyforgeManagement.application.ui.deckDTOlist;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,11 @@ import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.House;
+import com.KeyforgeManagement.application.data.storage.typeConverters.ExpansionTypeConverter;
+import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -99,7 +103,7 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         notifyDataSetChanged();
     }
 
-    public void filter(String tofilter) {
+    public void filter(String tofilter, int sortingParameter) {
         List<DeckDTO> newList = new ArrayList<>();
         this.deckDTOBufferList.forEach(item -> {
             if (item.getDeck().getName().toLowerCase().contains(tofilter.toLowerCase()))
@@ -107,6 +111,36 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         });
         this.deckDTOlist.clear();
         this.deckDTOlist.addAll(newList);
+        this.sort(sortingParameter);
+        notifyDataSetChanged();
+    }
+
+    public void advancedFilter(String tofilter, int sortingParameter) {
+        List<DeckDTO> newList = new ArrayList<>(deckDTOBufferList);
+        List<DeckDTO> toRemove = new ArrayList<>();
+        List<String> parameterList = Arrays.asList(tofilter.substring(1).split(","));
+        for (int i = 0; i < parameterList.size(); i++) {
+            int finalI = i;
+            newList.forEach(item -> {
+                if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI).toUpperCase()) != null) {
+                    boolean isIn = false;
+                    for (int j = 0; j < 3; j++) {
+                        if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI).toUpperCase()).equals(item.getDeck().getHouses()[j]))
+                            isIn = true;
+                    }
+                    if (!isIn)
+                        toRemove.add(item);
+                } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI).toUpperCase()) != null) {
+                    if (!ExpansionTypeConverter.fromString(parameterList.get(finalI).toUpperCase()).equals(item.getDeck().getExpansion()))
+                        toRemove.add(item);
+                } else toRemove.add(item);
+            });
+            toRemove.forEach(item -> Log.i("cose", item.getDeck().getName()));
+            newList.removeAll(toRemove);
+        }
+        this.deckDTOlist.clear();
+        this.deckDTOlist.addAll(newList);
+        this.sort(sortingParameter);
         notifyDataSetChanged();
     }
 

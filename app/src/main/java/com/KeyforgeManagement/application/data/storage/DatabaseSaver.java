@@ -53,7 +53,7 @@ public class DatabaseSaver {
             card.setIs_maverick(false);
             cardsColletions.add(card);
         });
-
+//TODO add is_enhanced
         cardRepository.insertBulk(cardsColletions, cards -> {
             cardList.clear();
             cardList.addAll(response.getData().get_links().getCards());

@@ -42,8 +42,8 @@ public class CardListFragment extends Fragment implements CardListInteractionLis
 
         ImageView imageView = view.findViewById(R.id.house_icon);
 
-        House house = (House) getArguments().getSerializable("house");
-        imageView.setImageResource(house.getImageId());
+        House house = (House) (getArguments() != null ? getArguments().getSerializable("house") : null);
+        imageView.setImageResource(house != null ? house.getImageId() : 0);
 
         List<Card> cardList = (List<Card>) getArguments().getSerializable("list");
         mAdapter.onNewCards(cardList);

@@ -98,14 +98,16 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
         notifyDataSetChanged();
     }
 
-    public void filter(String tofilter) {
+    public void filter(String tofilter, int sortingParameter) {
         List<Deck> newList = new ArrayList<>();
         this.bufferList.forEach(item -> {
             if (item.getName().toLowerCase().contains(tofilter.toLowerCase()))
                 newList.add(item);
         });
+
         this.decks.clear();
         this.decks.addAll(newList);
+
         notifyDataSetChanged();
     }
 

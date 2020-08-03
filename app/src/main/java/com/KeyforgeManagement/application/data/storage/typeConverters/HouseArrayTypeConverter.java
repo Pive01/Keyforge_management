@@ -37,7 +37,13 @@ public final class HouseArrayTypeConverter {
 
     @TypeConverter
     public static House fromSingleString(String houseName) {
-        return House.valueOf(houseName);
+        House toReturn = null;
+        try {
+            toReturn = House.valueOf(houseName);
+        } catch (Exception e) {
+        } finally {
+            return toReturn;
+        }
     }
 
     private HouseArrayTypeConverter() {

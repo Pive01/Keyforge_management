@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     private String usrName = "";
     private ProgressDialog dialog;
     private boolean error = false;
+    private static int sortParamenter = 0;
     private SwipeRefreshLayout swipeRefresh;
 
 
@@ -127,26 +129,28 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.search_deck_mylist);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
+        searchView.setQueryHint("@Untamed,Brobnar,Age_Of_Ascension");
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
-                searchItem.collapseActionView();
+              /*  searchView.clearFocus();
+                searchItem.collapseActionView();*/
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.filter(newText);
+                Log.i("Shit", "Text submitted");
+                if (newText.length() > 0 && newText.charAt(0) == '@')
+                    mAdapter.advancedFilter(newText, sortParamenter);
+                else
+                    mAdapter.filter(newText, sortParamenter);
                 return false;
             }
         });
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -180,18 +184,23 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
             case R.id.sort_by_sas:
                 mAdapter.sort(0);
+                sortParamenter = 0;
                 return true;
             case R.id.sort_by_amber:
                 mAdapter.sort(1);
+                sortParamenter = 1;
                 return true;
             case R.id.sort_by_wins:
                 mAdapter.sort(2);
+                sortParamenter = 2;
                 return true;
             case R.id.sort_by_action_count:
                 mAdapter.sort(3);
+                sortParamenter = 3;
                 return true;
             case R.id.sort_by_artifact_count:
                 mAdapter.sort(4);
+                sortParamenter = 4;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -13,7 +13,13 @@ public final class ExpansionTypeConverter {
 
     @TypeConverter
     public static Expansion fromString(String expansionName) {
-        return Expansion.valueOf(expansionName);
+        Expansion toReturn = null;
+        try {
+            toReturn = Expansion.valueOf(expansionName);
+        } catch (Exception e) {
+        } finally {
+            return toReturn;
+        }
     }
 
     private ExpansionTypeConverter() {

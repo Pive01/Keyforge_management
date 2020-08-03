@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -107,6 +108,14 @@ public abstract class DecksDatabase extends RoomDatabase {
 
             database.execSQL("drop table decks");
             database.execSQL("alter table decks_new rename to decks");
+        }
+    };
+
+    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("alter table CardsDeckRef add is_enhanced INTEGER DEFAULT 0 NOT NULL");
         }
     };
     public static DecksDatabase getDatabase(final Context context) {

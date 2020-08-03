@@ -67,6 +67,7 @@ public class DetailActivity extends AppCompatActivity {
         context.startActivity(new Intent(context, DetailActivity.class));
         deckDTO = (DeckDTO) i.getSerializableExtra("deckInfo");
         statistic = (Stats) i.getSerializableExtra("stats");
+        System.out.println("Start");
     }
 
     @Override
@@ -94,6 +95,8 @@ public class DetailActivity extends AppCompatActivity {
         Button addLoss = findViewById(R.id.addLoss);
         Button removeWin = findViewById(R.id.removeWins);
         Button removeLoss = findViewById(R.id.removeLoss);
+        System.out.println("Create");
+
         initializeTextViews();
         updateView();
         initializeButtons(addWin, addLoss, removeLoss, removeWin);
@@ -118,6 +121,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void initializeTextViews() {
+
         DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
 
@@ -170,7 +174,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageView expansionIcon = findViewById(R.id.expansion_img);
         expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
-
+        System.out.println("Initialize TextViews");
 
     }
 
@@ -210,10 +214,12 @@ public class DetailActivity extends AppCompatActivity {
             deckDTO.getDeck().setLocalLosses(absolute((deckDTO.getDeck().getLocalLosses() - 1)));
             updateLosses();
         });
+        System.out.println("Initialize Buttons");
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void getCards(List<Card> cardToShow) {
+        System.out.println("Get Cards begin");
         if (cardToShow.isEmpty()) {
             Snackbar.make(
                     findViewById(R.id.mainDetailLayout),
@@ -235,6 +241,8 @@ public class DetailActivity extends AppCompatActivity {
         map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 24)));
         map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 36)));
 
+        System.out.println("Get Cards in Map");
+
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -249,6 +257,8 @@ public class DetailActivity extends AppCompatActivity {
         });
         viewPager.setAdapter(new CardFragmentAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, map, houseArr));
+
+        System.out.println("Get Cards ViewPager setted");
     }
 
     @Override
@@ -258,6 +268,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void assembleData() {
+        System.out.println("Assemble Data Begin");
         if (deckDTO.getCards() == null || deckDTO.getCards().size() == 0) {
             downloadCards();
             return;
@@ -277,52 +288,65 @@ public class DetailActivity extends AppCompatActivity {
                 temp.add(refCard);
 
         });
+        System.out.println("Assemble Data Ends");
+
         getCards(temp);
     }
 
     private void downloadCards() {
+        System.out.println("Download Cards Begin");
 
         dialog.setMessage("Downloading cards");
         dialog.show();
         Api.getCards(deckDTO.getDeck().getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
             @Override
             public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
+                System.out.println("Download Cards Response");
 
                 if (response.body() == null) {
+                    System.out.println("Download Cards Response with NUll body");
                     dialog.hide();
                     onBackPressed();
                     return;
                 }
+                System.out.println("Download Cards Response try save cards");
 
                 dbs.trySaveCards(response.body(), deckDTO.getDeck(), collection -> {
+                    System.out.println("Download Cards Response cards saved");
                     dialog.hide();
                     refreshDeckCards();
                 });
-
+                System.out.println("Download Cards Response end");
             }
 
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
+                System.out.println(t.getMessage());
+                System.out.println("Download Cards Failure");
                 dialog.hide();
             }
         });
     }
 
     private void refreshDeckCards() {
+        System.out.println("Refresh Deck Cards");
         repository.getDeckDTO(deckDTO.getDeck().getId()).observe(this, this::adjustObj);
     }
 
     private void adjustObj(DeckDTO x) {
+        System.out.println("Adjust Object");
         deckDTO = x;
         assembleData();
     }
     public boolean onCreateOptionsMenu(Menu menu) {
+        System.out.println("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     private void getShareIntent() {
+        System.out.println("getShareIntent");
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/html");
         String BASE_PATH = "https://www.keyforgegame.com/deck-details/";
@@ -345,6 +369,18 @@ public class DetailActivity extends AppCompatActivity {
             item.setTextSize(20);
         else
             item.setTextSize(38);
+    }
+
+    @Override
+    protected void onPause() {
+        dialog.dismiss();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 }
 
