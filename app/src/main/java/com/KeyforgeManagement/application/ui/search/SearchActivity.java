@@ -19,6 +19,7 @@ import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
+import com.KeyforgeManagement.application.ui.deckDTOlist.ListPaddingDecoration;
 import com.KeyforgeManagement.application.ui.decklist.DeckListAdapter;
 import com.KeyforgeManagement.application.ui.decklist.DeckListInteractionListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -75,6 +76,8 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new ListPaddingDecoration(getApplicationContext()));
+
 
         Intent intent = getIntent();
         String action = intent.getAction();

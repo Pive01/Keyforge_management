@@ -28,6 +28,7 @@ import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
 import com.KeyforgeManagement.application.ui.deckDTOlist.DeckDTOListAdapter;
 import com.KeyforgeManagement.application.ui.deckDTOlist.DeckDTOListInteractionListener;
+import com.KeyforgeManagement.application.ui.deckDTOlist.ListPaddingDecoration;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
 import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         RecyclerView mRecyclerView = findViewById(R.id.decksRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new ListPaddingDecoration(getApplicationContext()));
+
 
         mAdapter = new DeckDTOListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
@@ -136,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-              /*  searchView.clearFocus();
-                searchItem.collapseActionView();*/
+                searchView.clearFocus();
+                searchItem.collapseActionView();
                 return true;
             }
 
