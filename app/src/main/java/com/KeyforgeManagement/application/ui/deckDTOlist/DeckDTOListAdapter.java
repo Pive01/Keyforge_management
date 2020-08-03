@@ -118,20 +118,20 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
     public void advancedFilter(String tofilter, int sortingParameter) {
         List<DeckDTO> newList = new ArrayList<>(deckDTOBufferList);
         List<DeckDTO> toRemove = new ArrayList<>();
-        List<String> parameterList = Arrays.asList(tofilter.substring(1).split(","));
+        List<String> parameterList = Arrays.asList(tofilter.substring(1).toUpperCase().replace(" ", "_").split(","));
         for (int i = 0; i < parameterList.size(); i++) {
             int finalI = i;
             newList.forEach(item -> {
-                if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI).toUpperCase()) != null) {
+                if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)) != null) {
                     boolean isIn = false;
                     for (int j = 0; j < 3; j++) {
-                        if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI).toUpperCase()).equals(item.getDeck().getHouses()[j]))
+                        if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)).equals(item.getDeck().getHouses()[j]))
                             isIn = true;
                     }
                     if (!isIn)
                         toRemove.add(item);
-                } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI).toUpperCase()) != null) {
-                    if (!ExpansionTypeConverter.fromString(parameterList.get(finalI).toUpperCase()).equals(item.getDeck().getExpansion()))
+                } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI)) != null) {
+                    if (!ExpansionTypeConverter.fromString(parameterList.get(finalI)).equals(item.getDeck().getExpansion()))
                         toRemove.add(item);
                 } else toRemove.add(item);
             });

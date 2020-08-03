@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.search_deck_mylist);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("@Untamed,Brobnar,Age_Of_Ascension");
+        searchView.setQueryHint("@Untamed,Mass_Mutation,Logos");
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
