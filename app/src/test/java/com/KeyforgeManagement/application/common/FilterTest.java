@@ -24,25 +24,6 @@ import static org.junit.Assert.assertTrue;
 
 public class FilterTest {
 
-    private static DeckDTO createDeck(House[] houses, Expansion expansion) {
-        return createDeck(houses, expansion, "default name");
-    }
-
-    private static DeckDTO createDeck(House[] houses, Expansion expansion, String name) {
-        Deck deck = new Deck();
-        deck.setName(name);
-        deck.setHouses(houses);
-        deck.setExpansion(expansion);
-
-        DeckDTO dto = new DeckDTO();
-        dto.setDeck(deck);
-        return dto;
-    }
-
-    private static <T> List<T> listOf(T... args) {
-        return Arrays.asList(args);
-    }
-
     @Test
     public void filter_emptyList_returnsEmptyList() {
         String filter = "@mass_mutation";
@@ -107,5 +88,24 @@ public class FilterTest {
 
         assertEquals(1, result.size());
         assertEquals("one", result.get(0).getDeck().getName());
+    }
+
+    private static DeckDTO createDeck(House[] houses, Expansion expansion) {
+        return createDeck(houses, expansion, "default name");
+    }
+
+    private static DeckDTO createDeck(House[] houses, Expansion expansion, String name) {
+        Deck deck = new Deck();
+        deck.setName(name);
+        deck.setHouses(houses);
+        deck.setExpansion(expansion);
+
+        DeckDTO dto = new DeckDTO();
+        dto.setDeck(deck);
+        return dto;
+    }
+
+    private static <T> List<T> listOf(T... args) {
+        return Arrays.asList(args);
     }
 }
