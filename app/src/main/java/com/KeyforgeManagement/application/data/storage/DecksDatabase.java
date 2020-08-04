@@ -115,8 +115,8 @@ public abstract class DecksDatabase extends RoomDatabase {
 
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("alter table CardsDeckRef add is_enhanced INTEGER DEFAULT 0 NOT NULL");
-            database.execSQL("alter table Card add is_enhanced INTEGER DEFAULT 0 NOT NULL");
+            database.execSQL("alter table cards_deck_join add is_enhanced INTEGER DEFAULT 0");
+            database.execSQL("alter table cards add is_enhanced INTEGER DEFAULT 0");
         }
     };
     public static DecksDatabase getDatabase(final Context context) {
