@@ -21,7 +21,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 3, exportSchema = false)
+@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 4, exportSchema = false)
 public abstract class DecksDatabase extends RoomDatabase {
 
     private static final int NUMBER_OF_THREADS = 2;
@@ -116,6 +116,7 @@ public abstract class DecksDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("alter table CardsDeckRef add is_enhanced INTEGER DEFAULT 0 NOT NULL");
+            database.execSQL("alter table Card add is_enhanced INTEGER DEFAULT 0 NOT NULL");
         }
     };
     public static DecksDatabase getDatabase(final Context context) {
@@ -124,7 +125,7 @@ public abstract class DecksDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             DecksDatabase.class, "deck_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                             .build();
                 }
             }

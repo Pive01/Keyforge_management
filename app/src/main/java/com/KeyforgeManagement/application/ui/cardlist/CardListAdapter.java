@@ -1,5 +1,6 @@
 package com.KeyforgeManagement.application.ui.cardlist;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         void display(Card card) {
             cardRarity.setImageResource(card.getRarity().getImageCardId());
             cardName.setText(card.getCard_title());
+            cardName.setTextColor(card.getIs_enhanced() ? Color.CYAN : Color.BLACK);
 
             if (card.getIs_legacy())
                 specialRarity.setImageResource(R.drawable.ic_legacy);

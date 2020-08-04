@@ -27,6 +27,21 @@ public class Card implements Serializable {
     private Boolean is_maverick;
     private Boolean is_legacy;
     private Boolean is_anomaly;
+    private Boolean is_enhanced;
+
+
+    public void setCard_title(String card_title) {
+        this.card_title = card_title;
+    }
+
+    public Boolean getIs_enhanced() {
+        return is_enhanced;
+    }
+
+    public void setIs_enhanced(Boolean is_enhanced) {
+        this.is_enhanced = is_enhanced;
+    }
+
 
     public Boolean getIs_legacy() {
         return is_legacy;

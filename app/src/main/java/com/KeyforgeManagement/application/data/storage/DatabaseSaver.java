@@ -23,6 +23,7 @@ public class DatabaseSaver {
     private final List<String> cardList;
     private final List<Boolean> tempMaverick = new ArrayList<>();
     private final List<Boolean> tempAnomaly = new ArrayList<>();
+    private final List<Boolean> tempEnhanced = new ArrayList<>();
     private int index = 0;
     private final Collection<CardsDeckRef> cardsDeckRefCollection;
     private final Collection<Card> cardsColletions;
@@ -39,6 +40,7 @@ public class DatabaseSaver {
 
 
     public void trySaveCards(Kmvresults response, Deck deck, Consumer<Collection<CardsDeckRef>> callback) {
+        tempEnhanced.clear();
         tempMaverick.clear();
         tempAnomaly.clear();
         cardsDeckRefCollection.clear();
@@ -48,19 +50,21 @@ public class DatabaseSaver {
         response.get_linked().getCards().forEach(card -> {
             tempMaverick.add(card.getIs_maverick());
             tempAnomaly.add(card.getIs_anomaly());
+            tempEnhanced.add(card.getIs_enhanced());
+            card.setIs_enhanced(false);
             card.setIs_anomaly(false);
             card.setIs_legacy(false);
             card.setIs_maverick(false);
             cardsColletions.add(card);
         });
-//TODO add is_enhanced
+
         cardRepository.insertBulk(cardsColletions, cards -> {
             cardList.clear();
             cardList.addAll(response.getData().get_links().getCards());
             response.get_linked().getCards().forEach(card -> {
                 cardsDeckRefCollection.add(new CardsDeckRef(card.getId(), deck.getId(),
                         Collections.frequency(cardList, card.getId()), tempMaverick.get(index),
-                        legacy.contains(card.getId()), tempAnomaly.get(index)));
+                        legacy.contains(card.getId()), tempAnomaly.get(index), tempEnhanced.get(index)));
                 index++;
 
             });

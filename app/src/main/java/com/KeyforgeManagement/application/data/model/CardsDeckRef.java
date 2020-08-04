@@ -27,15 +27,26 @@ public class CardsDeckRef {
     private Boolean is_maverick;
     private Boolean is_legacy;
     private Boolean is_anomaly;
+    private Boolean is_enhanced;
+
 
     public CardsDeckRef(@NonNull String cardId, long deckId, int count, Boolean is_maverick,
-                        Boolean is_legacy, Boolean is_anomaly) {
+                        Boolean is_legacy, Boolean is_anomaly, Boolean is_enhanced) {
         this.cardId = cardId;
         this.deckId = deckId;
         this.count = count;
         this.is_maverick = is_maverick;
         this.is_legacy = is_legacy;
         this.is_anomaly = is_anomaly;
+        this.is_enhanced = is_enhanced;
+    }
+
+    public Boolean getIs_enhanced() {
+        return is_enhanced;
+    }
+
+    public void setIs_enhanced(Boolean is_enhanced) {
+        this.is_enhanced = is_enhanced;
     }
 
     @Override
@@ -47,6 +58,7 @@ public class CardsDeckRef {
                 ", is_maverick=" + is_maverick +
                 ", is_legacy=" + is_legacy +
                 ", is_anomaly=" + is_anomaly +
+                ", is_enhanced=" + is_enhanced +
                 '}';
     }
 
