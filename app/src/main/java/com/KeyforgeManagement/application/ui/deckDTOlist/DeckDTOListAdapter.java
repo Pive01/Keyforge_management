@@ -106,19 +106,7 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         notifyDataSetChanged();
     }
 
-    public void filter(String tofilter, int sortingParameter) {
-        List<DeckDTO> newList = new ArrayList<>();
-        this.deckDTOBufferList.forEach(item -> {
-            if (item.getDeck().getName().toLowerCase().contains(tofilter.toLowerCase()))
-                newList.add(item);
-        });
-        this.deckDTOlist.clear();
-        this.deckDTOlist.addAll(newList);
-        this.sort(sortingParameter);
-        notifyDataSetChanged();
-    }
-
-    public void advancedFilter(String filter, int sortingParameter) {
+    public void filter(String filter, int sortingParameter) {
         List<DeckDTO> newList = Filter.filter(filter, deckDTOBufferList);
         this.deckDTOlist.clear();
         this.deckDTOlist.addAll(newList);

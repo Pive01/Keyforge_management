@@ -17,28 +17,36 @@ public final class Filter {
 
     @NotNull
     public static List<DeckDTO> filter(String filter, List<DeckDTO> decks) {
+        if (filter.isEmpty()) {
+            return decks;
+        }
+
+        if (filter.startsWith("@")) {
+            return filterByHousesExpansion(filter, decks);
+        }
+
+        return filterByName(filter, decks);
+    }
+
+    private static List<DeckDTO> filterByHousesExpansion(String filter, List<DeckDTO> decks) {
         List<DeckDTO> newList = new ArrayList<>(decks);
         List<DeckDTO> toRemove = new ArrayList<>();
-        List<String> parameterList = Arrays.asList(filter.substring(1)
-                .toUpperCase()
-                .replace(" ", "_")
-                .split(","));
-        for (int i = 0; i < parameterList.size(); i++) {
-            int finalI = i;
+
+        for (String parameter : getParameters(filter)) {
             newList.forEach(item -> {
-                if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)) != null) {
+                if (HouseArrayTypeConverter.fromSingleString(parameter) != null) {
                     boolean isIn = false;
                     for (int j = 0; j < 3; j++) {
                         if (HouseArrayTypeConverter
-                                .fromSingleString(parameterList.get(finalI))
+                                .fromSingleString(parameter)
                                 .equals(item.getDeck().getHouses()[j]))
                             isIn = true;
                     }
                     if (!isIn)
                         toRemove.add(item);
-                } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI)) != null) {
+                } else if (ExpansionTypeConverter.fromString(parameter) != null) {
                     if (!ExpansionTypeConverter
-                            .fromString(parameterList.get(finalI))
+                            .fromString(parameter)
                             .equals(item.getDeck().getExpansion()))
                         toRemove.add(item);
                 } else toRemove.add(item);
@@ -46,5 +54,21 @@ public final class Filter {
             newList.removeAll(toRemove);
         }
         return newList;
+    }
+
+    private static List<DeckDTO> filterByName(String filter, List<DeckDTO> decks) {
+        List<DeckDTO> newList = new ArrayList<>();
+        decks.forEach(item -> {
+            if (item.getDeck().getName().toLowerCase().contains(filter.toLowerCase()))
+                newList.add(item);
+        });
+        return newList;
+    }
+
+    private static List<String> getParameters(String filter) {
+        return Arrays.asList(filter.substring(1)
+                .toUpperCase()
+                .replace(" ", "_")
+                .split(","));
     }
 }

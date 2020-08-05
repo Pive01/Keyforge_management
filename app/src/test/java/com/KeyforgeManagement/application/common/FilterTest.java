@@ -35,7 +35,7 @@ public class FilterTest {
     }
 
     @Test
-    public void filter_emptyFilter_returnsEmptyList() {
+    public void filter_emptyHousesExpansionFilter_returnsEmptyList() {
         String filter = "@";
         List<DeckDTO> decks = listOf(
                 createDeck(new House[]{MARS, BROBNAR, LOGOS}, CALL_OF_THE_ARCHONS),
@@ -45,6 +45,31 @@ public class FilterTest {
         List<DeckDTO> result = Filter.filter(filter, decks);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void filter_emptyFilter_returnFullList() {
+        String filter = "";
+        List<DeckDTO> decks = listOf(
+                createDeck(new House[]{MARS, BROBNAR, LOGOS}, CALL_OF_THE_ARCHONS, "Takeo"),
+                createDeck(new House[]{MARS, DIS, LOGOS}, AGE_OF_ASCENSION, "Indigo")
+        );
+
+        List<DeckDTO> result = Filter.filter(filter, decks);
+
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void filter_nameFilter_filtersByNames() {
+        String filter = "eo";
+        List<DeckDTO> decks = listOf(
+                createDeck(new House[]{MARS, BROBNAR, LOGOS}, CALL_OF_THE_ARCHONS, "Takeo"),
+                createDeck(new House[]{SANCTUM, DIS, LOGOS}, AGE_OF_ASCENSION, "Indigo")
+        );
+
+        List<DeckDTO> result = Filter.filter(filter, decks);
+        assertEquals("Takeo", result.get(0).getDeck().getName());
     }
 
     @Test
