@@ -7,14 +7,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.KeyforgeManagement.application.R;
+import com.KeyforgeManagement.application.common.Filter;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.House;
-import com.KeyforgeManagement.application.data.storage.typeConverters.ExpansionTypeConverter;
-import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -74,32 +72,32 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
             case 0:
                 this.deckDTOlist.sort(
                         Comparator.comparing((DeckDTO x) -> x.getDeck().getSasRating())
-                        .thenComparing((DeckDTO x) -> x.getDeck().getRawAmber())
-                        .reversed());
+                                .thenComparing((DeckDTO x) -> x.getDeck().getRawAmber())
+                                .reversed());
                 break;
             case 1:
                 this.deckDTOlist.sort(
                         Comparator.comparing((DeckDTO x) -> x.getDeck().getRawAmber())
-                        .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
-                        .reversed());
+                                .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
+                                .reversed());
                 break;
             case 2:
                 this.deckDTOlist.sort(
                         Comparator.comparing((DeckDTO x) -> x.getDeck().getLocalWins())
-                        .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
-                        .reversed());
+                                .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
+                                .reversed());
                 break;
             case 3:
                 this.deckDTOlist.sort(
                         Comparator.comparing((DeckDTO x) -> x.getDeck().getActionCount())
-                        .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
-                        .reversed());
+                                .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
+                                .reversed());
                 break;
             case 4:
                 this.deckDTOlist.sort(
                         Comparator.comparing((DeckDTO x) -> x.getDeck().getArtifactCount())
-                        .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
-                        .reversed());
+                                .thenComparing((DeckDTO x) -> x.getDeck().getSasRating())
+                                .reversed());
                 break;
             default:
                 break;
@@ -108,47 +106,8 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         notifyDataSetChanged();
     }
 
-    public void filter(String tofilter, int sortingParameter) {
-        List<DeckDTO> newList = new ArrayList<>();
-        this.deckDTOBufferList.forEach(item -> {
-            if (item.getDeck().getName().toLowerCase().contains(tofilter.toLowerCase()))
-                newList.add(item);
-        });
-        this.deckDTOlist.clear();
-        this.deckDTOlist.addAll(newList);
-        this.sort(sortingParameter);
-        notifyDataSetChanged();
-    }
-
-    public void advancedFilter(String tofilter, int sortingParameter) {
-        List<DeckDTO> newList = new ArrayList<>(deckDTOBufferList);
-        List<DeckDTO> toRemove = new ArrayList<>();
-        List<String> parameterList = Arrays.asList(tofilter.substring(1)
-                .toUpperCase()
-                .replace(" ", "_")
-                .split(","));
-        for (int i = 0; i < parameterList.size(); i++) {
-            int finalI = i;
-            newList.forEach(item -> {
-                if (HouseArrayTypeConverter.fromSingleString(parameterList.get(finalI)) != null) {
-                    boolean isIn = false;
-                    for (int j = 0; j < 3; j++) {
-                        if (HouseArrayTypeConverter
-                                .fromSingleString(parameterList.get(finalI))
-                                .equals(item.getDeck().getHouses()[j]))
-                            isIn = true;
-                    }
-                    if (!isIn)
-                        toRemove.add(item);
-                } else if (ExpansionTypeConverter.fromString(parameterList.get(finalI)) != null) {
-                    if (!ExpansionTypeConverter
-                            .fromString(parameterList.get(finalI))
-                            .equals(item.getDeck().getExpansion()))
-                        toRemove.add(item);
-                } else toRemove.add(item);
-            });
-            newList.removeAll(toRemove);
-        }
+    public void filter(String filter, int sortingParameter) {
+        List<DeckDTO> newList = Filter.filter(filter, deckDTOBufferList);
         this.deckDTOlist.clear();
         this.deckDTOlist.addAll(newList);
         this.sort(sortingParameter);
@@ -164,7 +123,7 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         private final TextView rawAember;
         private final DeckDTOListInteractionListener listener;
 
-        public DeckDTOViewHolder(@NonNull View itemView, DeckDTOListInteractionListener listener) {
+        DeckDTOViewHolder(@NonNull View itemView, DeckDTOListInteractionListener listener) {
             super(itemView);
             this.listener = listener;
             houseArr = new ImageView[]{

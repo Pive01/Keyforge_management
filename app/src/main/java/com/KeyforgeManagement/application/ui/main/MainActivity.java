@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -146,11 +145,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.i("Shit", "Text submitted");
-                if (newText.length() > 0 && newText.charAt(0) == '@')
-                    mAdapter.advancedFilter(newText, sortParamenter);
-                else
-                    mAdapter.filter(newText, sortParamenter);
+                mAdapter.filter(newText, sortParamenter);
                 return false;
             }
         });
