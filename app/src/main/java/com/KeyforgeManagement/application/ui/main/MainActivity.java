@@ -16,7 +16,6 @@ import android.view.View;
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
-import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
     private static DeckRepository repository;
     private DeckDTOListAdapter mAdapter;
-    private static Stats statistics;
     private String auth = "";
     private String usrName = "";
     private ProgressDialog dialog;
@@ -58,10 +56,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     private static int sortParamenter = 0;
     private SwipeRefreshLayout swipeRefresh;
 
-
-    public static void start(Context context, Intent i) {
+    public static void start(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
-        statistics = (Stats) i.getSerializableExtra("stats");
     }
 
     @Override
@@ -89,10 +85,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new ListPaddingDecoration(getApplicationContext()));
 
-
         mAdapter = new DeckDTOListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-
 
         repository = new DeckRepository(this);
         repository.getAllDecksDTO().observe(this, mAdapter::onNewDecks);
@@ -100,12 +94,9 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
     @Override
     public void onDeckClicked(DeckDTO deck) {
-        System.out.println(deck.getDeck().toString());
         Intent i = new Intent(this, DetailActivity.class);
-        i.putExtra("stats", statistics);
         i.putExtra("deckInfo", deck);
         DetailActivity.start(this, i);
-
     }
 
     @Override
@@ -175,9 +166,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                             .show();
                     return true;
                 }
-                Intent i = new Intent(this, ChartActivity.class);
-                i.putExtra("stats", statistics);
-                ChartActivity.start(this, i);
+                ChartActivity.start(this);
                 return true;
 
             case R.id.sort_by_sas:
