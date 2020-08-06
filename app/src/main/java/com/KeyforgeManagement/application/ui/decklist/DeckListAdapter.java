@@ -12,7 +12,6 @@ import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.House;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -22,13 +21,10 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
 
     private final List<Deck> decks;
     private final DeckListInteractionListener listener;
-    private final List<Deck> bufferList;
-
 
     public DeckListAdapter(DeckListInteractionListener listener) {
         this.listener = listener;
         this.decks = new ArrayList<>();
-        this.bufferList = new ArrayList<>();
     }
 
     @NonNull
@@ -49,65 +45,8 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
     }
 
     public void onNewDecks(List<Deck> decks) {
-
         this.decks.clear();
         this.decks.addAll(decks);
-        this.bufferList.clear();
-        this.bufferList.addAll(decks);
-        notifyDataSetChanged();
-
-    }
-
-    public Deck getDeckAt(int position) {
-        if (position >= decks.size())
-            return null;
-        return decks.get(position);
-    }
-
-    public void sort(int parameter) {
-        switch (parameter) {
-            case 0:
-                this.decks.sort(Comparator.comparing(Deck::getSasRating)
-                        .thenComparing(Deck::getRawAmber)
-                        .reversed());
-                break;
-            case 1:
-                this.decks.sort(Comparator.comparing(Deck::getRawAmber)
-                        .thenComparing(Deck::getSasRating)
-                        .reversed());
-                break;
-            case 2:
-                this.decks.sort(Comparator.comparing(Deck::getLocalWins)
-                        .thenComparing(Deck::getSasRating)
-                        .reversed());
-                break;
-            case 3:
-                this.decks.sort(Comparator.comparing(Deck::getActionCount)
-                        .thenComparing(Deck::getSasRating)
-                        .reversed());
-                break;
-            case 4:
-                this.decks.sort(Comparator.comparing(Deck::getArtifactCount)
-                        .thenComparing(Deck::getSasRating)
-                        .reversed());
-                break;
-            default:
-                break;
-
-        }
-        notifyDataSetChanged();
-    }
-
-    public void filter(String tofilter, int sortingParameter) {
-        List<Deck> newList = new ArrayList<>();
-        this.bufferList.forEach(item -> {
-            if (item.getName().toLowerCase().contains(tofilter.toLowerCase()))
-                newList.add(item);
-        });
-
-        this.decks.clear();
-        this.decks.addAll(newList);
-
         notifyDataSetChanged();
     }
 
@@ -151,7 +90,5 @@ public class DeckListAdapter extends RecyclerView.Adapter<DeckListAdapter.DeckVi
                 return true;
             });
         }
-
-
     }
 }

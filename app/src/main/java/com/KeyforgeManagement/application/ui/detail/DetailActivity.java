@@ -97,12 +97,11 @@ public class DetailActivity extends AppCompatActivity {
         updateView();
         initializeButtons(addWin, addLoss, removeLoss, removeWin);
 
-
         ImageButton infoLogo = findViewById(R.id.infobutton);
         infoLogo.setOnClickListener(v -> {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            CustomTabsIntent customTabsIntent = builder.build();
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                    .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                    .build();
             customTabsIntent.launchUrl(this, Uri.parse("https://decksofkeyforge.com/about/sas"));
 
         });
@@ -170,7 +169,6 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageView expansionIcon = findViewById(R.id.expansion_img);
         expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
-
     }
 
     private void updateWins() {
@@ -234,7 +232,6 @@ public class DetailActivity extends AppCompatActivity {
         map.put(houseArr[0], new ArrayList<>(cardToShow.subList(0, 12)));
         map.put(houseArr[1], new ArrayList<>(cardToShow.subList(12, 24)));
         map.put(houseArr[2], new ArrayList<>(cardToShow.subList(24, 36)));
-
 
         viewPager = findViewById(R.id.viewpager);
         viewPager.setOnTouchListener((v, event) -> {
@@ -303,7 +300,6 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Kmvresults> call, Throwable t) {
-                System.out.println(t.getMessage());
                 dialog.hide();
             }
         });
@@ -317,6 +313,7 @@ public class DetailActivity extends AppCompatActivity {
         deckDTO = x;
         assembleData();
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
 
@@ -324,12 +321,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void getShareIntent() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/html");
-        String BASE_PATH = "https://www.keyforgegame.com/deck-details/";
-        String shareBody = "Take a look at this deckDTO!\n" + BASE_PATH + deckDTO.getDeck().getKeyforgeId();
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "sample");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        String basePath = "https://www.keyforgegame.com/deck-details/";
+        String shareBody = "Take a look at this deck!\n" + basePath + deckDTO.getDeck().getKeyforgeId();
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND)
+                .setType("text/html")
+                .putExtra(Intent.EXTRA_SUBJECT, "sample")
+                .putExtra(Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 

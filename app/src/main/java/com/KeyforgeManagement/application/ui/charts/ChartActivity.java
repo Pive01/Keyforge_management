@@ -65,8 +65,7 @@ public class ChartActivity extends AppCompatActivity {
             chartImplementer.createHousesBarChart(getApplicationContext(), imageList);
 
         }
-        DeckRepository repository;
-        repository = new DeckRepository(this);
+        DeckRepository repository = new DeckRepository(this);
         repository.getAllDecksDTO().observe(this, this::getSatsDecks);
     }
 
@@ -88,7 +87,6 @@ public class ChartActivity extends AppCompatActivity {
 
             totalPlays = item.getDeck().getLocalLosses() + item.getDeck().getLocalWins();
             if ((item.getDeck().getLocalWins() != 0) && ((((double) item.getDeck().getLocalWins()) / totalPlays) * Math.atan(totalPlays)) > bestTotalPlaysWinRate) {
-                System.out.println("here");
                 betterWinRate = item;
                 bestTotalPlaysWinRate = ((((double) item.getDeck().getLocalWins()) / totalPlays) * Math.atan(totalPlays));
             }
@@ -99,7 +97,6 @@ public class ChartActivity extends AppCompatActivity {
 
         makeOnClickable(mostWinDeck, findViewById(R.id.most_win_deck));
         makeOnClickable(betterWinRate, findViewById(R.id.most_win_rate_deck));
-
 
         TextView winRate = findViewById(R.id.txtView_winrate);
         winRate.setText(getResources().getString(R.string.strongest_deck));

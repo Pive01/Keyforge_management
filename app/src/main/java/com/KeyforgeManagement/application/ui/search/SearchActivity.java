@@ -84,7 +84,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            System.out.println(intent.getStringExtra(Intent.EXTRA_TEXT));
             Matcher m = p.matcher(intent.getStringExtra(Intent.EXTRA_TEXT));
             if (m.find())
                 searchById(m.group());
