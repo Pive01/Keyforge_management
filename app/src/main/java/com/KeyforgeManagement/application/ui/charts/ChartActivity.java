@@ -49,7 +49,7 @@ public class ChartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Stats statistic = StatsRepository.get();
+        Stats statistic = StatsRepository.get(this);
         if (statistic != null) {
             BarChart chart = findViewById(R.id.houses_chart);
             BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,

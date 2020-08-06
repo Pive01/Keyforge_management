@@ -111,7 +111,7 @@ public class DetailActivity extends AppCompatActivity {
         assembleData();
 
         BarChart chart = findViewById(R.id.barchart);
-        BarChartImplementer chartImplementer = new BarChartImplementer(chart, StatsRepository.get(),
+        BarChartImplementer chartImplementer = new BarChartImplementer(chart, StatsRepository.get(this),
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deckDTO.getDeck().getSasRating());
     }

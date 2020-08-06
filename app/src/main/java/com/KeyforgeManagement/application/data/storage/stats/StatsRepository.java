@@ -29,55 +29,75 @@ public class StatsRepository {
 
     private static Stats STATS;
 
-    public static void refresh(Context context, Consumer<Stats> refreshComplete) {
-        long now = currentTimeMillis();
-
-        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-
-        if (!sharedPref.contains(SHARED_PREFERENCES_DATE_KEY)
-                || (now - sharedPref.getLong(SHARED_PREFERENCES_DATE_KEY, 0)) >= MAX_AGE_MILLIS) {
+    public static void refresh(Context context, Runnable onSuccess, Consumer<Throwable> onFailure) {
+        if (isStatsExpired(context)) {
             getStatsFromNet(stats -> {
                 STATS = stats;
-                try {
-                    FileUtils.write(context, new Gson().toJson(stats), FILE_NAME);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                sharedPref.edit()
-                        .putLong(SHARED_PREFERENCES_DATE_KEY, currentTimeMillis())
-                        .apply();
-                refreshComplete.accept(stats);
-            });
-
-
+                store(context, stats);
+                onSuccess.run();
+            }, onFailure);
         } else {
             try {
-                STATS = new Gson().fromJson(FileUtils.read(context, FILE_NAME), Stats.class);
+                STATS = read(context);
+                onSuccess.run();
             } catch (IOException e) {
                 e.printStackTrace();
+                onFailure.accept(e);
             }
-            refreshComplete.accept(STATS);
         }
     }
 
-    public static Stats get() {
+    public static Stats get(Context context) {
+        if (STATS == null) {
+            try {
+                STATS = read(context);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return STATS;
     }
 
-    private static void getStatsFromNet(Consumer<Stats> onResponse) {
+    private static boolean isStatsExpired(Context context) {
+        long now = currentTimeMillis();
+        SharedPreferences sharedPref = getSharedPreferences(context);
+        return !sharedPref.contains(SHARED_PREFERENCES_DATE_KEY)
+                || (now - sharedPref.getLong(SHARED_PREFERENCES_DATE_KEY, 0)) >= MAX_AGE_MILLIS;
+    }
+
+    private static void store(Context context, Stats stats) {
+        try {
+            FileUtils.write(context, new Gson().toJson(stats), FILE_NAME);
+            getSharedPreferences(context)
+                    .edit()
+                    .putLong(SHARED_PREFERENCES_DATE_KEY, currentTimeMillis())
+                    .apply();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Stats read(Context context) throws IOException {
+        return new Gson().fromJson(FileUtils.read(context, FILE_NAME), Stats.class);
+    }
+
+    private static void getStatsFromNet(Consumer<Stats> onResponse, Consumer<Throwable> onFailure) {
         Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
             @Override
             public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
                 assert response.body() != null;
                 onResponse.accept(response.body().get(0).getStats());
-
             }
 
             @Override
             public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
-                //TODO handle failed
+                onFailure.accept(t);
             }
         });
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 }

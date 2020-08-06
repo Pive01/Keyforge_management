@@ -85,10 +85,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new ListPaddingDecoration(getApplicationContext()));
 
-
         mAdapter = new DeckDTOListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-
 
         repository = new DeckRepository(this);
         repository.getAllDecksDTO().observe(this, mAdapter::onNewDecks);

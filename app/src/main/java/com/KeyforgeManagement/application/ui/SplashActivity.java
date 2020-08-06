@@ -23,12 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         loading = findViewById(R.id.progress_bar_spalsh);
         loading.setVisibility(View.VISIBLE);
 
-        StatsRepository.refresh(getApplicationContext(), stats -> {
-            if (stats == null)
-                failed();
-            else
-                openMain();
-        });
+        StatsRepository.refresh(getApplicationContext(), this::openMain, throwable -> failed());
     }
 
     private void failed() {
