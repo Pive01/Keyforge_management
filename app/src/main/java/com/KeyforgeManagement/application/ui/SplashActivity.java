@@ -8,20 +8,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.KeyforgeManagement.application.R;
-import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.model.Stats;
-import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.GlobalStatistics;
+import com.KeyforgeManagement.application.data.storage.stats.StatsRepository;
 import com.KeyforgeManagement.application.ui.main.MainActivity;
 
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
-
 
     private ProgressBar loading;
     private Stats statistics;
@@ -35,20 +28,14 @@ public class SplashActivity extends AppCompatActivity {
         loading = findViewById(R.id.progress_bar_spalsh);
         loading.setVisibility(View.VISIBLE);
 
-        Api.getStats().enqueue(new Callback<List<GlobalStatistics>>() {
-            @Override
-            public void onResponse(Call<List<GlobalStatistics>> call, Response<List<GlobalStatistics>> response) {
-                assert response.body() != null;
-                statistics = response.body().get(0).getStats();
-                openMain();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<GlobalStatistics>> call, Throwable t) {
+        StatsRepository.refresh(getApplicationContext(), stats -> {
+            statistics = stats;
+            if (stats == null)
                 failed();
-            }
+            else
+                openMain();
         });
+
     }
 
     private void failed() {
@@ -62,6 +49,5 @@ public class SplashActivity extends AppCompatActivity {
         i.putExtra("stats", statistics);
         MainActivity.start(this, i);
         loading.setVisibility(View.GONE);
-
     }
 }
