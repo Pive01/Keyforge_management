@@ -24,10 +24,10 @@ public class StatsRepository {
 
     private static final String SHARED_PREFERENCES_NAME = "stats";
     private static final String SHARED_PREFERENCES_DATE_KEY = "statsDate";
-
-    private static Stats statistics;
+    private static final String FILE_NAME = "statsFile";
     private static final int MAX_AGE_MILLIS = 86400000 * 3; // 3 days
-    private static final String filename = "statsFile";
+
+    private static Stats STATS;
 
     public static void refresh(Context context, Consumer<Stats> refreshComplete) {
         long now = currentTimeMillis();
@@ -38,9 +38,9 @@ public class StatsRepository {
         if (!sharedPref.contains(SHARED_PREFERENCES_DATE_KEY)
                 || (now - sharedPref.getLong(SHARED_PREFERENCES_DATE_KEY, 0)) >= MAX_AGE_MILLIS) {
             getStatsFromNet(stats -> {
-                statistics = stats;
+                STATS = stats;
                 try {
-                    FileUtils.write(context, new Gson().toJson(stats), filename);
+                    FileUtils.write(context, new Gson().toJson(stats), FILE_NAME);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -53,16 +53,16 @@ public class StatsRepository {
 
         } else {
             try {
-                statistics = new Gson().fromJson(FileUtils.read(context, filename), Stats.class);
+                STATS = new Gson().fromJson(FileUtils.read(context, FILE_NAME), Stats.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            refreshComplete.accept(statistics);
+            refreshComplete.accept(STATS);
         }
     }
 
     public static Stats get() {
-        return statistics;
+        return STATS;
     }
 
     private static void getStatsFromNet(Consumer<Stats> onResponse) {

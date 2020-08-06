@@ -13,6 +13,7 @@ import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
+import com.KeyforgeManagement.application.data.storage.stats.StatsRepository;
 import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 import com.KeyforgeManagement.application.ui.detail.DetailActivity;
 import com.github.mikephil.charting.charts.BarChart;
@@ -26,15 +27,13 @@ import androidx.appcompat.widget.Toolbar;
 
 public class ChartActivity extends AppCompatActivity {
 
-    private static Stats statistic;
     private static DeckDTO mostWinDeck;
     private static DeckDTO betterWinRate;
     private static int totalPlays;
     private static double bestTotalPlaysWinRate;
 
-    public static void start(Context context, Intent i) {
+    public static void start(Context context) {
         context.startActivity(new Intent(context, ChartActivity.class));
-        statistic = (Stats) i.getSerializableExtra("stats");
     }
 
     @Override
@@ -50,6 +49,7 @@ public class ChartActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Stats statistic = StatsRepository.get();
         if (statistic != null) {
             BarChart chart = findViewById(R.id.houses_chart);
             BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
@@ -129,8 +129,6 @@ public class ChartActivity extends AppCompatActivity {
         itemView.setOnClickListener(v -> {
             Intent i = new Intent(ChartActivity.this, DetailActivity.class);
             i.putExtra("deckInfo", deck);
-            i.putExtra("stats", statistic);
-
             DetailActivity.start(ChartActivity.this, i);
         });
     }

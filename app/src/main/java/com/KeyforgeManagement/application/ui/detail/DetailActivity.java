@@ -20,10 +20,10 @@ import com.KeyforgeManagement.application.data.model.CardMetadataDTO;
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.House;
-import com.KeyforgeManagement.application.data.model.Stats;
 import com.KeyforgeManagement.application.data.model.wrapperMasterVault.Kmvresults;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
+import com.KeyforgeManagement.application.data.storage.stats.StatsRepository;
 import com.KeyforgeManagement.application.ui.charts.BarChartImplementer;
 import com.KeyforgeManagement.application.ui.detail.fragments.CardFragmentAdapter;
 import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
@@ -54,7 +54,6 @@ import static com.KeyforgeManagement.application.common.Utils.absolute;
 public class DetailActivity extends AppCompatActivity {
 
     private static DeckDTO deckDTO;
-    private static Stats statistic;
     private DeckRepository repository;
     private TextView winsView;
     private TextView lossesView;
@@ -66,7 +65,6 @@ public class DetailActivity extends AppCompatActivity {
     public static void start(Context context, Intent i) {
         context.startActivity(new Intent(context, DetailActivity.class));
         deckDTO = (DeckDTO) i.getSerializableExtra("deckInfo");
-        statistic = (Stats) i.getSerializableExtra("stats");
     }
 
     @Override
@@ -113,7 +111,7 @@ public class DetailActivity extends AppCompatActivity {
         assembleData();
 
         BarChart chart = findViewById(R.id.barchart);
-        BarChartImplementer chartImplementer = new BarChartImplementer(chart, statistic,
+        BarChartImplementer chartImplementer = new BarChartImplementer(chart, StatsRepository.get(),
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deckDTO.getDeck().getSasRating());
     }
