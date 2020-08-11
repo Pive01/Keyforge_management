@@ -60,5 +60,6 @@
     <string name="information_logo_button">Information logo button</string>
     <string name="counts">Counts</string>
     <string name="house_logo">house logo</string>
+    <string name="refresh_cards">Refresh Cards</string>
 
 </resources>

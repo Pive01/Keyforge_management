@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
@@ -113,6 +114,31 @@ public class DetailActivity extends AppCompatActivity {
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, StatsRepository.get(this),
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deckDTO.getDeck().getSasRating());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        if (menu instanceof MenuBuilder) {
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_share:
+                getShareIntent();
+                return true;
+            case R.id.menu_item_refresh_cards:
+                downloadCards();
+                return true;
+            default:
+                finish();
+                return true;
+        }
     }
 
     private void initializeTextViews() {
@@ -314,12 +340,6 @@ public class DetailActivity extends AppCompatActivity {
         assembleData();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void getShareIntent() {
         String basePath = "https://www.keyforgegame.com/deck-details/";
         String shareBody = "Take a look at this deck!\n" + basePath + deckDTO.getDeck().getKeyforgeId();
@@ -330,13 +350,6 @@ public class DetailActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_share)
-            getShareIntent();
-        else finish();
-        return true;
-    }
 
     private void adjustSize(TextView item) {
         if (Integer.parseInt(item.getText().toString()) >= 10)

@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
             @Override
             public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
                 if (response.body() != null) {
+                    System.out.println("####" + response.body());
                     DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
                     dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
                 } else {

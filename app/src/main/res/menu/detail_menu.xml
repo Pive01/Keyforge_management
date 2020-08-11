@@ -6,7 +6,11 @@
         android:id="@+id/menu_item_share"
         android:icon="@drawable/ic_share_black_24dp"
         android:title="@string/share"
-        app:showAsAction="ifRoom" />
-    <!-- app:actionProviderClass="android.support.v7.widget.ShareActionProvider"-->
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_refresh_cards"
+        android:icon="@drawable/ic_sync_white_24dp"
+        android:title="@string/refresh_cards"
+        app:showAsAction="never" />
 
 </menu>
