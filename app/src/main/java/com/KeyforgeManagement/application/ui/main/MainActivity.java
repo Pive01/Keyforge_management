@@ -1,5 +1,6 @@
 package com.KeyforgeManagement.application.ui.main;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -12,6 +13,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.api.Api;
@@ -33,13 +42,6 @@ import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     private String usrName = "";
     private ProgressDialog dialog;
     private boolean error = false;
-    private static int sortParamenter = 0;
+    private static int sortParameter = 0;
     private SwipeRefreshLayout swipeRefresh;
 
     public static void start(Context context) {
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 .show();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.filter(newText, sortParamenter);
+                mAdapter.filter(newText, sortParameter);
                 return false;
             }
         });
@@ -171,23 +174,23 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
             case R.id.sort_by_sas:
                 mAdapter.sort(0);
-                sortParamenter = 0;
+                sortParameter = 0;
                 return true;
             case R.id.sort_by_amber:
                 mAdapter.sort(1);
-                sortParamenter = 1;
+                sortParameter = 1;
                 return true;
             case R.id.sort_by_wins:
                 mAdapter.sort(2);
-                sortParamenter = 2;
+                sortParameter = 2;
                 return true;
             case R.id.sort_by_action_count:
                 mAdapter.sort(3);
-                sortParamenter = 3;
+                sortParameter = 3;
                 return true;
             case R.id.sort_by_artifact_count:
                 mAdapter.sort(4);
-                sortParamenter = 4;
+                sortParameter = 4;
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
