@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.common.Filter;
 import com.KeyforgeManagement.application.data.model.Deck;
@@ -15,9 +18,6 @@ import com.KeyforgeManagement.application.data.model.House;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.DeckDTOViewHolder> {
     private final List<DeckDTO> deckDTOlist;
@@ -48,6 +48,13 @@ public class DeckDTOListAdapter extends RecyclerView.Adapter<DeckDTOListAdapter.
         return deckDTOlist.size();
     }
 
+    public List<String> getDecksIDs(){
+        List<String> tempList=new ArrayList<>();
+        deckDTOlist.forEach(item->{
+            tempList.add(item.getDeck().getKeyforgeId());
+        });
+        return tempList;
+    }
     public void onNewDecks(List<DeckDTO> decks) {
 
         this.deckDTOlist.clear();

@@ -6,9 +6,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.KeyforgeManagement.application.R;
+import com.KeyforgeManagement.application.common.Utils;
 import com.KeyforgeManagement.application.data.api.Api;
+import com.KeyforgeManagement.application.data.api.ApiPerformer;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserValidator;
 import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.ResponseImport;
-import com.KeyforgeManagement.application.data.model.wrapperDecksOfKeyforge.SingleDeckReference;
 import com.KeyforgeManagement.application.data.storage.DatabaseSaver;
 import com.KeyforgeManagement.application.data.storage.Deck.DeckRepository;
 import com.KeyforgeManagement.application.ui.charts.ChartActivity;
@@ -41,6 +40,9 @@ import com.KeyforgeManagement.application.ui.main.information.Information;
 import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     private boolean error = false;
     private static int sortParameter = 0;
     private SwipeRefreshLayout swipeRefresh;
+    private boolean compare = false;
+    private List<String> toAdd;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -96,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
 
     @Override
     public void onDeckClicked(DeckDTO deck) {
-        Intent i = new Intent(this, DetailActivity.class);
-        i.putExtra("deckInfo", deck);
+        Intent i = new Intent(this, DetailActivity.class)
+                .putExtra("deckInfo", deck);
         DetailActivity.start(this, i);
     }
 
@@ -155,7 +159,13 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 Information.start(this);
                 return true;
             case R.id.import_dok:
-                showDialog();
+                compare = false;
+                showDialogCredential();
+                return true;
+            case R.id.compare_dok:
+                compare = true;
+                showDialogCredential();
+
                 return true;
             case R.id.graph_charts:
                 if (mAdapter.getItemCount() <= 0) {
@@ -163,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                             findViewById(R.id.activity_main_parent_layout),
                             "Add some decks before", Snackbar.LENGTH_LONG)
                             .setAction("CLOSE", view -> {
-
                             })
                             .setActionTextColor(ContextCompat.getColor(this, R.color.colorAccent))
                             .show();
@@ -171,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 }
                 ChartActivity.start(this);
                 return true;
-
             case R.id.sort_by_sas:
                 mAdapter.sort(0);
                 sortParameter = 0;
@@ -197,29 +205,18 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         }
     }
 
-    private boolean checkIsFirst() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (!preferences.contains("isFirstAccess")) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("isFirstAccess", true);
-            editor.apply();
-            return true;
-        }
-        return false;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkIsFirst())
+        if (Utils.checkIsFirst(getApplicationContext()))
             showSnackBarMain(getString(R.string.lonely));
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_HOME)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -273,27 +270,70 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     }
 
     private void importDok(String userName) {
-        dialog.setMessage("Importing data ...");
+        if (compare)
+            dialog.setMessage("Comparing data...");
+        else
+            dialog.setMessage("Importing data ...");
         dialog.show();
         Api.importDecks(new RequestBody(userName), auth).enqueue(new Callback<ResponseImport>() {
             @Override
             public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
                 if (response.body() != null) {
-                    System.out.println("####" + response.body());
-                    DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
-                    dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
+                    if (compare) {
+                        toAdd = new ArrayList<>();
+                        List<String> tempList = mAdapter.getDecksIDs();
+                        List<String> returnedList = new ArrayList<>();
+                                response.body().getDecks().forEach(item->{
+                                    returnedList.add(item.getKeyforgeId());
+                                });
+
+                        tempList.forEach(deckID -> {
+                            if (!returnedList.contains(deckID))
+                                toAdd.add(deckID);
+                        });
+                        dialog.hide();
+                        if (tempList.size() == 0)
+                            showSnackBarMain("All deck on the app are in DOK");
+                        else
+                            showDialogCompared();
+
+                    } else {
+                        DatabaseSaver dbs = new DatabaseSaver(getApplicationContext());
+                        dbs.saveMultipleDecks(response.body().getDecks(), deckCollection -> dialog.hide());
+                    }
                 } else {
-                    showSnackBarMain("An error occurred while importing data");
+                    showSnackBarMain("An error occurred while getting data");
                     dialog.hide();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseImport> call, Throwable t) {
-                showSnackBarMain("An error occurred while importing data");
+                showSnackBarMain("An error occurred while getting data");
                 dialog.hide();
             }
         });
+    }
+
+    private void showDialogCompared() {
+        new AlertDialog.Builder(this)
+                .setTitle("Compare decks")
+                .setMessage("It seems that some decks are not in DOK, would you like to add them?")
+                .setPositiveButton("OK", (dialog, id) -> uploadDecks())
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void uploadDecks() {
+        dialog.setMessage("Uploading...");
+        dialog.show();
+        error = false;
+        addDecks(0);
+    }
+
+    private void abortUpload() {
+        dialog.hide();
+        showSnackBarMain("Something went wrong :(");
     }
 
     private void showSnackBarMain(String s) {
@@ -306,20 +346,45 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 .show();
     }
 
-    private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void showDialogCredential() {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.credential_layout, null);
-        builder.setView(dialogView);
-        builder.setPositiveButton("Sign in", (dialogInterface, i) -> {
-            TextInputEditText email = dialogView.findViewById(R.id.userEmail);
-            TextInputEditText psw = dialogView.findViewById(R.id.password_dok);
+        new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setPositiveButton("Sign in", (dialogInterface, i) -> {
+                    TextInputEditText email = dialogView.findViewById(R.id.userEmail);
+                    TextInputEditText psw = dialogView.findViewById(R.id.password_dok);
 
-            getAuthorization(email.getText().toString(), psw.getText().toString());
+                    getAuthorization(email.getText().toString(), psw.getText().toString());
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void addDecks(int i) {
+        if (toAdd.size()<=i || toAdd.get(i) == null) {
+            return;
+        }
+        Api.addDeck(auth, toAdd.get(i)).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (!response.body() || response.body() == null) {
+                    abortUpload();
+                } else {
+                    System.out.println("####uploading "+i);
+                    if(toAdd.size()<=i+1){
+                        dialog.hide();
+                        return;
+                    }
+                    addDecks(i + 1);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                abortUpload();
+            }
         });
-        builder.setNegativeButton("Cancel", null);
-
-        builder.show();
     }
 
     private void refreshStatus(int i) {
@@ -327,31 +392,20 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
             swipeRefresh.setRefreshing(false);
             return;
         }
-        Api.getDeckFromId(mAdapter.getDeckDTOAt(i).getDeck().getKeyforgeId()).enqueue(new Callback<SingleDeckReference>() {
-            @Override
-            public void onResponse(Call<SingleDeckReference> call, Response<SingleDeckReference> response) {
-                if (response.body() == null) {
-                    showSnackBarMain("Error try later");
-                    error = true;
+        ApiPerformer.getDecksFromId(singleDeckReference -> {
+            if (singleDeckReference == null) showSnackBarMain("Error try later");
+            error = singleDeckReference == null;
+            repository.updateStatus(singleDeckReference.getDeck().convertToOld(), deck -> {
+                if (i == mAdapter.getItemCount() - 1) {
+                    swipeRefresh.setRefreshing(false);
+                    return;
                 }
-                error = false;
-
-                repository.updateStatus(response.body().getDeck().convertToOld(), deck -> {
-                    if (i == mAdapter.getItemCount() - 1) {
-                        swipeRefresh.setRefreshing(false);
-                        return;
-                    }
-
-                    refreshStatus(i + 1);
-                });
-            }
-
-            @Override
-            public void onFailure(Call<SingleDeckReference> call, Throwable t) {
-                showSnackBarMain("Error try later");
-                error = true;
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+                refreshStatus(i + 1);
+            });
+        }, failure -> {
+            showSnackBarMain("Error try later");
+            error = true;
+            swipeRefresh.setRefreshing(false);
+        }, mAdapter.getDeckDTOAt(i).getDeck().getKeyforgeId());
     }
 }

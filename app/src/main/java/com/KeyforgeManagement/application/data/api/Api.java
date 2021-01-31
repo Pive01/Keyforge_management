@@ -65,7 +65,7 @@ public final class Api {
         return APIDOK.getAuthorization(usr);
     }
 
-    public static Call<Void> addDeck(String auth, String deckId) {
+    public static Call<Boolean> addDeck(String auth, String deckId) {
         return APIDOK.addDeck(auth, deckId);
     }
 

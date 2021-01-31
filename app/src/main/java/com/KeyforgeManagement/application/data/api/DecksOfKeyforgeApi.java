@@ -37,7 +37,7 @@ interface DecksOfKeyforgeApi {
     Call<Void> getAuthorization(@Body UserValidator usr);
 
     @POST("decks/{id}/import-and-add")
-    Call<Void> addDeck(@Header("authorization") String auth, @Path("id") String deckId);
+    Call<Boolean> addDeck(@Header("authorization") String auth, @Path("id") String deckId);
 
     @Headers({"timezone: 60"})
     @GET("users/secured/your-user")

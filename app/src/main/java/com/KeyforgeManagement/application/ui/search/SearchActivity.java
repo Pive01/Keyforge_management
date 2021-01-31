@@ -106,9 +106,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         new AlertDialog.Builder(this)
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    dbs.saveDeck(deck);
-                })
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> dbs.saveDeck(deck))
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
@@ -141,7 +139,7 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
         MenuItem searchItem = menu.findItem(R.id.search_button);
         searchItem.expandActionView();
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search deck name or id");
+        searchView.setQueryHint("Search deck, name or id");
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new OnQueryTextListener() {

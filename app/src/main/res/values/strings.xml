@@ -61,5 +61,6 @@
     <string name="counts">Counts</string>
     <string name="house_logo">house logo</string>
     <string name="refresh_cards">Refresh Cards</string>
+    <string name="compare_to_dok">Compare to DOK</string>
 
 </resources>

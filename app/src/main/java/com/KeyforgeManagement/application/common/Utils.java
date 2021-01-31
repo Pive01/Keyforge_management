@@ -1,6 +1,10 @@
 package com.KeyforgeManagement.application.common;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.adaptation.NewDeckFormat;
 
@@ -28,13 +32,24 @@ public final class Utils {
     }
 
     public static int absolute(int num) {
-        return num < 0 ? 0 : num;
+        return Math.max(num, 0);
     }
 
     public static List<Deck> convertToOldList(List<NewDeckFormat> newList) {
         List<Deck> oldList = new ArrayList<>();
         newList.forEach(item -> oldList.add(item.convertToOld()));
         return oldList;
+    }
+
+    public static boolean checkIsFirst(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!preferences.contains("isFirstAccess")) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirstAccess", true);
+            editor.apply();
+            return true;
+        }
+        return false;
     }
 
     private Utils() {
