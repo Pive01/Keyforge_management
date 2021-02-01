@@ -160,12 +160,14 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 return true;
             case R.id.import_dok:
                 compare = false;
-                showDialogCredential();
+                    showDialogCredential();
                 return true;
             case R.id.compare_dok:
                 compare = true;
-                showDialogCredential();
-
+                if(auth.isEmpty())
+                    importDok(usrName);
+                else
+                    showDialogCredential();
                 return true;
             case R.id.graph_charts:
                 if (mAdapter.getItemCount() <= 0) {
