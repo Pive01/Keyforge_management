@@ -1,5 +1,6 @@
 package com.KeyforgeManagement.application.ui.charts;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
@@ -21,9 +25,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class ChartActivity extends AppCompatActivity {
 
@@ -75,6 +76,7 @@ public class ChartActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NewApi")
     private void getSatsDecks(List<DeckDTO> deckList) {
         bestTotalPlaysWinRate = 0;
         mostWinDeck = deckList.get(0);
@@ -92,6 +94,7 @@ public class ChartActivity extends AppCompatActivity {
             }
 
         });
+
         fillView(mostWinDeck, findViewById(R.id.most_win_deck));
         fillView(betterWinRate, findViewById(R.id.most_win_rate_deck));
 
