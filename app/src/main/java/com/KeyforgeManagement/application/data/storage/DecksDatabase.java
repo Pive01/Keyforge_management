@@ -2,6 +2,13 @@ package com.KeyforgeManagement.application.data.storage;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import com.KeyforgeManagement.application.data.model.Card;
 import com.KeyforgeManagement.application.data.model.CardsDeckRef;
 import com.KeyforgeManagement.application.data.model.Deck;
@@ -14,14 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import androidx.annotation.NonNull;
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
-
-@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 4, exportSchema = false)
+@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 5, exportSchema = false)
 public abstract class DecksDatabase extends RoomDatabase {
 
     private static final int NUMBER_OF_THREADS = 2;
@@ -119,13 +119,21 @@ public abstract class DecksDatabase extends RoomDatabase {
             database.execSQL("alter table cards add is_enhanced INTEGER DEFAULT 0");
         }
     };
+
+    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("alter table decks add metaScores INTEGER NOT NULL DEFAULT 0");
+        }
+    };
     public static DecksDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (DecksDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             DecksDatabase.class, "deck_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4,MIGRATION_4_5)
                             .build();
                 }
             }

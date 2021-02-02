@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         swipeRefresh.setOnRefreshListener(() -> {
-            error = false;
+            error=false;
             refreshStatus(0);
         });
 
@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
         showSnackBarMain("Something went wrong :(");
     }
 
-    private void showSnackBarMain(String s) {
+    public void showSnackBarMain(String s) {
         Snackbar.make(
                 findViewById(R.id.activity_main_parent_layout),
                 s, Snackbar.LENGTH_LONG)
@@ -373,7 +373,6 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 if (!response.body() || response.body() == null) {
                     abortUpload();
                 } else {
-                    System.out.println("####uploading "+i);
                     if(toAdd.size()<=i+1){
                         dialog.hide();
                         return;
@@ -390,13 +389,12 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
     }
 
     private void refreshStatus(int i) {
+
         if (error || mAdapter.getDeckDTOAt(i) == null) {
             swipeRefresh.setRefreshing(false);
             return;
         }
         ApiPerformer.getDecksFromId(singleDeckReference -> {
-            if (singleDeckReference == null) showSnackBarMain("Error try later");
-            error = singleDeckReference == null;
             repository.updateStatus(singleDeckReference.getDeck().convertToOld(), deck -> {
                 if (i == mAdapter.getItemCount() - 1) {
                     swipeRefresh.setRefreshing(false);
@@ -406,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
             });
         }, failure -> {
             showSnackBarMain("Error try later");
+            System.out.println("Failure:"+failure.getMessage());
             error = true;
             swipeRefresh.setRefreshing(false);
         }, mAdapter.getDeckDTOAt(i).getDeck().getKeyforgeId());

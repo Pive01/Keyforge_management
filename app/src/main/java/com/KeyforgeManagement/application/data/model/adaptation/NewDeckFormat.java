@@ -1,5 +1,7 @@
 package com.KeyforgeManagement.application.data.model.adaptation;
 
+import androidx.room.TypeConverters;
+
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.Expansion;
 import com.KeyforgeManagement.application.data.model.House;
@@ -7,8 +9,6 @@ import com.KeyforgeManagement.application.data.storage.typeConverters.ExpansionT
 import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 
 import java.util.Arrays;
-
-import androidx.room.TypeConverters;
 
 public class NewDeckFormat {
     private long id;
@@ -24,13 +24,12 @@ public class NewDeckFormat {
     private int powerLevel;
     private int chains;
     private int wins;
+    private Meta metaScores;
     private int losses;
     private int totalPower;
     private int totalArmor;
     private int localWins;
     private int localLosses;
-    private double artifactControl;
-    private double creatureControl;
     private double efficiency;
     private double creatureProtection;
 
@@ -38,7 +37,6 @@ public class NewDeckFormat {
         return efficiency;
     }
 
-    private double amberControl;
     private double expectedAmber;
     private double disruption;
     private int effectivePower;
@@ -51,6 +49,14 @@ public class NewDeckFormat {
     private int rawAmber;
     @TypeConverters({HouseArrayTypeConverter.class})
     private HouseCards[] housesAndCards;
+
+    public Meta getMetaScores() {
+        return metaScores;
+    }
+
+    public void setMetaScores(Meta metaScores) {
+        this.metaScores = metaScores;
+    }
 
     public long getId() {
         return id;
@@ -188,30 +194,6 @@ public class NewDeckFormat {
         this.localLosses = localLosses;
     }
 
-    public double getArtifactControl() {
-        return artifactControl;
-    }
-
-    public void setArtifactControl(double artifactControl) {
-        this.artifactControl = artifactControl;
-    }
-
-    public double getCreatureControl() {
-        return creatureControl;
-    }
-
-    public void setCreatureControl(double creatureControl) {
-        this.creatureControl = creatureControl;
-    }
-
-    public double getAmberControl() {
-        return amberControl;
-    }
-
-    public void setAmberControl(double amberControl) {
-        this.amberControl = amberControl;
-    }
-
     public double getExpectedAmber() {
         return expectedAmber;
     }
@@ -339,9 +321,9 @@ public class NewDeckFormat {
         converted.setTotalArmor(this.getTotalArmor());
         converted.setLocalWins(this.getLocalWins());
         converted.setLocalLosses(this.getLocalLosses());
-        converted.setArtifactControl(this.getArtifactControl());
-        converted.setCreatureControl(this.getCreatureControl());
-        converted.setAmberControl(this.getAmberControl());
+        converted.setArtifactControl(this.getMetaScores().getArtifactControl());
+        converted.setCreatureControl(this.getMetaScores().getCreatureControl());
+        converted.setAmberControl(this.getMetaScores().getAemberControl());
         converted.setExpectedAmber(this.getExpectedAmber());
         converted.setDisruption(this.getDisruption());
         converted.setEffectivePower(this.getEffectivePower());
@@ -355,6 +337,7 @@ public class NewDeckFormat {
         converted.setHouses(this.ExtractHouses());
         converted.setEfficiency(this.getEfficiency());
         converted.setCreatureProtection(this.getCreatureProtection());
+        converted.setMetaScores(this.getMetaScores().getAmount());
         return converted;
     }
 
@@ -378,10 +361,7 @@ public class NewDeckFormat {
                 ", totalArmor=" + totalArmor +
                 ", localWins=" + localWins +
                 ", localLosses=" + localLosses +
-                ", artifactControl=" + artifactControl +
-                ", creatureControl=" + creatureControl +
                 ", efficiency=" + efficiency +
-                ", amberControl=" + amberControl +
                 ", expectedAmber=" + expectedAmber +
                 ", disruption=" + disruption +
                 ", effectivePower=" + effectivePower +

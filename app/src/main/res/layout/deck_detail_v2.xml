@@ -113,7 +113,13 @@
                     android:layout_height="wrap_content"
                     android:padding="4sp"
                     android:textStyle="bold" />
-
+                <TextView
+                    android:id="@+id/meta"
+                    style="@style/textFontLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -135,7 +141,6 @@
                 <TextView
                     style="@style/textFontLow"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:padding="4sp"
                     android:text="@string/synergy"
@@ -144,10 +149,17 @@
                 <TextView
                     style="@style/textFontLow"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:padding="4sp"
                     android:text="@string/antisynergy"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/textFontLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4sp"
+                    android:text="@string/meta"
                     android:textStyle="bold" />
 
             </LinearLayout>

@@ -1,12 +1,6 @@
 package com.KeyforgeManagement.application.data.storage.Deck;
 
 
-import com.KeyforgeManagement.application.data.model.Deck;
-import com.KeyforgeManagement.application.data.model.DeckDTO;
-
-import java.util.Collection;
-import java.util.List;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -14,6 +8,12 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+
+import com.KeyforgeManagement.application.data.model.Deck;
+import com.KeyforgeManagement.application.data.model.DeckDTO;
+
+import java.util.Collection;
+import java.util.List;
 
 @Dao
 public interface DeckDao {
@@ -49,12 +49,13 @@ public interface DeckDao {
             "expectedAmber=:expectedAmber," +
             "creatureProtection=:creatureProtection," +
             "efficiency=:efficiency," +
+            "metaScores=:metaScores," +
             "antisynergyRating=:antisynergyRating WHERE id=:id")
     void updateDeckStatus(int sasRating, int powerLevel, int chains, int wins, int losses,
                           double aercScore, double synergyRating, double antisynergyRating,
                           int cardDrawCount, int cardArchiveCount,
                           int keyCheatCount, long id, double efficiency, double expectedAmber,
-                          double creatureProtection);
+                          double creatureProtection,int metaScores);
 
     @Transaction
     @Query("SELECT * FROM decks WHERE id=:id")

@@ -2,6 +2,8 @@ package com.KeyforgeManagement.application.data.storage.Deck;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.storage.DecksDatabase;
@@ -11,8 +13,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
-
-import androidx.lifecycle.LiveData;
 
 public class DeckRepository {
     private final DeckDao mDeckDao;
@@ -69,7 +69,7 @@ public class DeckRepository {
                     deck.getWins(), deck.getLosses(), deck.getAercScore(), deck.getSynergyRating(),
                     deck.getAntisynergyRating(), deck.getCardDrawCount(), deck.getCardArchiveCount(),
                     deck.getKeyCheatCount(), deck.getId(),
-                    deck.getEfficiency(), deck.getExpectedAmber(), deck.getCreatureProtection());
+                    deck.getEfficiency(), deck.getExpectedAmber(), deck.getCreatureProtection(),deck.getMetaScores());
         });
 
         try {

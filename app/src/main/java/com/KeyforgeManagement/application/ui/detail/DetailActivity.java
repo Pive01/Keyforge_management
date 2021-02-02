@@ -176,6 +176,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView creature = findViewById(R.id.txtView_creature);
         TextView artifact = findViewById(R.id.txtView_artifact);
         TextView upgrade = findViewById(R.id.txtView_upgrade);
+        TextView meta = findViewById(R.id.meta);
         action.setText(String.valueOf(df.format(deck.getActionCount())));
         creature.setText(String.valueOf(df.format(deck.getCreatureCount())));
         artifact.setText(String.valueOf(df.format(deck.getArtifactCount())));
@@ -194,7 +195,7 @@ public class DetailActivity extends AppCompatActivity {
         aerc.setText(String.valueOf(noDot.format(deck.getAercScore())));
         synergy.setText("+ " + noDot.format(deck.getSynergyRating()));
         antisynergy.setText("- " + noDot.format(deck.getAntisynergyRating()));
-
+        meta.setText(String.valueOf(noDot.format(deck.getMetaScores())));
         ImageView expansionIcon = findViewById(R.id.expansion_img);
         expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
     }

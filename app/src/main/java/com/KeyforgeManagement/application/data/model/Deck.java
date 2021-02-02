@@ -1,15 +1,15 @@
 package com.KeyforgeManagement.application.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import com.KeyforgeManagement.application.data.storage.typeConverters.ExpansionTypeConverter;
 import com.KeyforgeManagement.application.data.storage.typeConverters.HouseArrayTypeConverter;
 
 import java.io.Serializable;
 import java.util.Arrays;
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
 
 @Entity(tableName = "decks")
@@ -65,6 +65,16 @@ public class Deck implements Serializable {
     private int cardArchiveCount;
     private int keyCheatCount;
     private int rawAmber;
+    private int metaScores;
+
+    public int getMetaScores() {
+        return metaScores;
+    }
+
+    public void setMetaScores(int metaScores) {
+        this.metaScores = metaScores;
+    }
+
     @TypeConverters({HouseArrayTypeConverter.class})
     @ColumnInfo(name = "houses")
     private House[] houses;
