@@ -8,8 +8,8 @@ android {
         applicationId "com.KeyforgeManagement.application"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 28
-        versionName "1.0.10.3"
+        versionCode 29
+        versionName "1.0.10.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {

@@ -24,6 +24,7 @@ import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.common.Utils;
 import com.KeyforgeManagement.application.data.api.Api;
 import com.KeyforgeManagement.application.data.api.ApiPerformer;
+import com.KeyforgeManagement.application.data.model.Deck;
 import com.KeyforgeManagement.application.data.model.DeckDTO;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.RequestBody;
 import com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired.UserInfo;
@@ -41,8 +42,8 @@ import com.KeyforgeManagement.application.ui.search.SearchActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 return true;
             case R.id.compare_dok:
                 compare = true;
-                if(auth.isEmpty())
+                if(!auth.isEmpty())
                     importDok(usrName);
                 else
                     showDialogCredential();
@@ -282,19 +283,10 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
             public void onResponse(Call<ResponseImport> call, Response<ResponseImport> response) {
                 if (response.body() != null) {
                     if (compare) {
-                        toAdd = new ArrayList<>();
-                        List<String> tempList = mAdapter.getDecksIDs();
-                        List<String> returnedList = new ArrayList<>();
-                                response.body().getDecks().forEach(item->{
-                                    returnedList.add(item.getKeyforgeId());
-                                });
-
-                        tempList.forEach(deckID -> {
-                            if (!returnedList.contains(deckID))
-                                toAdd.add(deckID);
-                        });
+                        List<String> returnedList=response.body().getDecks().stream().map(Deck::getKeyforgeId).collect(Collectors.toList());
+                        toAdd=mAdapter.getDecksIDs().stream().filter(item->!returnedList.contains(item)).collect(Collectors.toList());
                         dialog.hide();
-                        if (tempList.size() == 0)
+                        if (mAdapter.getDecksIDs().size() == 0)
                             showSnackBarMain("All deck on the app are in DOK");
                         else
                             showDialogCompared();
