@@ -63,5 +63,8 @@
     <string name="refresh_cards">Refresh Cards</string>
     <string name="compare_to_dok">Compare to DOK</string>
     <string name="meta">META</string>
+    <string name="sclaing_steal_amber">sclaing steal amber</string>
+    <string name="recusion">recusion</string>
+    <string name="board_wipes">board wipes</string>
 
 </resources>

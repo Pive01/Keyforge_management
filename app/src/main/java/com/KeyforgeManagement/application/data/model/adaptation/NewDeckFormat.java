@@ -33,6 +33,44 @@ public class NewDeckFormat {
     private double efficiency;
     private double creatureProtection;
 
+    private double amberControl;
+
+    public double getAmberControl() {
+        return amberControl;
+    }
+
+    public void setAmberControl(double amberControl) {
+        this.amberControl = amberControl;
+    }
+
+    public double getCreatureControl() {
+        return creatureControl;
+    }
+
+    public void setCreatureControl(double creatureControl) {
+        this.creatureControl = creatureControl;
+    }
+
+    public double getArtifactControl() {
+        return artifactControl;
+    }
+
+    public void setArtifactControl(double artifactControl) {
+        this.artifactControl = artifactControl;
+    }
+
+    public double getRecursion() {
+        return recursion;
+    }
+
+    public void setRecursion(double recursion) {
+        this.recursion = recursion;
+    }
+
+    private double creatureControl;
+    private double artifactControl;
+    private double recursion;;
+
     public double getEfficiency() {
         return efficiency;
     }
@@ -47,6 +85,16 @@ public class NewDeckFormat {
     private int cardArchiveCount;
     private int keyCheatCount;
     private int rawAmber;
+
+    public double getEfficiencyBonus() {
+        return efficiencyBonus;
+    }
+
+    public void setEfficiencyBonus(double efficiencyBonus) {
+        this.efficiencyBonus = efficiencyBonus;
+    }
+
+    private double efficiencyBonus;
     @TypeConverters({HouseArrayTypeConverter.class})
     private HouseCards[] housesAndCards;
 
@@ -303,6 +351,7 @@ public class NewDeckFormat {
     }
 
     public Deck convertToOld() {
+        System.out.println("####"+this.toString());
         Deck converted = new Deck();
         converted.setId(this.getId());
         converted.setKeyforgeId(this.getKeyforgeId());
@@ -321,9 +370,11 @@ public class NewDeckFormat {
         converted.setTotalArmor(this.getTotalArmor());
         converted.setLocalWins(this.getLocalWins());
         converted.setLocalLosses(this.getLocalLosses());
-        converted.setArtifactControl(this.getMetaScores().getArtifactControl());
-        converted.setCreatureControl(this.getMetaScores().getCreatureControl());
-        converted.setAmberControl(this.getMetaScores().getAemberControl());
+        converted.setArtifactControl(this.getArtifactControl());
+        converted.setCreatureControl(this.getCreatureControl());
+        converted.setRecursion(this.getRecursion());
+        converted.setEfficiencyBonus(this.getEfficiencyBonus());
+        converted.setAmberControl(this.getAmberControl());
         converted.setExpectedAmber(this.getExpectedAmber());
         converted.setDisruption(this.getDisruption());
         converted.setEffectivePower(this.getEffectivePower());
@@ -337,6 +388,8 @@ public class NewDeckFormat {
         converted.setHouses(this.ExtractHouses());
         converted.setEfficiency(this.getEfficiency());
         converted.setCreatureProtection(this.getCreatureProtection());
+        converted.setBoardClears(this.getMetaScores().getBoardClears());
+        converted.setScalingAemberControl(this.getMetaScores().getScalingAemberControl());
         converted.setMetaScores(this.getMetaScores().getAmount());
         return converted;
     }
@@ -356,12 +409,18 @@ public class NewDeckFormat {
                 ", powerLevel=" + powerLevel +
                 ", chains=" + chains +
                 ", wins=" + wins +
+                ", metaScores=" + metaScores +
                 ", losses=" + losses +
                 ", totalPower=" + totalPower +
                 ", totalArmor=" + totalArmor +
                 ", localWins=" + localWins +
                 ", localLosses=" + localLosses +
                 ", efficiency=" + efficiency +
+                ", creatureProtection=" + creatureProtection +
+                ", amberControl=" + amberControl +
+                ", creatureControl=" + creatureControl +
+                ", artifactControl=" + artifactControl +
+                ", recursion=" + recursion +
                 ", expectedAmber=" + expectedAmber +
                 ", disruption=" + disruption +
                 ", effectivePower=" + effectivePower +
@@ -372,8 +431,8 @@ public class NewDeckFormat {
                 ", cardArchiveCount=" + cardArchiveCount +
                 ", keyCheatCount=" + keyCheatCount +
                 ", rawAmber=" + rawAmber +
+                ", efficiencyBonus=" + efficiencyBonus +
                 ", housesAndCards=" + Arrays.toString(housesAndCards) +
-                ", creatureProtection=" + creatureProtection +
                 '}';
     }
 }

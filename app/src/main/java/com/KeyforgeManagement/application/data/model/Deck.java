@@ -35,7 +35,44 @@ public class Deck implements Serializable {
     private int localLosses;
     private double artifactControl;
     private double creatureControl;
+    private double recursion;
 
+    public double getEfficiencyBonus() {
+        return efficiencyBonus;
+    }
+
+    public void setEfficiencyBonus(double efficiencyBonus) {
+        this.efficiencyBonus = efficiencyBonus;
+    }
+
+    private double efficiencyBonus;
+
+    public double getRecursion() {
+        return recursion;
+    }
+
+    public void setRecursion(double recursion) {
+        this.recursion = recursion;
+    }
+
+    public int getBoardClears() {
+        return boardClears;
+    }
+
+    public void setBoardClears(int boardClears) {
+        this.boardClears = boardClears;
+    }
+
+    public int getScalingAemberControl() {
+        return scalingAemberControl;
+    }
+
+    public void setScalingAemberControl(int scalingAemberControl) {
+        this.scalingAemberControl = scalingAemberControl;
+    }
+
+    private int boardClears;
+    private int scalingAemberControl;
     private double creatureProtection;
     private double efficiency;
 
@@ -350,6 +387,10 @@ public class Deck implements Serializable {
                 ", localLosses=" + localLosses +
                 ", artifactControl=" + artifactControl +
                 ", creatureControl=" + creatureControl +
+                ", recursion=" + recursion +
+                ", efficiencyBonus=" + efficiencyBonus +
+                ", boardClears=" + boardClears +
+                ", scalingAemberControl=" + scalingAemberControl +
                 ", creatureProtection=" + creatureProtection +
                 ", efficiency=" + efficiency +
                 ", amberControl=" + amberControl +
@@ -363,6 +404,7 @@ public class Deck implements Serializable {
                 ", cardArchiveCount=" + cardArchiveCount +
                 ", keyCheatCount=" + keyCheatCount +
                 ", rawAmber=" + rawAmber +
+                ", metaScores=" + metaScores +
                 ", houses=" + Arrays.toString(houses) +
                 '}';
     }

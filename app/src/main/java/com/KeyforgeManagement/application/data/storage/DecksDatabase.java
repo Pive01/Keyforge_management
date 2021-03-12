@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 5, exportSchema = false)
+@Database(entities = {Deck.class, Card.class, CardsDeckRef.class}, version = 6, exportSchema = false)
 public abstract class DecksDatabase extends RoomDatabase {
 
     private static final int NUMBER_OF_THREADS = 2;
@@ -127,13 +127,24 @@ public abstract class DecksDatabase extends RoomDatabase {
             database.execSQL("alter table decks add metaScores INTEGER NOT NULL DEFAULT 0");
         }
     };
+
+    private static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("alter table decks add recursion REAL NOT NULL DEFAULT 0");
+            database.execSQL("alter table decks add efficiencyBonus REAL NOT NULL DEFAULT 0");
+            database.execSQL("alter table decks add boardClears INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("alter table decks add scalingAemberControl INTEGER NOT NULL DEFAULT 0");
+        }
+    };
     public static DecksDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (DecksDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             DecksDatabase.class, "deck_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4,MIGRATION_4_5)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4,MIGRATION_4_5,MIGRATION_5_6)
                             .build();
                 }
             }

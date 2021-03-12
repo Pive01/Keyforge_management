@@ -76,6 +76,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar infoToolbar = findViewById(R.id.deck_info_toolbar);
         infoToolbar.setTitle(deckDTO.getDeck().getName());
+        System.out.println("####"+deckDTO.getDeck().toString());
 
         setSupportActionBar(infoToolbar);
 
@@ -95,7 +96,7 @@ public class DetailActivity extends AppCompatActivity {
         Button removeWin = findViewById(R.id.removeWins);
         Button removeLoss = findViewById(R.id.removeLoss);
 
-        initializeTextViews();
+
         updateView();
         initializeButtons(addWin, addLoss, removeLoss, removeWin);
 
@@ -115,6 +116,7 @@ public class DetailActivity extends AppCompatActivity {
         BarChartImplementer chartImplementer = new BarChartImplementer(chart, StatsRepository.get(this),
                 "Sas Ratings");
         chartImplementer.createSasBarChart(deckDTO.getDeck().getSasRating());
+        initializeTextViews();
     }
 
     @SuppressLint("RestrictedApi")
@@ -146,10 +148,10 @@ public class DetailActivity extends AppCompatActivity {
     private void initializeTextViews() {
 
         DecimalFormat df = new DecimalFormat("#.#");
-        df.setRoundingMode(RoundingMode.CEILING);
+        df.setRoundingMode(RoundingMode.HALF_UP);
 
         DecimalFormat noDot = new DecimalFormat("#");
-        noDot.setRoundingMode(RoundingMode.CEILING);
+        noDot.setRoundingMode(RoundingMode.HALF_UP);
 
         Deck deck = deckDTO.getDeck();
         TextView power = findViewById(R.id.deck_power_txt);
@@ -168,7 +170,9 @@ public class DetailActivity extends AppCompatActivity {
         TextView disruption = findViewById(R.id.txtView_disruption);
         TextView amber = findViewById(R.id.txtView_amber);
         TextView keyCheat = findViewById(R.id.txtView_key_cheat);
-        TextView archive = findViewById(R.id.txtView_archive);
+        TextView recursion = findViewById(R.id.txtView_recursion);
+       // TextView boardWipes = findViewById(R.id.txtView_board_wipes);
+       // TextView scalingAmberControl = findViewById(R.id.txtView_scaling_steal);
         TextView aerc = findViewById(R.id.base_aerc);
         TextView synergy = findViewById(R.id.synegy);
         TextView antisynergy = findViewById(R.id.antisynegy);
@@ -176,26 +180,30 @@ public class DetailActivity extends AppCompatActivity {
         TextView creature = findViewById(R.id.txtView_creature);
         TextView artifact = findViewById(R.id.txtView_artifact);
         TextView upgrade = findViewById(R.id.txtView_upgrade);
+        TextView efficiencyBonus = findViewById(R.id.txtView_efficiency_bonus);
         TextView meta = findViewById(R.id.meta);
         action.setText(String.valueOf(df.format(deck.getActionCount())));
         creature.setText(String.valueOf(df.format(deck.getCreatureCount())));
         artifact.setText(String.valueOf(df.format(deck.getArtifactCount())));
         upgrade.setText(String.valueOf(df.format(deck.getUpgradeCount())));
-        amberCntrl.setText(String.valueOf(df.format(deck.getAmberControl())));
+        amberCntrl.setText(String.valueOf(noDot.format(deck.getAmberControl())));
         expectedAmber.setText(String.valueOf(noDot.format(deck.getExpectedAmber())));
         creatureProtection.setText(String.valueOf(df.format(deck.getCreatureProtection())));
         artifactControl.setText(String.valueOf(df.format(deck.getArtifactControl())));
-        creatureControl.setText(String.valueOf(df.format(deck.getCreatureControl())));
+        creatureControl.setText(String.valueOf(noDot.format(deck.getCreatureControl())));
         effectivePower.setText(String.valueOf(df.format(deck.getEffectivePower())));
-        efficiency.setText(String.valueOf(df.format(deck.getEfficiency())));
+        efficiency.setText(String.valueOf(noDot.format(deck.getEfficiency())));
         disruption.setText(String.valueOf(df.format(deck.getDisruption())));
         amber.setText(String.valueOf(df.format(deck.getRawAmber())));
         keyCheat.setText(String.valueOf(df.format(deck.getKeyCheatCount())));
-        archive.setText(String.valueOf(df.format(deck.getCardArchiveCount())));
+        recursion.setText(String.valueOf(df.format(deck.getRecursion())));
         aerc.setText(String.valueOf(noDot.format(deck.getAercScore())));
         synergy.setText("+ " + noDot.format(deck.getSynergyRating()));
         antisynergy.setText("- " + noDot.format(deck.getAntisynergyRating()));
+       // boardWipes.setText(String.valueOf((noDot.format(deck.getBoardClears()))));
+        //scalingAmberControl.setText(String.valueOf((noDot.format(deck.getScalingAemberControl()))));
         meta.setText(String.valueOf(noDot.format(deck.getMetaScores())));
+        efficiencyBonus.setText(String.valueOf(df.format(deck.getEfficiencyBonus()))+" FB");
         ImageView expansionIcon = findViewById(R.id.expansion_img);
         expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
     }

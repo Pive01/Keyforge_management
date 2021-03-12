@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements DeckDTOListIntera
                 if (!response.body() || response.body() == null) {
                     abortUpload();
                 } else {
-                    if(toAdd.size()<=i+1){
+                    if(toAdd.size()-1==i){
                         dialog.hide();
                         return;
                     }

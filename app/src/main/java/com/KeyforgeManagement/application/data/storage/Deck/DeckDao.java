@@ -49,13 +49,19 @@ public interface DeckDao {
             "expectedAmber=:expectedAmber," +
             "creatureProtection=:creatureProtection," +
             "efficiency=:efficiency," +
+            "efficiencyBonus=:efficiencyBonus," +
+            "amberControl=:amberControl," +
+            "creatureControl=:creatureControl," +
+            "artifactControl=:artifactControl," +
+            "recursion=:recursion," +
             "metaScores=:metaScores," +
             "antisynergyRating=:antisynergyRating WHERE id=:id")
     void updateDeckStatus(int sasRating, int powerLevel, int chains, int wins, int losses,
                           double aercScore, double synergyRating, double antisynergyRating,
-                          int cardDrawCount, int cardArchiveCount,
+                          int cardDrawCount, int cardArchiveCount,double recursion,
                           int keyCheatCount, long id, double efficiency, double expectedAmber,
-                          double creatureProtection,int metaScores);
+                          double creatureProtection,int metaScores,double amberControl,
+                          double creatureControl,double artifactControl,double efficiencyBonus);
 
     @Transaction
     @Query("SELECT * FROM decks WHERE id=:id")
