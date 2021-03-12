@@ -1,26 +1,26 @@
 package com.KeyforgeManagement.application.data.model.decksOfKeyforgeRequired;
 
 public class RequestBody {
-    private int pageSize = 500;
-    private Boolean includeUnregistered = false;
-    private String owner;
-    private Boolean sellersView = true;
-    private String[] houses = {};
-    private int page = 0;
-    private String[] constraints = {};
-    private String[] expansions = {};
-    private String title = "";
-    private String notes = "";
-    private String noteUser = "";
-    private String sort = "SAS_RATING";
-    private Boolean notForSale = false;
-    private Boolean forTrade = false;
-    private Boolean forAuction = false;
-    private Boolean withOwners = false;
-    private Boolean completedAuctions = false;
-    private Boolean myFavorites = false;
-    private String[] cards = {};
-    private String sortDirection = "DESC";
+    private final int pageSize = 500;
+    private final Boolean includeUnregistered = false;
+    private final String owner;
+    private final Boolean sellersView = true;
+    private final String[] houses = {};
+    private final int page = 0;
+    private final String[] constraints = {};
+    private final String[] expansions = {};
+    private final String title = "";
+    private final String notes = "";
+    private final String noteUser = "";
+    private final String sort = "SAS_RATING";
+    private final Boolean notForSale = false;
+    private final Boolean forTrade = false;
+    private final Boolean forAuction = false;
+    private final Boolean withOwners = false;
+    private final Boolean completedAuctions = false;
+    private final Boolean myFavorites = false;
+    private final String[] cards = {};
+    private final String sortDirection = "DESC";
 
     public RequestBody(String owner) {
         this.owner = owner;

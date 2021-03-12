@@ -103,7 +103,6 @@ public class SearchActivity extends AppCompatActivity implements DeckListInterac
 
     @Override
     public void onDeckClicked(Deck deck) {
-        System.out.println("####"+deck.toString());
         new AlertDialog.Builder(this)
                 .setTitle("Add a deck")
                 .setMessage("Are you sure you want to add this deck?")

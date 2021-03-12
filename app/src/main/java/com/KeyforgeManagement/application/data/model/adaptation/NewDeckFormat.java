@@ -69,7 +69,7 @@ public class NewDeckFormat {
 
     private double creatureControl;
     private double artifactControl;
-    private double recursion;;
+    private double recursion;
 
     public double getEfficiency() {
         return efficiency;
@@ -351,7 +351,6 @@ public class NewDeckFormat {
     }
 
     public Deck convertToOld() {
-        System.out.println("####"+this.toString());
         Deck converted = new Deck();
         converted.setId(this.getId());
         converted.setKeyforgeId(this.getKeyforgeId());

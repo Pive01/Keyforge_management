@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import static androidx.room.ForeignKey.CASCADE;
 
 
@@ -21,12 +23,12 @@ import static androidx.room.ForeignKey.CASCADE;
         })
 public class CardsDeckRef {
     @NonNull
-    private String cardId;
-    private long deckId;
-    private int count;
-    private Boolean is_maverick;
-    private Boolean is_legacy;
-    private Boolean is_anomaly;
+    private final String cardId;
+    private final long deckId;
+    private final int count;
+    private final Boolean is_maverick;
+    private final Boolean is_legacy;
+    private final Boolean is_anomaly;
     private Boolean is_enhanced;
 
 
@@ -74,6 +76,7 @@ public class CardsDeckRef {
         return is_anomaly;
     }
 
+    @NotNull
     public String getCardId() {
         return cardId;
     }

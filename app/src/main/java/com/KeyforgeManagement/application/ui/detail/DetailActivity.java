@@ -38,6 +38,8 @@ import com.KeyforgeManagement.application.ui.detail.fragments.CustomViewPager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -76,7 +78,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar infoToolbar = findViewById(R.id.deck_info_toolbar);
         infoToolbar.setTitle(deckDTO.getDeck().getName());
-        System.out.println("####"+deckDTO.getDeck().toString());
 
         setSupportActionBar(infoToolbar);
 
@@ -102,7 +103,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageButton infoLogo = findViewById(R.id.infobutton);
         infoLogo.setOnClickListener(v -> {
-            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+            @SuppressWarnings("deprecation") CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
                     .build();
             customTabsIntent.launchUrl(this, Uri.parse("https://decksofkeyforge.com/about/sas"));
@@ -130,6 +131,7 @@ public class DetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -145,6 +147,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void initializeTextViews() {
 
         DecimalFormat df = new DecimalFormat("#.#");
@@ -182,28 +185,28 @@ public class DetailActivity extends AppCompatActivity {
         TextView upgrade = findViewById(R.id.txtView_upgrade);
         TextView efficiencyBonus = findViewById(R.id.txtView_efficiency_bonus);
         TextView meta = findViewById(R.id.meta);
-        action.setText(String.valueOf(df.format(deck.getActionCount())));
-        creature.setText(String.valueOf(df.format(deck.getCreatureCount())));
-        artifact.setText(String.valueOf(df.format(deck.getArtifactCount())));
-        upgrade.setText(String.valueOf(df.format(deck.getUpgradeCount())));
-        amberCntrl.setText(String.valueOf(noDot.format(deck.getAmberControl())));
-        expectedAmber.setText(String.valueOf(noDot.format(deck.getExpectedAmber())));
-        creatureProtection.setText(String.valueOf(df.format(deck.getCreatureProtection())));
-        artifactControl.setText(String.valueOf(df.format(deck.getArtifactControl())));
-        creatureControl.setText(String.valueOf(noDot.format(deck.getCreatureControl())));
-        effectivePower.setText(String.valueOf(df.format(deck.getEffectivePower())));
-        efficiency.setText(String.valueOf(noDot.format(deck.getEfficiency())));
-        disruption.setText(String.valueOf(df.format(deck.getDisruption())));
-        amber.setText(String.valueOf(df.format(deck.getRawAmber())));
-        keyCheat.setText(String.valueOf(df.format(deck.getKeyCheatCount())));
-        recursion.setText(String.valueOf(df.format(deck.getRecursion())));
-        aerc.setText(String.valueOf(noDot.format(deck.getAercScore())));
+        action.setText(df.format(deck.getActionCount()));
+        creature.setText(df.format(deck.getCreatureCount()));
+        artifact.setText(df.format(deck.getArtifactCount()));
+        upgrade.setText(df.format(deck.getUpgradeCount()));
+        amberCntrl.setText(noDot.format(deck.getAmberControl()));
+        expectedAmber.setText(noDot.format(deck.getExpectedAmber()));
+        creatureProtection.setText(df.format(deck.getCreatureProtection()));
+        artifactControl.setText(df.format(deck.getArtifactControl()));
+        creatureControl.setText(noDot.format(deck.getCreatureControl()));
+        effectivePower.setText(df.format(deck.getEffectivePower()));
+        efficiency.setText(noDot.format(deck.getEfficiency()));
+        disruption.setText(df.format(deck.getDisruption()));
+        amber.setText(df.format(deck.getRawAmber()));
+        keyCheat.setText(df.format(deck.getKeyCheatCount()));
+        recursion.setText(df.format(deck.getRecursion()));
+        aerc.setText(noDot.format(deck.getAercScore()));
         synergy.setText("+ " + noDot.format(deck.getSynergyRating()));
         antisynergy.setText("- " + noDot.format(deck.getAntisynergyRating()));
        // boardWipes.setText(String.valueOf((noDot.format(deck.getBoardClears()))));
         //scalingAmberControl.setText(String.valueOf((noDot.format(deck.getScalingAemberControl()))));
-        meta.setText(String.valueOf(noDot.format(deck.getMetaScores())));
-        efficiencyBonus.setText(String.valueOf(df.format(deck.getEfficiencyBonus()))+" FB");
+        meta.setText(noDot.format(deck.getMetaScores()));
+        efficiencyBonus.setText(df.format(deck.getEfficiencyBonus()) +" FB");
         ImageView expansionIcon = findViewById(R.id.expansion_img);
         expansionIcon.setImageResource(deck.getExpansion().getImageExpId());
     }
@@ -321,7 +324,7 @@ public class DetailActivity extends AppCompatActivity {
         dialog.show();
         Api.getCards(deckDTO.getDeck().getKeyforgeId()).enqueue(new Callback<Kmvresults>() {
             @Override
-            public void onResponse(Call<Kmvresults> call, Response<Kmvresults> response) {
+            public void onResponse(@NotNull Call<Kmvresults> call, @NotNull Response<Kmvresults> response) {
 
                 if (response.body() == null) {
                     dialog.hide();
@@ -336,7 +339,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Kmvresults> call, Throwable t) {
+            public void onFailure(@NotNull Call<Kmvresults> call, @NotNull Throwable t) {
                 dialog.hide();
             }
         });

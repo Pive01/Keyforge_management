@@ -19,8 +19,8 @@ import java.util.List;
 
 public class BarChartCustomRenderer extends BarChartRenderer {
 
-    private Context context;
-    private List<Bitmap> imageList;
+    private final Context context;
+    private final List<Bitmap> imageList;
 
     BarChartCustomRenderer(BarDataProvider chart, ChartAnimator animator, ViewPortHandler viewPortHandler, List<Bitmap> imageList, Context context) {
         super(chart, animator, viewPortHandler);
