@@ -1,9 +1,9 @@
 package com.KeyforgeManagement.application.data.model;
 
+import androidx.annotation.DrawableRes;
+
 import com.KeyforgeManagement.application.R;
 import com.google.gson.annotations.SerializedName;
-
-import androidx.annotation.DrawableRes;
 
 public enum Rarity {
 
@@ -14,7 +14,10 @@ public enum Rarity {
     @SerializedName("Uncommon")
     UNCOMMON(R.drawable.ic_uncommon),
     @SerializedName("Rare")
-    RARE(R.drawable.ic_rare);
+    RARE(R.drawable.ic_rare),
+    @SerializedName("Evil Twin")
+    EVIL_TWIN(R.drawable.ic_evil_twin);
+
 
     @DrawableRes
     private final int imageCardId;

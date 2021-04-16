@@ -331,7 +331,6 @@ public class DetailActivity extends AppCompatActivity {
                     onBackPressed();
                     return;
                 }
-
                 dbs.trySaveCards(response.body(), deckDTO.getDeck(), collection -> {
                     dialog.hide();
                     refreshDeckCards();

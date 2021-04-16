@@ -40,6 +40,7 @@ public class DatabaseSaver {
 
 
     public void trySaveCards(Kmvresults response, Deck deck, Consumer<Collection<CardsDeckRef>> callback) {
+        response.get_linked().getCards().removeIf(n-> n.getId().equals("37377d67-2916-4d45-b193-bea6ecd853e3"));//remove tide card
         tempEnhanced.clear();
         tempMaverick.clear();
         tempAnomaly.clear();
@@ -55,9 +56,8 @@ public class DatabaseSaver {
             card.setIs_anomaly(false);
             card.setIs_legacy(false);
             card.setIs_maverick(false);
-            cardsColletions.add(card);
+            card.setCard_text("");
         });
-
         cardRepository.insertBulk(cardsColletions, cards -> {
             cardList.clear();
             cardList.addAll(response.getData().get_links().getCards());

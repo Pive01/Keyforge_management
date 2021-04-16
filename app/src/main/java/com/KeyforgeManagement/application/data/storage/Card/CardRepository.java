@@ -22,7 +22,9 @@ public class CardRepository {
         try {
             future.get();
         } catch (ExecutionException | InterruptedException e) {
+
             e.printStackTrace();
+
         }
         callback.accept(collection);
     }

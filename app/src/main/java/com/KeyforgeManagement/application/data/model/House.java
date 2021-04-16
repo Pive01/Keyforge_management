@@ -1,10 +1,10 @@
 package com.KeyforgeManagement.application.data.model;
 
+import androidx.annotation.DrawableRes;
+
 import com.KeyforgeManagement.application.R;
 import com.KeyforgeManagement.application.common.Utils;
 import com.google.gson.annotations.SerializedName;
-
-import androidx.annotation.DrawableRes;
 
 public enum House {
     @SerializedName("Brobnar")
@@ -32,7 +32,10 @@ public enum House {
     SAURIAN(R.drawable.saurian),
 
     @SerializedName(value = "StarAlliance", alternate = "Star Alliance")
-    STAR_ALLIANCE(R.drawable.star_alliance);
+    STAR_ALLIANCE(R.drawable.star_alliance),
+
+    @SerializedName("Unfathomable")
+    UNFATHOMABLE(R.drawable.unfathomable);
 
     @DrawableRes
     private final int imageId;

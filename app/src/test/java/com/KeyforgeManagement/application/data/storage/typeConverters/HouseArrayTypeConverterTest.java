@@ -18,15 +18,15 @@ public class HouseArrayTypeConverterTest {
 
     @Test
     public void fromString() {
-        String actual = "BROBNAR,LOGOS,SANCTUM";
-        House[] houses = {House.BROBNAR, House.LOGOS, House.SANCTUM};
+        String actual = "SANCTUM,LOGOS,UNFATHOMABLE";
+        House[] houses = {House.SANCTUM, House.LOGOS, House.UNFATHOMABLE};
         assertArrayEquals(houses, HouseArrayTypeConverter.fromString(actual));
     }
 
     @Test
     public void fromHouse() {
-        String expected = "BROBNAR";
-        House house = House.BROBNAR;
+        String expected = "UNFATHOMABLE";
+        House house = House.UNFATHOMABLE;
         assertEquals(expected, HouseArrayTypeConverter.fromHouse(house));
     }
 
